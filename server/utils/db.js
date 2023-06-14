@@ -1,4 +1,4 @@
-const { MongoClient,ObjectId} = require('mongodb')
+const { MongoClient, ObjectId } = require('mongodb')
 
 class DB {
     db_uri;
@@ -11,14 +11,14 @@ class DB {
         this.client = new MongoClient(this.db_uri);
     }
 
-    async FindAll(collection, query = {}, project = {}){
+    async FindAll(collection, query = {}, project = {}) {
         try {
             await this.client.connect();
-            return await this.client.db(this.db_name).collection(collection).find(query,project).toArray();
+            return await this.client.db(this.db_name).collection(collection).find(query, project).toArray();
         } catch (error) {
             throw error
         }
-        finally{
+        finally {
             await this.client.close();
         }
     }
@@ -49,10 +49,10 @@ class DB {
     async UpdateById(collection, id, doc) {
         try {
             await this.client.connect();
-            console.log({...doc});
+            console.log({ ...doc });
             return await this.client.db(this.db_name).collection(collection).updateOne(
                 { _id: new ObjectId(id) },
-                { $set: {...doc} });
+                { $set: { ...doc } });
         } catch (error) {
             throw error;
         }
