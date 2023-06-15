@@ -17,12 +17,12 @@ commentRoutes.get('/allcomments', async (req, res) => {
     const { idFilm } = req.body;
     try {
         let comms = await CommentModel.PrintAllComments(idFilm)
-        console.log("comms",comms);
         res.status(200).json(comms)
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 })
+
 
 
 module.exports = commentRoutes

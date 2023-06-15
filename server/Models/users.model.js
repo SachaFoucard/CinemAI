@@ -50,7 +50,8 @@ class UserModel {
     }
   }
   
-  static async AddFavtoPlaylist(_id, doc) {
+  //add film into playlist
+  static async AddFilmtoPlaylist(_id, doc) {
     try {
     
       const id = new ObjectId(_id); // Convert string _id to ObjectId
@@ -82,6 +83,13 @@ class UserModel {
     } catch (error) {
       throw error;
     }
+  }
+
+  // print all film from playlist
+  static async PrintAllFilmPlayList(mail){
+    let query = {mail:mail}
+    let user = await new DB().FindOne('users',query)
+    return user.favorites
   }
 }
 

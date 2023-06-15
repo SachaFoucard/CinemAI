@@ -30,9 +30,14 @@ userRoutes.post('/login', async (req, res) => {
 
 userRoutes.post('/addFilm', async (req, res) => {
   let { _id, obj } = req.body;
-   let user = await UserModel.AddFavtoPlaylist(_id, obj);
-   res.status(201).json(user)
-  }
+  let user = await UserModel.AddFavtoPlaylist(_id, obj);
+  res.status(201).json(user)
+}
 )
+userRoutes.get('/playlist', async (req, res) => {
+  let { mail } = req.body
+  let user = await UserModel.PrintAllFilmPlayList(mail)
+  res.status(201).json(user)
+})
 
 module.exports = userRoutes
