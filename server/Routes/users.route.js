@@ -28,16 +28,12 @@ userRoutes.post('/login', async (req, res) => {
   }
 })
 
-// userRoutes.post('/addFilm', async (req, res) => {
+userRoutes.post('/addFilm', async (req, res) => {
 
-//   let { mail, obj } = req.body;
-//   let user = await UserModel.AddFavtoPlaylist(mail, obj);
-//   if (user) {
-//     res.status(201).json({ message: ' film added to list' })
-//   }
-//   else {
-//     res.status(500).json({ message: ' film not added to list' })
-//   }
-// })
+  let { _id, obj } = req.body;
+   let user = await UserModel.AddFavtoPlaylist(_id, obj);
+   res.status(201).json(user)
+  }
+)
 
 module.exports = userRoutes
