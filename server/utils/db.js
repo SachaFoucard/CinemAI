@@ -3,7 +3,7 @@ const { MongoClient, ObjectId } = require('mongodb')
 class DB {
     db_uri;
     db_name;
-    cb_client;
+    client;
 
     constructor() {
         this.db_uri = process.env.DB_URI;
@@ -25,7 +25,9 @@ class DB {
 
     async FindOne(collection, query = {}, project = {}) {
         try {
+            console.log("yaaaaa");
             await this.client.connect();
+            console.log("pop");
             return await this.client.db(this.db_name).collection(collection).findOne(query, project);
         } catch (error) {
             throw error;

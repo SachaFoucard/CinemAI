@@ -6,24 +6,24 @@ class CommentModel {
     idFilm;
     comments
 
-    constructor(idFilm, comments = [{}]) {
+    constructor(idFilm, comments = []) {
         this.idFilm = idFilm;
         this.comments = comments
     }
 
-    static async Addcomment(idFilm, comment) {
-        let id = idFilm.idFilm
-
-        console.log(id);
-        let film = await new DB().FindOne('filmsComments', { id })
-        console.log("film found : ", film);
+    static async Addcomment(idFilm, comments) {
+        let query = {idFilm : idFilm};    
+        let film = await new DB().FindOne('filmsComments', query,comments);
 
         if (film) {
-            film.Comments.push({ ...comment })
-            console.log("comment added : ", comment);
+            film.comments.push(...comments)
+            await new DB().UpdateById('filmsComments', film._id, film)
+            return film;
         }
         else {
-      
+            film ={idFilm,comments};
+            await new DB().Insert("filmsComments",film);
+            return "Added To Favourite";
         }
     }
 }
