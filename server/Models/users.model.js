@@ -25,7 +25,6 @@ class UserModel {
   static async Register(name, mail, password1, favorites = [{}], phone = "", gender = "", country = "") {
     try {
       const password = await bcrypt.hash(password1, 10);
-      console.log(password);
       const checkIfAlreadyExist = await new DB().FindOne('users', { mail });
       if (checkIfAlreadyExist) {
         throw new Error('User already exists');
@@ -51,6 +50,7 @@ class UserModel {
       };
     }
   }
+  
   static async AddFavtoPlaylist(_id, doc) {
     try {
     

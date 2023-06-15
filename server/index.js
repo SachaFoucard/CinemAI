@@ -8,5 +8,7 @@ server.use(express.json());
 server.use(cors());
 
 server.use('/api',require('./Routes/users.route'))
+server.use('/api/comments',require('./Routes/comment.route'))
+
 
 server.listen(PORT, () => console.log(`http://localhost:${PORT}`));
