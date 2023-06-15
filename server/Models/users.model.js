@@ -29,7 +29,6 @@ class UserModel {
       if (checkIfAlreadyExist) {
         throw new Error('User already exists');
       }
-
       if (name && mail && password) {
         return await new DB().Insert('users', { name, mail, password, favorites, phone, gender, country });
       } else {

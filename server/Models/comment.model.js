@@ -12,8 +12,8 @@ class CommentModel {
     }
 
     static async Addcomment(idFilm, comments) {
-        let query = {idFilm : idFilm};    
-        let film = await new DB().FindOne('filmsComments', query,comments);
+        let query = { idFilm: idFilm };
+        let film = await new DB().FindOne('filmsComments', query);
 
         if (film) {
             film.comments.push(...comments)
@@ -21,11 +21,28 @@ class CommentModel {
             return film;
         }
         else {
-            film ={idFilm,comments};
-            await new DB().Insert("filmsComments",film);
+            film = { idFilm, comments };
+            await new DB().Insert("filmsComments", film);
             return "Added To Favourite";
         }
     }
+
+    static async PrintAllComments(idFilm) {
+        let query = { idFilm: idFilm };
+        let film = await new DB().FindOne('filmsComments', query);
+        console.log(typeof (query));
+
+        if (film) {
+            console.log(film.comments); // Print the comments array
+            return film;
+        } else {
+            throw new Error('Film not found'); // or handle the case where the film is not found
+        }
+    }
+
+
+
+
 }
 
 module.exports = CommentModel
