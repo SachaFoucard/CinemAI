@@ -9,6 +9,7 @@ class DB {
         this.db_uri = process.env.DB_URI;
         this.db_name = process.env.DB_NAME;
         this.client = new MongoClient(this.db_uri);
+        console.log('connected');
     }
 
     async FindAll(collection, query = {}, project = {}) {
@@ -25,9 +26,7 @@ class DB {
 
     async FindOne(collection, query = {}, project = {}) {
         try {
-            console.log("yaaaaa");
             await this.client.connect();
-            console.log("pop");
             return await this.client.db(this.db_name).collection(collection).findOne(query, project);
         } catch (error) {
             throw error;
