@@ -1,4 +1,4 @@
-import { StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -21,8 +21,8 @@ export default function App() {
   return (
     <>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="OnBoarding" screenOptions={{headerShown: false}}>
-          <Stack.Screen name="OnBoarding" component={OnBoarding} />
+        <Stack.Navigator initialRouteName="OnBoardingScreens" screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="OnBoardingScreens" component={OnBoarding} />
           <Stack.Screen name="TabMenu" component={TabMenu} />
         </Stack.Navigator>
       </NavigationContainer>
@@ -32,7 +32,7 @@ export default function App() {
 function OnBoarding() {
   return (
     <>
-      <Stack.Navigator initialRouteName="LogoScreen">
+      <Stack.Navigator initialRouteName="LogoScreen" screenOptions={{ headerShown: false }}>
         <Stack.Screen name="OnBoarding" component={LogoScreen} />
         <Stack.Screen name="Welcome" component={WelcomeScreen} />
         <Stack.Screen name="SignUp" component={SignUpScreen} />
@@ -47,7 +47,7 @@ const Tab = createBottomTabNavigator();
 function TabMenu() {
   return (
     <>
-      <Tab.Navigator 
+      <Tab.Navigator
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
             let iconName;
