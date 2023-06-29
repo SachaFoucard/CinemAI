@@ -25,6 +25,8 @@ const UserContextProvider = ({ children }) => {
         if (response == 400) { alert('Check your fields, one or more are empty');}
         if (response == 201) { alert('Registered successfuly'); navigation.navigate('InterestScreen');}
         if (response == 500) { alert('User already exist with this mail adress');}
+        const data = await response.json();
+        console.log(data);
     }
 
 
