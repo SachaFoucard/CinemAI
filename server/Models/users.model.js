@@ -105,7 +105,11 @@ class UserModel {
     let userUpdated = await new DB().UpdateById('users', _id, user); // Fixed method name from 'UpdateOne' to 'UpdateById'
     return userUpdated;
   }
+
+  static async GetAllGenreFromUser(mail) {
+    let query = { mail: mail }
+    let user = await new DB().FindOne('users',query)
+    return user.genres
+  }
 }
-
-
 module.exports = UserModel

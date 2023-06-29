@@ -40,10 +40,15 @@ userRoutes.get('/playlist', async (req, res) => {
   res.status(201).json(user)
 })
 
-userRoutes.post('/updateGenre',async (req,res) => {
-  let {mail,genreFav} = req.body;
-  let user = await UserModel.AddSetUpGenreFav(mail,genreFav);
+userRoutes.post('/updateGenre', async (req, res) => {
+  let { mail, genreFav } = req.body;
+  let user = await UserModel.AddSetUpGenreFav(mail, genreFav);
   res.status(201).json(user)
+})
+userRoutes.get('/getGenreFromUser', async (req, res) => {
+  let { mail } = req.body;
+  let user = await UserModel.GetAllGenreFromUser(mail)
+  res.status(201).json(user);
 })
 
 module.exports = userRoutes
