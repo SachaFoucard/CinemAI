@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { createContext } from 'react'
 
 export const UserContext = createContext()
-const UserContextProvider = ({ children,navigation }) => {
+const UserContextProvider = ({ children }) => {
 
     // states Genres ["Horror","Commedy"] of the User Who is connected / (Explore screen)
     //print only movies or series on the explore screen who correspond to the array genres 
@@ -14,7 +14,7 @@ const UserContextProvider = ({ children,navigation }) => {
     const [password, setpassword] = useState("");
 
 
-    const Register = async () => {
+    const Register = async (navigation) => {
         let response = await fetch('https://cinemai.onrender.com/api/register', {
             method: 'POST',
             headers: {
