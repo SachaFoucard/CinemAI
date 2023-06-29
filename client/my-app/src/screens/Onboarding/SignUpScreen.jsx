@@ -7,13 +7,14 @@ import { UserContext } from '../../context/UserContext';
 const SignUpScreen = ({ navigation }) => {
 const  {setmail,setpassword,Register} = useContext(UserContext);
 
+
   return (
     <>
       <View style={styles.container} >
         <Image style={styles.img} source={require('../../../assets/SignUp/logo.png')} />
         <Text variant='h4' style={styles.text}>Create Your Account</Text>
         <Stack spacing={2} style={{ margin: 16 }}>
-          <TextInput
+          <TextInput 
             style={styles.input}
             placeholder='Mail'
             placeholderTextColor="white" 
