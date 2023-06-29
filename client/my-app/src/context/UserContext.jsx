@@ -21,16 +21,23 @@ const UserContextProvider = ({ children }) => {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({ password: password, mail: mail })
-        })
-        if (response == 400) { alert('Check your fields, one or more are empty');}
-        if (response == 201) { alert('Registered successfuly'); navigation.navigate('InterestScreen');}
-        if (response == 500) { alert('User already exist with this mail adress');}
+        });
+
+        if (response.status === 400) {
+            alert('Check your fields, one or more are empty');
+        } else if (response.status === 201) {
+            alert('Registered successfully');
+            navigation.navigate('InterestScreen');
+        } else if (response.status === 500) {
+            alert('User already exists with this email address');
+        }
+
         const data = await response.json();
         console.log(data);
-    }
+    };
 
 
-    const value = { SetGenreFav, genreFav, setmail, setpassword,Register }
+    const value = { SetGenreFav, genreFav, setmail, setpassword, Register }
     return (
         <>
             <UserContext.Provider value={value}>
