@@ -15,7 +15,7 @@ const UserContextProvider = ({ children,navigation }) => {
 
 
     const Register = async (navigation) => {
-        let response = fetch('http:localhost:8000/api/register', {
+        let response = fetch('https://cinemai.onrender.com/api/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
