@@ -31,7 +31,7 @@ class UserModel {
       if (checkIfAlreadyExist) {
         throw new Error('User already exists');
       }
-      if (name && mail && password) {
+      if (mail && password) {
         return await new DB().Insert('users', { name, mail, password, favorites, phone, gender, country, genres });
       } else {
         throw new Error('One or more fields are empty');

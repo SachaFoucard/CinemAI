@@ -5,7 +5,7 @@ import { useContext } from 'react';
 import { UserContext } from '../../context/UserContext';
 
 const SignUpScreen = ({ navigation }) => {
-const  {setmail,setpassword,Register,mail,password} = useContext(UserContext);
+const  {setmail,setpassword,Register} = useContext(UserContext);
 
 
   return (
