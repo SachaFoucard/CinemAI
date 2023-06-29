@@ -1,37 +1,64 @@
 import { View, StyleSheet } from 'react-native';
 import { Text } from '@react-native-material/core';
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import { TouchableOpacity } from 'react-native';
+import { UserContext } from '../../context/UserContext';
 
-const InterestScreen = () => {
+const InterestScreen = ({navigation}) => {
+  const { SetGenreFav, genreFav } = useContext(UserContext);
   const buttons = [
     'Action',
-    'Drama',
+    'Adventure',
+    'Animation',
     'Comedy',
-    'Thriller',
-    'Romance',
-    'Sciences',
-    'Music',
-    'Documentary',
     'Crime',
+    'Documentary',
+    'Drama',
+    'Family',
     'Fantasy',
-    'Mystery',
-    'Fiction',
     'History',
-    'Television',
-    'Superheroes',
-    'Anime',
-    'Sport'
+    'Horror',
+    'Music',
+    'Mystery',
+    'Romance',
+    'Science Fiction',
+    'TV Movie',
+    'Thriller',
+    'War',
+    'Western'
   ];
+  
+  // Add or remove a genre from the selected genres
+  const toggleGenre = (genre) => {
+    let updatedGenres = [];
+    if (genreFav.includes(genre)) {
+      updatedGenres = genreFav.filter((item) => item !== genre);
+    } else {
+      updatedGenres = [...genreFav, genre];
+    }
+    SetGenreFav(updatedGenres);
+  };
+
+  const SkipNoSelectedGenres = () => {
+    genreFav.splice(0); // remove the arrayGenre 
+    navigation.navigate('ProfilSetUp')
+
+  }
 
   const renderButtons = () => {
     const rows = [];
     let row = [];
 
     buttons.forEach((button, index) => {
+      const isActive = genreFav.includes(button);
+
       row.push(
-        <TouchableOpacity key={index} style={styles.button}>
-          <Text style={styles.buttonText}>{button}</Text>
+        <TouchableOpacity
+          onPress={() => toggleGenre(button)}
+          key={index}
+          style={[styles.button, isActive && styles.activeButton]}
+        >
+          <Text style={[styles.buttonText, isActive && styles.activeText]}>{button}</Text>
         </TouchableOpacity>
       );
 
@@ -47,19 +74,23 @@ const InterestScreen = () => {
 
     return rows;
   };
-
+{
+  console.log(genreFav);
+}
   return (
     <View style={styles.container}>
       <View>
         <Text variant='h5' style={styles.title}>Choose Your Interest</Text>
-        <Text variant='h6' style={styles.subsistle}>Choose your interests and get the best movie recommendations. Don't worry you can always change it later.</Text>
+        <Text variant='h6' style={styles.subsistle}>
+          Choose your interests and get the best movie recommendations. Don't worry, you can always change it later.
+        </Text>
       </View>
       <View style={styles.section}>{renderButtons()}</View>
       <View style={styles.buttons}>
-        <TouchableOpacity style={styles.buttonSkip}>
+        <TouchableOpacity style={styles.buttonSkip} onPress={()=>SkipNoSelectedGenres()}>
           <Text style={styles.textSkip}>Skip</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.buttonContinue}>
+        <TouchableOpacity style={styles.buttonContinue} onPress={()=>navigation.navigate('ProfilSetUp')}>
           <Text style={styles.textContinue}>Continue</Text>
         </TouchableOpacity>
       </View>
@@ -91,20 +122,25 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     marginVertical: 5,
     marginRight: 10,
-    borderRadius: 5,
-    width: 100,
+    borderRadius: 65,
     borderColor: 'red',
     borderWidth: 1,
-    margin: 20,
     justifyContent: 'center'
+  },
+  activeButton: {
+    backgroundColor: 'red',
   },
   buttonText: {
     color: 'red',
     padding: 4,
     textAlign: 'center'
   },
+  activeText: {
+    color: 'white',
+  },
   section: {
-    marginTop: 40,
+    marginTop: 10,
+
   },
   row: {
     flexDirection: 'row',
@@ -123,8 +159,8 @@ const styles = StyleSheet.create({
     width: 150,
     height: 60,
     justifyContent: 'center',
-    marginLeft:10,
-    marginTop:10
+    marginLeft: 10,
+    marginTop: 10
   },
   buttonSkip: {
     backgroundColor: 'grey',
@@ -132,8 +168,8 @@ const styles = StyleSheet.create({
     height: 60,
     borderRadius: 40,
     justifyContent: 'center',
-    marginRight:10,
-    marginTop:10
+    marginRight: 10,
+    marginTop: 10
 
   },
   textContinue: {

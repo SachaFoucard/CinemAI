@@ -15,6 +15,8 @@ import Profil from './src/screens/Profil/Profil'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import  UserContextProvider from './src/context/UserContext'
 import InterestScreen from './src/screens/AccountSetUp.jsx/InterestScreen'
+import ProfilSetUp from './src/screens/AccountSetUp.jsx/ProfilSetUp';
+
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -40,6 +42,8 @@ function OnBoarding() {
         <Stack.Screen name="SignUp" component={SignUpScreen} />
         <Stack.Screen name="SignIn" component={SignInScreen} />
         <Stack.Screen name="InterestScreen" component={InterestScreen}/>
+        <Stack.Screen name="ProfilSetUp" component={ProfilSetUp}/>
+
       </Stack.Navigator>
     </>
   )

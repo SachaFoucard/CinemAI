@@ -1,10 +1,11 @@
 import { View, Text } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import { createContext } from 'react'
 
 export const UserContext = createContext()
 const UserContextProvider = ({ children }) => {
-    const value = {}
+    const [genreFav, SetGenreFav] = useState([])
+    const value = {SetGenreFav,genreFav}
     return (
         <>
             <UserContext.Provider value={value}>
