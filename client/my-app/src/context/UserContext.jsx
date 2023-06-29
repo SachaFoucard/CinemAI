@@ -26,7 +26,7 @@ const UserContextProvider = ({ children }) => {
         if (response.status === 400) {
             alert('Check your fields, one or more are empty');
         } else if (response.status === 201) {
-            alert('Registered successfully');
+            alert('You Registered successfully ');
             navigation.navigate('InterestScreen');
         } else if (response.status === 500) {
             alert('User already exists with this email address');

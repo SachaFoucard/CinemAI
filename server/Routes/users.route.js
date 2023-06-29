@@ -5,7 +5,7 @@ userRoutes.post('/register', async (req, res) => {
   try {
     const { name, mail, password } = req.body;
 
-    if (!name || !mail || !password) {
+    if (!mail || !password) {
       return res.status(400).json({ error: 'Check your fields, one or more are empty' });
     }
 
