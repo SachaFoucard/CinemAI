@@ -5,10 +5,8 @@ import { useContext } from 'react';
 import { UserContext } from '../../context/UserContext';
 
 const SignUpScreen = ({ navigation }) => {
-const  { setUsermail, setUserpassword, userMail, userPassword } = useContext(UserContext);
-{
-  console.log(userMail);
-}
+const  {setmail,setpassword,Register} = useContext(UserContext);
+
   return (
     <>
       <View style={styles.container} >
@@ -19,16 +17,16 @@ const  { setUsermail, setUserpassword, userMail, userPassword } = useContext(Use
             style={styles.input}
             placeholder='Mail'
             placeholderTextColor="white" 
-            onChangeText={setUsermail}/>
+            onChangeText={setmail}/>
           <TextInput
             style={styles.input}
             placeholder='Password'
             placeholderTextColor="white"
-            onChangeText={setUserpassword}
+            onChangeText={setpassword}
           />
         </Stack>
         <TouchableOpacity style={styles.button}
-          onPress={() => navigation.navigate('InterestScreen')}>
+          onPress={() => Register(navigation)}>
           <Text style={styles.buttonText}>Sign Up</Text>
         </TouchableOpacity>
         <View style={styles.signInContainer}>
