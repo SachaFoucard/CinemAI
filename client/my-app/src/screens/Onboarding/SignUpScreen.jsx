@@ -20,7 +20,7 @@ const SignUpScreen = ({ navigation }) => {
           />
         </Stack>
         <TouchableOpacity style={styles.button}
-          onPress={() => navigation.navigate('SignIn')}>
+          onPress={() => navigation.navigate('InterestScreen')}>
           <Text style={styles.buttonText}>Sign Up</Text>
         </TouchableOpacity>
         <View style={styles.signInContainer}>
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
   input: {
     backgroundColor: 'grey',
     padding: 20,
-    borderRadius: 15,
+    borderRadius: 20,
     margin: 15,
     color: 'white'
   },

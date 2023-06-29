@@ -13,19 +13,21 @@ import AI from './src/screens/AI/Ai'
 import Favorite from './src/screens/Favorites/List'
 import Profil from './src/screens/Profil/Profil'
 import Ionicons from 'react-native-vector-icons/Ionicons';
-
-
+import  UserContextProvider from './src/context/UserContext'
+import InterestScreen from './src/screens/AccountSetUp.jsx/InterestScreen'
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
     <>
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName="OnBoardingScreens" screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="OnBoardingScreens" component={OnBoarding} />
-          <Stack.Screen name="TabMenu" component={TabMenu} />
-        </Stack.Navigator>
-      </NavigationContainer>
+      <UserContextProvider>
+        <NavigationContainer>
+          <Stack.Navigator initialRouteName="OnBoardingScreens" screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="OnBoardingScreens" component={OnBoarding} />
+            <Stack.Screen name="TabMenu" component={TabMenu} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </UserContextProvider>
     </>
   );
 }
@@ -37,6 +39,7 @@ function OnBoarding() {
         <Stack.Screen name="Welcome" component={WelcomeScreen} />
         <Stack.Screen name="SignUp" component={SignUpScreen} />
         <Stack.Screen name="SignIn" component={SignInScreen} />
+        <Stack.Screen name="InterestScreen" component={InterestScreen}/>
       </Stack.Navigator>
     </>
   )
