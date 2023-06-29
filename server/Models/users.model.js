@@ -11,8 +11,9 @@ class UserModel {
   phone;
   gender;
   country;
+  genres
 
-  constructor(name, mail, password, favorite, phone, gender, country) {
+  constructor(name, mail, password, favorite, phone, gender, country, genres) {
     this.name = name;
     this.mail = mail;
     this.password = password;
@@ -20,9 +21,10 @@ class UserModel {
     this.phone = phone;
     this.gender = gender;
     this.country = country;
+    this.genres = genres;
   }
 
-  static async Register(name, mail, password1, favorites = [{}], phone = "", gender = "", country = "") {
+  static async Register(name, mail, password1, favorites = [{}], phone = "", gender = "", country = "", genres = []) {
     try {
       const password = await bcrypt.hash(password1, 10);
       const checkIfAlreadyExist = await new DB().FindOne('users', { mail });
@@ -30,7 +32,7 @@ class UserModel {
         throw new Error('User already exists');
       }
       if (name && mail && password) {
-        return await new DB().Insert('users', { name, mail, password, favorites, phone, gender, country });
+        return await new DB().Insert('users', { name, mail, password, favorites, phone, gender, country, genres });
       } else {
         throw new Error('One or more fields are empty');
       }
@@ -49,17 +51,15 @@ class UserModel {
       };
     }
   }
-  
+
   //add film into playlist
   static async AddFilmtoPlaylist(_id, doc) {
     try {
-    
       const id = new ObjectId(_id); // Convert string _id to ObjectId
-      console.log(id);
 
-      const user = await new DB().FindOne('users', {_id:id});
-      console.log("user",user);
-    
+      const user = await new DB().FindOne('users', { _id: id });
+      console.log("user", user);
+
       if (user) {
         const favorites = user.favorites || []; // Ensure favorites array exists
 
@@ -70,14 +70,14 @@ class UserModel {
 
         if (!isDocumentAlreadyInFavorites) {
           // Add the document to the favorites array
-          favorites.push({...doc});
+          favorites.push({ ...doc });
 
           // Update the user document with the updated favorites array
           await new DB().UpdateById('users', _id, user); // Fixed method name from 'UpdateOne' to 'UpdateById'
           return user
         }
-        else{
-           throw new Error('obj(film) already exist in your playlist')
+        else {
+          throw new Error('obj(film) already exist in your playlist')
         }
       }
     } catch (error) {
@@ -86,10 +86,24 @@ class UserModel {
   }
 
   // print all film from playlist
-  static async PrintAllFilmPlayList(mail){
-    let query = {mail:mail}
-    let user = await new DB().FindOne('users',query)
+  static async PrintAllFilmPlayList(mail) {
+    let query = { mail: mail }
+    let user = await new DB().FindOne('users', query)
     return user.favorites
+  }
+
+  // add film type (horror,comedy) to user profil 
+  static async AddSetUpGenreFav(mail, array) {
+    let query = { mail: mail }
+    let user = await new DB().FindOne('users', query);
+    const _id = new ObjectId(user._id);
+    console.log(_id);
+    if (user.genres) {
+      user.genres = array
+      console.log(user.genres);
+    }
+    let userUpdated = await new DB().UpdateById('users', _id, user); // Fixed method name from 'UpdateOne' to 'UpdateById'
+    return userUpdated;
   }
 }
 

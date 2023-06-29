@@ -24,19 +24,25 @@ userRoutes.post('/login', async (req, res) => {
     res.status(401).json({ message: 'user not found' })
   }
   else {
-    res.status(200).json(user)
+    res.status(200).json(user);
   }
 })
 
 userRoutes.post('/addFilm', async (req, res) => {
   let { _id, obj } = req.body;
-  let user = await UserModel.AddFavtoPlaylist(_id, obj);
+  let user = await UserModel.AddFilmtoPlaylist(_id, obj);
   res.status(201).json(user)
 }
 )
 userRoutes.get('/playlist', async (req, res) => {
-  let { mail } = req.body
-  let user = await UserModel.PrintAllFilmPlayList(mail)
+  let { mail } = req.body;
+  let user = await UserModel.PrintAllFilmPlayList(mail);
+  res.status(201).json(user)
+})
+
+userRoutes.post('/updateGenre',async (req,res) => {
+  let {mail,genreFav} = req.body;
+  let user = await UserModel.AddSetUpGenreFav(mail,genreFav);
   res.status(201).json(user)
 })
 
