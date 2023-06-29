@@ -14,7 +14,7 @@ const UserContextProvider = ({ children,navigation }) => {
     const [password, setpassword] = useState("");
 
 
-    const Register = async (navigation) => {
+    const Register = async () => {
         let response = await fetch('https://cinemai.onrender.com/api/register', {
             method: 'POST',
             headers: {

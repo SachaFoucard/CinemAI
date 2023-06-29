@@ -27,7 +27,7 @@ const  {setmail,setpassword,Register} = useContext(UserContext);
           />
         </Stack>
         <TouchableOpacity style={styles.button}
-          onPress={() => Register(navigation)}>
+          onPress={() => Register()}>
           <Text style={styles.buttonText}>Sign Up</Text>
         </TouchableOpacity>
         <View style={styles.signInContainer}>
