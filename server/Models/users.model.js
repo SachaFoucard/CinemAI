@@ -24,7 +24,7 @@ class UserModel {
     this.genres = genres;
   }
 
-  static async Register(name="", mail, password1, favorites = [{}], phone = "", gender = "", country = "", genres = []) {
+  static async Register(name = "", mail, password1, favorites = [{}], phone = "", gender = "", country = "", genres = []) {
     try {
       const password = await bcrypt.hash(password1, 10);
       const checkIfAlreadyExist = await new DB().FindOne('users', { mail });
