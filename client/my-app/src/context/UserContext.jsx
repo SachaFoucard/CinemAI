@@ -44,7 +44,7 @@ const UserContextProvider = ({ children }) => {
             },
             body : JSON.stringify({genreFav: genreFav, mail:mail})
         })
-        if(response === 201) {alert('Genres added'); navigation.navigate('ProfilSetUp');}
+        if(response.status === 201) {alert('Genres added'); navigation.navigate('ProfilSetUp');}
         else{alert('genre not added, there is a problem')}
     }
 
