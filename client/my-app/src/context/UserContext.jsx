@@ -37,7 +37,7 @@ const UserContextProvider = ({ children }) => {
     };
 
     const SetUpGenre = async (navigation) => {
-        let response = await fetch('http://localhost:8000/api/updateGenre',{
+        let response = await fetch('https://cinemai.onrender.com/api/updateGenre',{
             method:'POST',
             headers:{
                 'Content-Type': 'application/json'
