@@ -36,8 +36,19 @@ const UserContextProvider = ({ children }) => {
         console.log(data);
     };
 
+    const SetUpGenre = async (navigation) => {
+        let response = await fetch('http://localhost:8000/api/updateGenre',{
+            method:'POST',
+            headers:{
+                'Content-Type': 'application/json'
+            },
+            body : JSON.stringify({genreFav: genreFav, mail:mail})
+        })
+        if(response === 201) {alert('Genres added'); navigation.navigate('ProfilSetUp');}
+        else{alert('genre not added, there is a problem')}
+    }
 
-    const value = { SetGenreFav, genreFav, setmail, setpassword, Register }
+    const value = { SetGenreFav, genreFav, setmail, setpassword, Register,SetUpGenre }
     return (
         <>
             <UserContext.Provider value={value}>

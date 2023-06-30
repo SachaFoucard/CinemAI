@@ -5,7 +5,7 @@ import { TouchableOpacity } from 'react-native';
 import { UserContext } from '../../context/UserContext';
 
 const InterestScreen = ({navigation}) => {
-  const { SetGenreFav, genreFav } = useContext(UserContext);
+  const { SetGenreFav, genreFav,SetUpGenre } = useContext(UserContext);
   const buttons = [
     'Action',
     'Adventure',
@@ -90,7 +90,7 @@ const InterestScreen = ({navigation}) => {
         <TouchableOpacity style={styles.buttonSkip} onPress={()=>SkipNoSelectedGenres()}>
           <Text style={styles.textSkip}>Skip</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.buttonContinue} onPress={()=>navigation.navigate('ProfilSetUp')}>
+        <TouchableOpacity style={styles.buttonContinue} onPress={()=>SetUpGenre(navigation)}>
           <Text style={styles.textContinue}>Continue</Text>
         </TouchableOpacity>
       </View>
