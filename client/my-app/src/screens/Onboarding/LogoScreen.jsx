@@ -1,17 +1,14 @@
 import { View, StyleSheet, Image } from 'react-native';
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { ActivityIndicator } from "@react-native-material/core";
+import { UserContext } from '../../context/UserContext';
 
 const LogoScreen = ({ navigation }) => {
+  const { Delay3s } = useContext(UserContext)
 
-  const Delay3s = () => {
-    setTimeout(() => {
-      navigation.navigate('Welcome')
-    }, 5000);
-  }
 
   useEffect(() => {
-    Delay3s();
+    Delay3s('Welcome',navigation);
   }, [])
 
 
@@ -21,7 +18,7 @@ const LogoScreen = ({ navigation }) => {
         <Image source={require('../../../assets/logoScreen/logo.png')}
           style={styles.img}
         />
-          <ActivityIndicator size="large" color='#E21121' style={styles.load}/>
+        <ActivityIndicator size="large" color='#E21121' style={styles.load} />
       </View>
     </>
   );
@@ -38,9 +35,9 @@ const styles = StyleSheet.create({
     height: 100,
     marginTop: 300
   },
-  load:{
-    position:'absolute',
-    bottom:'30%'
+  load: {
+    position: 'absolute',
+    bottom: '30%'
   }
 });
 

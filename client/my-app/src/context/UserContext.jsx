@@ -13,6 +13,11 @@ const UserContextProvider = ({ children }) => {
     const [mail, setmail] = useState("");
     const [password, setpassword] = useState("");
 
+    const Delay3s = (screen,navigation) => {
+        setTimeout(() => {
+          navigation.navigate(screen)
+        }, 5000);
+      }
 
     const Register = async (navigation) => {
         let response = await fetch('https://cinemai.onrender.com/api/register', {
@@ -48,7 +53,7 @@ const UserContextProvider = ({ children }) => {
         else{alert('genre not added, there is a problem')}
     }
 
-    const value = { SetGenreFav, genreFav, setmail, setpassword, Register,SetUpGenre }
+    const value = { SetGenreFav, genreFav, setmail, setpassword, Register,SetUpGenre,Delay3s }
     return (
         <>
             <UserContext.Provider value={value}>
