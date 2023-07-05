@@ -11,9 +11,10 @@ class UserModel {
   phone;
   gender;
   country;
-  genres
+  genres;
+  image;
 
-  constructor(name, mail, password, favorite, phone, gender, country, genres) {
+  constructor(name, mail, password, favorite, phone, gender, country, genres, image) {
     this.name = name;
     this.mail = mail;
     this.password = password;
@@ -22,9 +23,10 @@ class UserModel {
     this.gender = gender;
     this.country = country;
     this.genres = genres;
+    this.image = image;
   }
 
-  static async Register(name = "", mail, password1, favorites = [{}], phone = "", gender = "", country = "", genres = []) {
+  static async Register(image = "", name = "", mail, password1, favorites = [{}], phone = "", gender = "", country = "", genres = []) {
     try {
       const password = await bcrypt.hash(password1, 10);
       const checkIfAlreadyExist = await new DB().FindOne('users', { mail });
@@ -32,7 +34,7 @@ class UserModel {
         throw new Error('User already exists');
       }
       if (mail && password) {
-        return await new DB().Insert('users', { name, mail, password, favorites, phone, gender, country, genres });
+        return await new DB().Insert('users', { image, name, mail, password, favorites, phone, gender, country, genres });
       } else {
         throw new Error('One or more fields are empty');
       }
@@ -108,8 +110,22 @@ class UserModel {
 
   static async GetAllGenreFromUser(mail) {
     let query = { mail: mail }
-    let user = await new DB().FindOne('users',query)
+    let user = await new DB().FindOne('users', query)
     return user.genres
+  }
+
+  static async SetUpProfil(name,mail,gender,phone,country) {
+    let query = { mail: mail }
+    let user = await new DB().FindOne('users', query);
+    console.log("user",user);
+    const _id = new ObjectId(user._id);
+    
+    user.name = name
+    user.gender = gender;
+    user.phone = phone;
+    user.country = country;
+    let newUser = await new DB().UpdateById('users',_id,user)
+    return newUser;
   }
 }
 module.exports = UserModel

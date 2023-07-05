@@ -4,8 +4,8 @@ import { Picker } from '@react-native-picker/picker';
 import * as ImagePicker from 'expo-image-picker';
 import { UserContext } from '../../context/UserContext';
 
-export default function ProfilSetUp() {
-  const { setFullName, setPhone, setGender, setCountry, setImage, image, country, gender, phone, fullName, mail } = useContext(UserContext);
+export default function ProfilSetUp({navigation}) {
+  const { setFullName, setPhone, setGender, setCountry, setImage, image, country, gender, phone, fullName, mail,SaveInformationSetUp } = useContext(UserContext);
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -66,10 +66,10 @@ export default function ProfilSetUp() {
           </Picker>
         </View>
         <View style={styles.buttons}>
-          <TouchableOpacity style={styles.buttonSkip}>
+          <TouchableOpacity style={styles.buttonSkip} onPress={()=>navigation.navigate('Home')}> 
             <Text style={styles.textSkip}>Skip</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.buttonContinue} >
+          <TouchableOpacity style={styles.buttonContinue} onPress={()=>SaveInformationSetUp(navigation)} >
             <Text style={styles.textContinue}>Continue</Text>
           </TouchableOpacity>
         </View>

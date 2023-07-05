@@ -26,7 +26,7 @@ const UserContextProvider = ({ children }) => {
         }, 5000);
     }
 
-    const Register = async (navigation,mail,password) => {
+    const Register = async (navigation, mail, password) => {
         let response = await fetch('https://cinemai.onrender.com/api/register', {
             method: 'POST',
             headers: {
@@ -56,11 +56,24 @@ const UserContextProvider = ({ children }) => {
             },
             body: JSON.stringify({ genreFav: genreFav, mail: mail })
         })
-        if (response.status === 201) { alert('Genres added'); navigation.navigate('ProfilSetUp'); }
+        if (response.status === 201) { navigation.navigate('ProfilSetUp'); }
         else { alert('genre not added, there is a problem') }
     }
 
-    const value = { SetGenreFav, genreFav,mail,password, setmail, setpassword, Register, SetUpGenre, Delay3s,setFullName,setPhone,setGender,setCountry,setImage,image,country,gender,phone,fullName }
+    // function ProfilSetUp screen to save account informations (phone,gender,name,mail,country)
+    const SaveInformationSetUp = async (navigation) => {
+        let response = await fetch('http://localhost:8000/api/setUpProfil', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ name: fullName, mail: mail, phone: phone, gender: gender, country: country })
+        })
+        if (response.status === 201) { navigation.navigate('Home'); }
+        else{alert('field empty, check again..')}
+    };
+
+    const value = { SetGenreFav, genreFav, mail, password, setmail, setpassword, Register, SetUpGenre, Delay3s, setFullName, setPhone, setGender, setCountry, setImage, image, country, gender, phone, fullName,SaveInformationSetUp }
     return (
         <>
             <UserContext.Provider value={value}>
