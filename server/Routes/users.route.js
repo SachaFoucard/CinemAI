@@ -9,7 +9,7 @@ userRoutes.post('/register', async (req, res) => {
       return res.status(400).json({ error: 'Check your fields, one or more are empty' });
     }
 
-    const user = await UserModel.Register( mail, password);
+    const user = await UserModel.Register(mail, password);
     res.status(201).json(user);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -18,7 +18,9 @@ userRoutes.post('/register', async (req, res) => {
 
 userRoutes.post('/login', async (req, res) => {
   let { mail, password } = req.body;
-
+  if (!mail || !password) {
+    res.status(402).json({ message: 'field empty' })
+  }
   let user = await UserModel.Login(mail, password)
   if (!user) {
     res.status(401).json({ message: 'user not found' })
@@ -54,7 +56,7 @@ userRoutes.get('/getGenreFromUser', async (req, res) => {
 userRoutes.post('/setUpProfil', async (req, res) => {
   let { name, mail, gender, phone, country } = req.body;
   if (name && gender && phone && country) {
-    let user = await UserModel.SetUpProfil(name,mail, gender, phone, country);
+    let user = await UserModel.SetUpProfil(name, mail, gender, phone, country);
     res.status(201).json({ message: 'user updated' });
   }
   else {

@@ -48,6 +48,25 @@ const UserContextProvider = ({ children }) => {
         console.log(data);
     };
 
+    const Login = async (navigation, mail, password) => {
+        let response = await fetch('https://cinemai.onrender.com/api/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ password: password, mail: mail })
+        });
+
+        if (response.status === 404) {
+            alert('Check your fields, user not found');
+        } else if (response.status === 201) {
+            alert('You Registered successfully ');
+            navigation.navigate('TabMenu');
+        } else if (response === 402) {
+            alert('fields empty')
+        }
+    }
+
     const SetUpGenre = async (navigation) => {
         let response = await fetch('https://cinemai.onrender.com/api/updateGenre', {
             method: 'POST',
@@ -64,23 +83,23 @@ const UserContextProvider = ({ children }) => {
     const SaveInformationSetUp = async (navigation) => {
         console.log('enter into the Function');
         let response = await fetch('https://cinemai.onrender.com/api/setUpProfil', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ name: fullName, mail: mail, phone: phone, gender: gender, country: country })
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ name: fullName, mail: mail, phone: phone, gender: gender, country: country })
         });
-        
+
         if (response.status === 201) {
             console.log("navigate...");
-          navigation.navigate('TabMenu');
+            navigation.navigate('TabMenu');
         } else {
             console.log('error');
-          alert('An error occurred while saving the information');
+            alert('An error occurred while saving the information');
         }
-      };
-      
-    const value = { SetGenreFav, genreFav, mail, password, setmail, setpassword, Register, SetUpGenre, Delay3s, setFullName, setPhone, setGender, setCountry, setImage, image, country, gender, phone, fullName,SaveInformationSetUp }
+    };
+
+    const value = { SetGenreFav, genreFav, mail, password, setmail, setpassword, Register, SetUpGenre, Delay3s, setFullName, setPhone, setGender, setCountry, setImage, image, country, gender, phone, fullName, SaveInformationSetUp, Login }
     return (
         <>
             <UserContext.Provider value={value}>
