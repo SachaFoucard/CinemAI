@@ -26,7 +26,7 @@ userRoutes.post('/login', async (req, res) => {
     res.status(401).json({ message: 'user not found' })
   }
   else {
-    res.status(200).json(user);
+    res.status(201).json(user);
   }
 })
 
