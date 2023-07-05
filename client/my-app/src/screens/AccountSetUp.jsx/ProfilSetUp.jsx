@@ -17,11 +17,16 @@ export default function ProfilSetUp() {
 
     console.log(result);
 
-    if (!result.cancelled) {
+    if (!result.canceled) {
       setImage(result.assets[0].uri);
     }
   };
-
+{
+  console.log("phone",phone);
+  console.log("gender",gender);
+  console.log("image",image);
+  console.log("country",country);
+}
   return (
     <View style={styles.container}>
       <View style={styles.inputs}>
