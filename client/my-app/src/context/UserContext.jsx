@@ -47,29 +47,26 @@ const UserContextProvider = ({ children }) => {
         const data = await response.json();
         console.log(data);
     };
-
     const Login = async (navigation, mail, password) => {
         console.log("entered");
         let response = await fetch('https://cinemai.onrender.com/api/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ password: password, mail: mail })
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ password: password, mail: mail })
         });
-        console.log('response', response.status());
-        if (response.status === 404) {
-            alert('Check your fields, user not found'); console.log('404');
-
+        console.log('response', response.status);
+        if (response.status === 401) {
+          alert('Check your fields, user not found');
         } else if (response.status === 201) {
-            alert('You Registered successfully ');
-            console.log(201);
-            navigation.navigate('TabMenu');
-        } else if (response === 402) {
-            console.log(402);
-            alert('fields empty')
+          alert('You Connected successfully ');
+          navigation.navigate('TabMenu');
+        } else if (response.status === 402) {
+          alert('fields empty');
         }
-    }
+      };
+      
 
     const SetUpGenre = async (navigation) => {
         let response = await fetch('https://cinemai.onrender.com/api/updateGenre', {
