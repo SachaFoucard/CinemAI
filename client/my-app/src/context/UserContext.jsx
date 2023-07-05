@@ -62,7 +62,7 @@ const UserContextProvider = ({ children }) => {
 
     // function ProfilSetUp screen to save account informations (phone,gender,name,mail,country)
     const SaveInformationSetUp = async (navigation) => {
-        let response = await fetch('http://localhost:8000/api/setUpProfil', {
+        let response = await fetch('https://cinemai.onrender.com/api/setUpProfil', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
