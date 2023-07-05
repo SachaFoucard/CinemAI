@@ -15,8 +15,8 @@ const UserContextProvider = ({ children }) => {
     // states setUp Screens details of the user 
     const [fullName, setFullName] = useState();
     const [phone, setPhone] = useState();
-    const [gender, setGender] = useState();
-    const [country, setCountry] = useState('Country');
+    const [gender, setGender] = useState('M');
+    const [country, setCountry] = useState('EU');
     const [image, setImage] = useState(null);
 
 
@@ -69,7 +69,7 @@ const UserContextProvider = ({ children }) => {
             },
             body: JSON.stringify({ name: fullName, mail: mail, phone: phone, gender: gender, country: country })
         })
-        if (response.status === 201) { navigation.navigate('Home'); }
+        if (response.status === 201) { navigation.navigate('TabMenu'); }
         else{alert('field empty, check again..')}
     };
 

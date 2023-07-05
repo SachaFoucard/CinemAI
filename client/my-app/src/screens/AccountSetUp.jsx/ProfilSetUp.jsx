@@ -66,7 +66,7 @@ export default function ProfilSetUp({navigation}) {
           </Picker>
         </View>
         <View style={styles.buttons}>
-          <TouchableOpacity style={styles.buttonSkip} onPress={()=>navigation.navigate('Home')}> 
+          <TouchableOpacity style={styles.buttonSkip} onPress={()=>navigation.navigate('TabMenu')}> 
             <Text style={styles.textSkip}>Skip</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.buttonContinue} onPress={()=>SaveInformationSetUp(navigation)} >
