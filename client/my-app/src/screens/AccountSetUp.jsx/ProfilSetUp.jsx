@@ -69,7 +69,7 @@ export default function ProfilSetUp({navigation}) {
           <TouchableOpacity style={styles.buttonSkip} onPress={()=>navigation.navigate('TabMenu')}> 
             <Text style={styles.textSkip}>Skip</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.buttonContinue} onPress={()=>SaveInformationSetUp(navigation)} >
+          <TouchableOpacity style={styles.buttonContinue} onPress={() => SaveInformationSetUp(navigation)} >
             <Text style={styles.textContinue}>Continue</Text>
           </TouchableOpacity>
         </View>

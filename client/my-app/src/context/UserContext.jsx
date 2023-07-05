@@ -62,17 +62,24 @@ const UserContextProvider = ({ children }) => {
 
     // function ProfilSetUp screen to save account informations (phone,gender,name,mail,country)
     const SaveInformationSetUp = async (navigation) => {
+        console.log('enter into the Function');
         let response = await fetch('https://cinemai.onrender.com/api/setUpProfil', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ name: fullName, mail: mail, phone: phone, gender: gender, country: country })
-        })
-        if (response.status === 201) { navigation.navigate('TabMenu'); }
-        else{alert('field empty, check again..')}
-    };
-
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ name: fullName, mail: mail, phone: phone, gender: gender, country: country })
+        });
+        
+        if (response.status === 201) {
+            console.log("navigate...");
+          navigation.navigate('TabMenu');
+        } else {
+            console.log('error');
+          alert('An error occurred while saving the information');
+        }
+      };
+      
     const value = { SetGenreFav, genreFav, mail, password, setmail, setpassword, Register, SetUpGenre, Delay3s, setFullName, setPhone, setGender, setCountry, setImage, image, country, gender, phone, fullName,SaveInformationSetUp }
     return (
         <>

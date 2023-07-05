@@ -54,7 +54,7 @@ userRoutes.get('/getGenreFromUser', async (req, res) => {
 userRoutes.post('/setUpProfil', async (req, res) => {
   let { name, mail, gender, phone, country } = req.body;
   if (name && gender && phone && country) {
-    let user = await UserModel.SetUpProfil(mail, gender, phone, country);
+    let user = await UserModel.SetUpProfil(name,mail, gender, phone, country);
     res.status(201).json({ message: 'user updated' });
   }
   else {
