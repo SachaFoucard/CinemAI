@@ -4,9 +4,9 @@ import { Stack } from "@react-native-material/core";
 import { useContext } from 'react';
 import { UserContext } from '../../context/UserContext';
 
-const SignUpScreen = ({ navigation }) => {
-const  {setmail,setpassword,Register} = useContext(UserContext);
 
+const SignUpScreen = ({ navigation }) => {
+const  {setmail,setpassword,Register,mail,password} = useContext(UserContext);
 
   return (
     <>
@@ -27,7 +27,7 @@ const  {setmail,setpassword,Register} = useContext(UserContext);
           />
         </Stack>
         <TouchableOpacity style={styles.button}
-          onPress={() => Register(navigation)}>
+          onPress={() => Register(navigation,mail,password)}>
           <Text style={styles.buttonText}>Sign Up</Text>
         </TouchableOpacity>
         <View style={styles.signInContainer}>
