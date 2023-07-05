@@ -41,7 +41,6 @@ class DB {
             console.log('connected successfuly');
             return await this.client.db(this.db_name).collection(collection).insertOne(doc);
         } catch (error) {
-            console.log('1');
             throw error;
         }
         finally {

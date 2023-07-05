@@ -25,19 +25,28 @@ class UserModel {
     this.genres = genres;
     this.image = image;
   }
-
-  static async Register(image = "", name = "", mail, password1, favorites = [{}], phone = "", gender = "", country = "", genres = []) {
+  static async Register(mail, password) {
     try {
-      const password = await bcrypt.hash(password1, 10);
+      const saltRounds = 10; // Define the number of salt rounds
+      const hashedPassword = await bcrypt.hash(password, saltRounds); // Provide the salt rounds as the second argument
+
       const checkIfAlreadyExist = await new DB().FindOne('users', { mail });
       if (checkIfAlreadyExist) {
         throw new Error('User already exists');
       }
-      if (mail && password) {
-        return await new DB().Insert('users', { image, name, mail, password, favorites, phone, gender, country, genres });
-      } else {
-        throw new Error('One or more fields are empty');
-      }
+
+      const userData = {
+        mail,
+        password: hashedPassword,
+        name: '',
+        phone: '',
+        gender: '',
+        country: '',
+        favorites: [{}],
+        genres: [],
+      };
+
+      return await new DB().Insert('users', userData);
     } catch (error) {
       throw error;
     }
@@ -119,7 +128,6 @@ class UserModel {
     let user = await new DB().FindOne('users', query);
     console.log("user",user);
     const _id = new ObjectId(user._id);
-    
     user.name = name
     user.gender = gender;
     user.phone = phone;
