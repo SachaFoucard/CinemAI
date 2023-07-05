@@ -1,12 +1,12 @@
 import { View, StyleSheet, Image, TextInput, TouchableOpacity } from 'react-native';
 import { Text } from '@react-native-material/core';
 import { Stack } from "@react-native-material/core";
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { UserContext } from '../../context/UserContext';
 
 const SignInScreen = ({ navigation }) => {
 
-  const { Login,setmail,setpassword,mail,password } = useContext(UserContext);
+  const { Login, setmail, setpassword, mail, password} = useContext(UserContext);
 
   return (
     <>
@@ -17,10 +17,10 @@ const SignInScreen = ({ navigation }) => {
           <TextInput
             style={styles.input}
             placeholder='Mail'
-            placeholderTextColor="white" 
+            placeholderTextColor="white"
             onChangeText={setmail}
-            />
-         
+          />
+
           <TextInput
             style={styles.input}
             placeholder='Password'
