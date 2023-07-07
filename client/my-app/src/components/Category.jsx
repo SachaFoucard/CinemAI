@@ -5,7 +5,6 @@ const Category = ({title,films}) => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{title}</Text>
-      <Text style={styles.title}>{films[0]?.original_title}</Text>
     </View>
   )
 }

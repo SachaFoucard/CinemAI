@@ -129,7 +129,6 @@ const UserContextProvider = ({ children }) => {
 
     useEffect(()=>{
         Popular()
-        
     },[])
 
     const value = { SetGenreFav, genreFav, mail, password, setmail, setpassword, Register, SetUpGenre, Delay3s, setFullName, setPhone, setGender, setCountry, setImage, image, country, gender, phone, fullName, SaveInformationSetUp, Login, popularF, Popular, LoadingCircle, setloading,loading }

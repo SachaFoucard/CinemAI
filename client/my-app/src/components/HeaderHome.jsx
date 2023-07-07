@@ -93,7 +93,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     position: 'absolute',
     left: '5%',
-    top: '85%'
+    top: '85%',
+    gap: 16
   },
   btnPlay: {
     width: 100,
