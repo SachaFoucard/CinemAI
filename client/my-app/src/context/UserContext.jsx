@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { createContext } from 'react'
 
 
@@ -121,12 +121,16 @@ const UserContextProvider = ({ children }) => {
         try {
             const response = await fetch('https://api.themoviedb.org/3/movie/popular?language=en-US&page=1', options);
             const data = await response.json();
-            setPopularF(data);
+            setPopularF(data.results);
         } catch (error) {
             console.error(error);
         }
     };
 
+    useEffect(()=>{
+        Popular()
+        
+    },[])
 
     const value = { SetGenreFav, genreFav, mail, password, setmail, setpassword, Register, SetUpGenre, Delay3s, setFullName, setPhone, setGender, setCountry, setImage, image, country, gender, phone, fullName, SaveInformationSetUp, Login, popularF, Popular, LoadingCircle, setloading,loading }
     return (
