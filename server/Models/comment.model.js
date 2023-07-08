@@ -39,9 +39,3 @@ class CommentModel {
 }
 
 module.exports = CommentModel
-
-  // this.idFilm = idFilm;
-            // this.username = username;
-            // this.text = text;
-            // this.date = date;
-            // this.picture = picture;

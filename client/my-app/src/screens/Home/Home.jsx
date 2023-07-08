@@ -1,32 +1,33 @@
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import React, { useContext, useEffect, useState } from 'react';
 import { UserContext } from '../../context/UserContext';
 import Category from '../../components/Category';
 import HeaderHome from '../../components/HeaderHome';
 
 const Home = () => {
-  const { popularF, } = useContext(UserContext);
-  const [slider, setSlider] = useState([]) // carousselle states
-  const [popular, setpopular] = useState([])
+  const { popularF, TopRated, topRatedF, UpComing, UpComingF, mail } = useContext(UserContext);
+  const [slider, setSlider] = useState([]); // Carousselle state
 
   const fetchData = async () => {
-    {setSlider(popularF.splice(0, 5));} // state for the Carousselle take only the 5 first film from popularF
-    setpopular(popular(5, popular.length));
+    setSlider(popularF.splice(0, 5)); // Set the Carousselle state to the first 5 films from popularF
   };
 
   useEffect(() => {
     fetchData();
-    console.log(popularF);
+    TopRated();
+    UpComing();
   }, []);
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <HeaderHome film={slider} />
-      <Category title="Popular" films={popular} />
-      <Category title="New Releases" films={popular} />
-      <Category title="Top Rated" films={popular} />
-      <Category title="Now Playing" films={popular} />
-    </View>
+
+      {/* Categories */}
+      <Category title="Popular" films={popularF} type="popular" />
+      <Category title="Up Coming" films={UpComingF} type="upcoming" />
+      <Category title="Top Rated" films={topRatedF} type="top_rated" />
+      <Category title="Now Playing" films={popularF} type="popular" />
+    </ScrollView>
   );
 };
 
@@ -41,4 +42,5 @@ const styles = StyleSheet.create({
     left: '47%',
   },
 });
+
 export default Home;

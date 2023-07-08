@@ -36,6 +36,7 @@ userRoutes.post('/addFilm', async (req, res) => {
   res.status(201).json(user)
 }
 )
+
 userRoutes.get('/playlist', async (req, res) => {
   let { mail } = req.body;
   let user = await UserModel.PrintAllFilmPlayList(mail);
@@ -47,10 +48,11 @@ userRoutes.post('/updateGenre', async (req, res) => {
   let user = await UserModel.AddSetUpGenreFav(mail, genreFav);
   res.status(201).json(user)
 })
-userRoutes.get('/getGenreFromUser', async (req, res) => {
+
+userRoutes.post('/getGenresFromUser', async (req, res) => {
   let { mail } = req.body;
-  let user = await UserModel.GetAllGenreFromUser(mail)
-  res.status(201).json(user);
+  let genres = await UserModel.GetAllGenreFromUser(mail)
+  res.status(201).json(genres);
 })
 
 userRoutes.post('/setUpProfil', async (req, res) => {
@@ -61,10 +63,9 @@ userRoutes.post('/setUpProfil', async (req, res) => {
   }
   else {
     res.status(404).json({ message: 'user not updated' });
-
   }
-
-
 })
+
+
 
 module.exports = userRoutes

@@ -21,6 +21,15 @@ const UserContextProvider = ({ children }) => {
 
     // states popular films 
     const [popularF, setPopularF] = useState([]);
+    //states topRated films
+    const [topRatedF, setTopRatedF] = useState([]);
+    //states UpComing films
+    const [UpComingF, setUpComingF] = useState([]);
+    // states AllFilm films (state values who change anytimes)
+    const [TypePage2, setTypePage2] = useState([]);
+
+    // State contains a very big stockage of films (BIG DATA only use when necissary ! => slow app) 
+    const [StockageFilm, setStockageFilm] = useState([])
 
     const Delay3s = (screen, navigation) => {
         setTimeout(() => {
@@ -55,12 +64,9 @@ const UserContextProvider = ({ children }) => {
         } else if (response.status === 500) {
             alert('User already exists with this email address');
         }
-
         const data = await response.json();
-        console.log(data);
     };
     const Login = async (navigation, mail, password) => {
-        console.log("entered");
         let response = await fetch('https://cinemai.onrender.com/api/login', {
             method: 'POST',
             headers: {
@@ -92,7 +98,6 @@ const UserContextProvider = ({ children }) => {
     }
     // function ProfilSetUp screen to save account informations (phone,gender,name,mail,country)
     const SaveInformationSetUp = async (navigation) => {
-        console.log('enter into the Function');
         let response = await fetch('https://cinemai.onrender.com/api/setUpProfil', {
             method: 'POST',
             headers: {
@@ -102,7 +107,6 @@ const UserContextProvider = ({ children }) => {
         });
 
         if (response.status === 201) {
-            console.log("navigate...");
             navigation.navigate('TabMenu');
         } else {
             console.log('error');
@@ -119,19 +123,95 @@ const UserContextProvider = ({ children }) => {
             },
         };
         try {
-            const response = await fetch('https://api.themoviedb.org/3/movie/popular?language=en-US&page=1', options);
-            const data = await response.json();
+            let response = await fetch('https://api.themoviedb.org/3/movie/popular?language=en-US&page=1', options);
+            let data = await response.json();
             setPopularF(data.results);
+            setStockageFilm(data.results)
         } catch (error) {
             console.error(error);
         }
     };
+    const TopRated = async () => {
+        const options = {
+            method: 'GET',
+            headers: {
+                accept: 'application/json',
+                Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4ZWM2NzRlZWU2NTc5ZWI3ZWMxZTEyZGY2NmJlNDAwMyIsInN1YiI6IjY0NjIyNjlmOGM0NGI5MDE1M2RjMWQ4YSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.UeA6Vc9H6D7Bl34qAgv5dLIPBGwtQlu_v74yXGbbUbA'
+            }
+        };
+        try {
+            let response = await fetch('https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1', options);
+            let data = await response.json();
+            setTopRatedF(data.results);
+            setStockageFilm([...StockageFilm, ...data.results]);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+    const UpComing = async () => {
+        const options = {
+            method: 'GET',
+            headers: {
+                accept: 'application/json',
+                Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4ZWM2NzRlZWU2NTc5ZWI3ZWMxZTEyZGY2NmJlNDAwMyIsInN1YiI6IjY0NjIyNjlmOGM0NGI5MDE1M2RjMWQ4YSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.UeA6Vc9H6D7Bl34qAgv5dLIPBGwtQlu_v74yXGbbUbA'
+            }
+        };
+        let response = await fetch('https://api.themoviedb.org/3/movie/upcoming?language=en-US&page=1', options)
+        let data = await response.json();
+        setUpComingF(data.results);
+        setStockageFilm([...StockageFilm, ...data.results]);
+    }
 
-    useEffect(()=>{
+    // Function for "AllFilms screens" to know which page from the URL to print 
+    const AllFilmType = async (type) => {
+        const options = {
+            method: 'GET',
+            headers: {
+                accept: 'application/json',
+                Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4ZWM2NzRlZWU2NTc5ZWI3ZWMxZTEyZGY2NmJlNDAwMyIsInN1YiI6IjY0NjIyNjlmOGM0NGI5MDE1M2RjMWQ4YSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.UeA6Vc9H6D7Bl34qAgv5dLIPBGwtQlu_v74yXGbbUbA',
+            },
+        };
+        try {
+            let response = await fetch(`https://api.themoviedb.org/3/movie/${type}?language=en-US&page=2`, options);
+            let data = await response.json();
+            setTypePage2(data.results);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+    //Function for "Explore screen" 
+    const GetFilmAboutUserGenre = async (mail) => {
+        try {
+            const response = await fetch('http://localhost:8000/api/getGenresFromUser', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ mail })
+            });
+
+            if (response.status === 201) {
+                console.log('status 201');
+                const data = await response.json();
+                SetGenreFav(data);
+            } else {
+                throw new Error('Request failed');
+                console.log('not enter into the good status ');
+            }
+        } catch (error) {
+            console.log('error',error);
+            console.error(error);
+            throw error;
+        }
+    };
+
+
+
+    useEffect(() => {
         Popular()
-    },[])
+    }, [])
 
-    const value = { SetGenreFav, genreFav, mail, password, setmail, setpassword, Register, SetUpGenre, Delay3s, setFullName, setPhone, setGender, setCountry, setImage, image, country, gender, phone, fullName, SaveInformationSetUp, Login, popularF, Popular, LoadingCircle, setloading,loading }
+    const value = { SetGenreFav, genreFav, mail, password, setmail, setpassword, Register, SetUpGenre, Delay3s, setFullName, setPhone, setGender, setCountry, setImage, image, country, gender, phone, fullName, SaveInformationSetUp, Login, popularF, Popular, LoadingCircle, setloading, loading, TopRated, topRatedF, UpComing, UpComingF, mail, AllFilmType, setTypePage2, TypePage2, GetFilmAboutUserGenre, StockageFilm }
     return (
         <>
             <UserContext.Provider value={value}>

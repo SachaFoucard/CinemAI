@@ -16,7 +16,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import UserContextProvider from './src/context/UserContext';
 import InterestScreen from './src/screens/AccountSetUp.jsx/InterestScreen';
 import ProfilSetUp from './src/screens/AccountSetUp.jsx/ProfilSetUp';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import AllFilms from './src/components/AllFilms';
 
 const Stack = createNativeStackNavigator();
 
@@ -28,6 +28,7 @@ export default function App() {
           <Stack.Navigator initialRouteName="OnBoardingScreens" screenOptions={{ headerShown: false }}>
             <Stack.Screen name="OnBoardingScreens" component={OnBoarding} />
             <Stack.Screen name="TabMenu" component={TabMenu} />
+            <Stack.Screen name="AllFilms" component={AllFilms}/>
           </Stack.Navigator>
         </NavigationContainer>
       </UserContextProvider>

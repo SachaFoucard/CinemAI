@@ -75,7 +75,7 @@ const InterestScreen = ({navigation}) => {
     return rows;
   };
 {
-  console.log(genreFav);
+  console.log("genreFav: ",genreFav);
 }
   return (
     <View style={styles.container}>
