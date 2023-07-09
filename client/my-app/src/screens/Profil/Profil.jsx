@@ -1,14 +1,14 @@
 import React, { useContext } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity,ScrollView } from 'react-native';
 import { UserContext } from '../../context/UserContext';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
 
-const Profil = () => {
+const Profil = ({navigation}) => {
   const { user, mail } = useContext(UserContext);
 
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.header}>
         <Image source={(require('../../../assets/logoScreen/logo.png'))}
           style={styles.logo}
@@ -54,19 +54,20 @@ const Profil = () => {
           <Text style={styles.textOption}>Help Center</Text>
           <Ionicons style={styles.icon} name="chevron-forward-outline" />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.options}>
+        <TouchableOpacity style={styles.options}  onPress={()=>navigation.navigate('AppPolicy')}>
           <Ionicons style={styles.icon} name="document-text-outline" />
-          <Text style={styles.textOption}>Privacy Policy</Text>
+          <Text style={styles.textOption}> App Policy</Text>
           <Ionicons style={styles.icon} name="chevron-forward-outline" />
         </TouchableOpacity>
+        
       </View>
-    </View>
+      </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,//for scrolling through all the content
     backgroundColor: '#181A21',
   },
   selections: {
@@ -75,7 +76,7 @@ const styles = StyleSheet.create({
   textOption: {
     color: 'white',
     fontSize: 20,
-    marginRight: 200
+    marginRight: 200 // changed from 200 check if iphone it works !!important
   },
   textOptionLen: {
     color: 'white',
