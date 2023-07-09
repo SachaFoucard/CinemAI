@@ -8,6 +8,10 @@ const UserContextProvider = ({ children }) => {
     //print only movies or series on the explore screen who correspond to the array genres 
     const [genreFav, SetGenreFav] = useState([]);
 
+
+    //set the user 
+
+    const [user,SetUser] = useState();
     // states All Screens details of the user 
     const [mail, setmail] = useState();
     const [password, setpassword] = useState("");
@@ -79,11 +83,15 @@ const UserContextProvider = ({ children }) => {
             alert('Check your fields, user not found');
 
         } else if (response.status === 201) {
-            alert('You Connected successfully ');
-            navigation.navigate('TabMenu')
+            const jsonResponse = await response.json();
+            alert('You Connected successfully');
+            console.log(jsonResponse);
+            SetUser(jsonResponse);
+        navigation.navigate('TabMenu');
         } else if (response.status === 402) {
             alert('fields empty');
         }
+
     };
     const SetUpGenre = async (navigation) => {
         let response = await fetch('https://cinemai.onrender.com/api/updateGenre', {
@@ -211,7 +219,7 @@ const UserContextProvider = ({ children }) => {
         Popular()
     }, [])
 
-    const value = { SetGenreFav, genreFav, mail, password, setmail, setpassword, Register, SetUpGenre, Delay3s, setFullName, setPhone, setGender, setCountry, setImage, image, country, gender, phone, fullName, SaveInformationSetUp, Login, popularF, Popular, LoadingCircle, setloading, loading, TopRated, topRatedF, UpComing, UpComingF, mail, AllFilmType, setTypePage2, TypePage2, GetFilmAboutUserGenre, StockageFilm }
+    const value = { SetGenreFav, genreFav, mail, password, setmail, setpassword, Register, SetUpGenre, Delay3s, setFullName, setPhone, setGender, setCountry, setImage, image, country, gender, phone, fullName, SaveInformationSetUp, Login, popularF, Popular, LoadingCircle, setloading, loading, TopRated, topRatedF, UpComing, UpComingF, mail, AllFilmType, setTypePage2, TypePage2, GetFilmAboutUserGenre, StockageFilm,user,SetUser }
     return (
         <>
             <UserContext.Provider value={value}>
