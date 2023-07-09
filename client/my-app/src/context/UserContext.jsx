@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { createContext } from 'react'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 export const UserContext = createContext()
@@ -212,13 +213,28 @@ const UserContextProvider = ({ children }) => {
         }
     };
 
+    // check if its the first time login in or not if it is show the intro if not go to the sign up 
+    async function checkFirstTime(navigation) {
+        const isFirstTime = await AsyncStorage.getItem('firstTime');
+        let t = 4;
+        setTimeout(async () => {
+            if (isFirstTime == null) {
+                await AsyncStorage.setItem('firstTime', 'false');
+                Delay3s('Welcome',navigation);
+            }
+            else {
+                navigation.navigate('SignIn');  
+            }
+        }, 1000 * t);
+    }
+
 
 
     useEffect(() => {
         Popular()
     }, [])
 
-    const value = { SetGenreFav, genreFav, mail, password, setmail, setpassword, Register, SetUpGenre, Delay3s, setFullName, setPhone, setGender, setCountry, setImage, image, country, gender, phone, fullName, SaveInformationSetUp, Login, popularF, Popular, LoadingCircle, setloading, loading, TopRated, topRatedF, UpComing, UpComingF, mail, AllFilmType, setTypePage2, TypePage2, GetFilmAboutUserGenre, StockageFilm,user,SetUser }
+    const value = { SetGenreFav, genreFav, mail, password, setmail, setpassword, Register, SetUpGenre, Delay3s, setFullName, setPhone, setGender, setCountry, setImage, image, country, gender, phone, fullName, SaveInformationSetUp, Login, popularF, Popular, LoadingCircle, setloading, loading, TopRated, topRatedF, UpComing, UpComingF, mail, AllFilmType, setTypePage2, TypePage2, GetFilmAboutUserGenre, StockageFilm,user,SetUser,checkFirstTime }
     return (
         <>
             <UserContext.Provider value={value}>

@@ -4,11 +4,11 @@ import { ActivityIndicator } from "@react-native-material/core";
 import { UserContext } from '../../context/UserContext';
 
 const LogoScreen = ({ navigation }) => {
-  const { Delay3s } = useContext(UserContext)
-
-
+  const { checkFirstTime } = useContext(UserContext)
+ 
+  // check if it needs to go to welcome or sign-in
   useEffect(() => {
-    Delay3s('Welcome',navigation);
+    checkFirstTime(navigation);  
   }, [])
 
 
