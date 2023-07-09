@@ -1,81 +1,104 @@
-import { View, Text,StyleSheet,Image } from 'react-native'
-import {React, useContext} from 'react'
-import logo from '../../../assets/logoScreen/logo.png'
-import profileImg from '../../../assets/profileScreen/profile.png'
+import React, { useContext } from 'react';
+import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { UserContext } from '../../context/UserContext';
-import Ionicons from '@expo/vector-icons/Ionicons'
+import Ionicons from '@expo/vector-icons/Ionicons';
+
 
 const Profil = () => {
-  const {user, Login, setmail, setpassword, mail, password} = useContext(UserContext);
-  
-console.log(user.user.mail);
-console.log(user.mail);
+  const { user, mail } = useContext(UserContext);
 
   return (
     <View style={styles.container}>
-      <View style={styles.profile}>
-        <Image source={logo} style={styles.logo} />
-        <Text style={styles.header}>Profil</Text>
+      <View style={styles.header}>
+        <Image source={(require('../../../assets/logoScreen/logo.png'))}
+          style={styles.logo}
+        />
+        <Text style={styles.title}>Profile</Text>
       </View>
       <View style={styles.userDisplay}>
-        <Image source={profileImg} style={styles.progileImg} />
-        <Text style={styles.text}>{user.user.name}</Text>
-        <Text style={styles.text}>{user.user.mail}</Text>
+        <TouchableOpacity>
+          <Image source={(require('../../../assets/setUpProfil/blankPp.webp'))} style={styles.profileImg} />
+        </TouchableOpacity>
+        <Text style={styles.text}>{user?.name}</Text>
+        <Text style={styles.text}>{mail}</Text>
       </View>
-
-      <View style={styles.options}>
-      <Text style={styles.text}>{user.user.mail}</Text>
-      <Ionicons style={styles.icon} name="play-circle" />
+      <View style={styles.selections}>
+        <TouchableOpacity style={styles.options}>
+          <Ionicons style={styles.icon} name="person-outline" />
+          <Text style={styles.textOption}>Edit Profile</Text>
+          <Ionicons style={styles.icon} name="chevron-forward-outline" />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.options}>
+          <Ionicons style={styles.icon} name="notifications-outline" />
+          <Text style={styles.textOption}>Notification</Text>
+          <Ionicons style={styles.icon} name="chevron-forward-outline" />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.options}>
+          <Ionicons style={styles.icon} name="download-outline" />
+          <Text style={styles.textOption}>Download</Text>
+          <Ionicons style={styles.icon} name="chevron-forward-outline" />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.options}>
+          <Ionicons style={styles.icon} name="checkbox-outline" />
+          <Text style={styles.textOption}>Security</Text>
+          <Ionicons style={styles.icon} name="chevron-forward-outline" />
+        </TouchableOpacity>
       </View>
     </View>
   );
 };
+
 const styles = StyleSheet.create({
-  container:{
-    flex:1,
-    backgroundColor:'#181A21',
- 
+  container: {
+    flex: 1,
+    backgroundColor: '#181A21',
   },
-  profile: {
-    marginTop: 50,
+  selections: {
+    padding: 20
+  },
+  textOption: {
+    color: 'white',
+    fontSize: 20,
+    marginRight: 200
+  },
+  header: {
+    marginTop: 70,
     flexDirection: 'row',
-    alignItems: 'center',
+   marginLeft:20
   },
   logo: {
-    width: 70,
-    height: 40,
-    marginRight: 10,
-   
-    // Add any additional styles for the logo here
+    width: 60,
+    height: 30,
+    marginRight:13
   },
-  progileImg: {
+  profileImg: {
     width: 100,
     height: 100,
     marginRight: 10,
-    borderRadius:50,
-    // Add any additional styles for the logo here
+    borderRadius: 50,
   },
-  header: {
-    color: "white",
-    fontSize:19,
+  title: {
+    color: 'white',
+    fontSize: 25,
   },
   userDisplay: {
-   
     alignItems: 'center',
-    marginTop:10,
+    marginTop: 50,
   },
   text: {
     color: 'white',
+    fontSize: 30,
   },
   icon: {
-    fontSize: 20,
-    color: 'white'
+    fontSize: 30,
+    color: 'white',
   },
-  options:{
+  options: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between',
+    marginTop: 30,
   },
-  
-})
-export default Profil
+});
 
+export default Profil;

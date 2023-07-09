@@ -8,10 +8,9 @@ const UserContextProvider = ({ children }) => {
     //print only movies or series on the explore screen who correspond to the array genres 
     const [genreFav, SetGenreFav] = useState([]);
 
-
-    //set the user 
-
+    //Set the User 
     const [user,SetUser] = useState();
+
     // states All Screens details of the user 
     const [mail, setmail] = useState();
     const [password, setpassword] = useState("");
