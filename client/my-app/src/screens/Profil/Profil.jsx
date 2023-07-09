@@ -43,6 +43,22 @@ const Profil = () => {
           <Text style={styles.textOption}>Security</Text>
           <Ionicons style={styles.icon} name="chevron-forward-outline" />
         </TouchableOpacity>
+        <TouchableOpacity style={styles.options}>
+          <Ionicons style={styles.icon} name="language-outline" />
+          <Text style={styles.textOptionLen}>Language</Text>
+          <Text style={styles.textOptionLen}>English(US)</Text>
+          <Ionicons style={styles.icon} name="chevron-forward-outline" />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.options}>
+          <Ionicons style={styles.icon} name="information-circle-outline" />
+          <Text style={styles.textOption}>Help Center</Text>
+          <Ionicons style={styles.icon} name="chevron-forward-outline" />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.options}>
+          <Ionicons style={styles.icon} name="document-text-outline" />
+          <Text style={styles.textOption}>Privacy Policy</Text>
+          <Ionicons style={styles.icon} name="chevron-forward-outline" />
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -60,6 +76,11 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 20,
     marginRight: 200
+  },
+  textOptionLen: {
+    color: 'white',
+    fontSize: 20,
+    marginRight: 40
   },
   header: {
     marginTop: 70,
