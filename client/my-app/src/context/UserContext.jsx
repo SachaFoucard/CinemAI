@@ -10,7 +10,7 @@ const UserContextProvider = ({ children }) => {
     const [genreFav, SetGenreFav] = useState([]);
 
     //Set the User 
-    const [user,SetUser] = useState();
+    const [user, SetUser] = useState();
 
     // states All Screens details of the user 
     const [mail, setmail] = useState();
@@ -62,7 +62,6 @@ const UserContextProvider = ({ children }) => {
             },
             body: JSON.stringify({ password: password, mail: mail })
         });
-
         if (response.status === 400) {
             alert('Check your fields, one or more are empty');
         } else if (response.status === 201) {
@@ -71,8 +70,8 @@ const UserContextProvider = ({ children }) => {
         } else if (response.status === 500) {
             alert('User already exists with this email address');
         }
-        const data = await response.json();
     };
+    
     const Login = async (navigation, mail, password) => {
         let response = await fetch('https://cinemai.onrender.com/api/login', {
             method: 'POST',
@@ -88,9 +87,9 @@ const UserContextProvider = ({ children }) => {
         } else if (response.status === 201) {
             const jsonResponse = await response.json();
             alert('You Connected successfully');
-            console.log(jsonResponse);
-            SetUser(jsonResponse);
-        navigation.navigate('TabMenu');
+            SetUser(jsonResponse.user.user);
+            console.log("user connected : ", user);
+            navigation.navigate('TabMenu');
         } else if (response.status === 402) {
             alert('fields empty');
         }
@@ -210,7 +209,7 @@ const UserContextProvider = ({ children }) => {
                 console.log('not enter into the good status ');
             }
         } catch (error) {
-            console.log('error',error);
+            console.log('error', error);
             console.error(error);
             throw error;
         }
@@ -223,21 +222,21 @@ const UserContextProvider = ({ children }) => {
         setTimeout(async () => {
             if (isFirstTime == null) {
                 await AsyncStorage.setItem('firstTime', 'false');
-                Delay3s('Welcome',navigation);
+                Delay3s('Welcome', navigation);
             }
             else {
-                navigation.navigate('SignIn');  
+                navigation.navigate('SignIn');
             }
         }, 1000 * t);
     }
 
     const handlePress = (screen) => {
         if (highlighted === screen) {
-          setHighlighted('');
+            setHighlighted('');
         } else {
-          setHighlighted(screen);
+            setHighlighted(screen);
         }
-      };
+    };
 
 
 
@@ -245,7 +244,7 @@ const UserContextProvider = ({ children }) => {
         Popular()
     }, [])
 
-    const value = { SetGenreFav, genreFav, mail, password, setmail, setpassword, Register, SetUpGenre, Delay3s, setFullName, setPhone, setGender, setCountry, setImage, image, country, gender, phone, fullName, SaveInformationSetUp, Login, popularF, Popular, LoadingCircle, setloading, loading, TopRated, topRatedF, UpComing, UpComingF, mail, AllFilmType, setTypePage2, TypePage2, GetFilmAboutUserGenre, StockageFilm,user,SetUser,checkFirstTime,highlighted, setHighlighted,handlePress }
+    const value = { SetGenreFav, genreFav, mail, password, setmail, setpassword, Register, SetUpGenre, Delay3s, setFullName, setPhone, setGender, setCountry, setImage, image, country, gender, phone, fullName, SaveInformationSetUp, Login, popularF, Popular, LoadingCircle, setloading, loading, TopRated, topRatedF, UpComing, UpComingF, mail, AllFilmType, setTypePage2, TypePage2, GetFilmAboutUserGenre, StockageFilm, user, SetUser, checkFirstTime, highlighted, setHighlighted, handlePress }
     return (
         <>
             <UserContext.Provider value={value}>

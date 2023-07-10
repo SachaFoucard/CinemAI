@@ -31,7 +31,10 @@ const AllFilms = ({ route, navigation: { goBack } }) => {
         data={TypePage2}
         renderItem={({ item }) => (
           <TouchableOpacity>
-            <Image source={{ uri: `https://image.tmdb.org/t/p/original/${item?.backdrop_path}` }} style={styles.img} />
+            <Image source={{ uri: `https://image.tmdb.org/t/p/original/${item?.backdrop_path}` }}
+             style={styles.img} 
+             onPress={()=>navigation.navigate}
+             />
             <View style={styles.fontGrade}>
               <Text style={styles.grade}>{item.vote_average}</Text>
             </View>

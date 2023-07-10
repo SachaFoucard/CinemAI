@@ -8,18 +8,18 @@ const Explore = () => {
   const [filmsAboutGenre, setFilmAboutGenre] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      fetchData();
-    }, 5000);
-    return () => clearTimeout(timer);
-  }, [mail]);
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     fetchData();
+  //   }, 5000);
+  //   return () => clearTimeout(timer);
+  // }, [mail]);
 
 
-  const fetchData = async () => {
-    await GetFilmAboutUserGenre(mail);
-    setIsLoading(false);
-  };
+  // const fetchData = async () => {
+  //   await GetFilmAboutUserGenre(mail);
+  //   setIsLoading(false);
+  // };
 
   console.log("genreFav", genreFav); // Enclose console.log within curly braces
 
