@@ -20,6 +20,7 @@ import AllFilms from './src/components/AllFilms';
 import ProfilePolicy from './src/screens/Profil/ProfilePolicy';
 import HelpCenter from './src/screens/Profil/HelpCenter';
 import EditProfile from './src/screens/Profil/EditProfile';
+import ItemFilm from './src/components/ItemFilm';
 
 const Stack = createNativeStackNavigator();
 
@@ -32,6 +33,7 @@ export default function App() {
             <Stack.Screen name="OnBoardingScreens" component={OnBoarding} />
             <Stack.Screen name="TabMenu" component={TabMenu} />
             <Stack.Screen name="AllFilms" component={AllFilms}/>
+            <Stack.Screen name="ItemFilm" component={ItemFilm}/>
           </Stack.Navigator>
         </NavigationContainer>
       </UserContextProvider>

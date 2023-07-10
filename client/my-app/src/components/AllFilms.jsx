@@ -3,12 +3,12 @@ import React, { useContext, useEffect, useState } from 'react';
 import { UserContext } from '../context/UserContext';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
-const AllFilms = ({ route, navigation: { goBack } }) => {
+const AllFilms = ({ route, navigation: { goBack },navigation }) => {
   // Extract the necessary parameters from the route
   const { type, title } = route.params;
   
   // Access the necessary data and functions from the context
-  const { AllFilmType, setTypePage2, TypePage2 } = useContext(UserContext);
+  const { AllFilmType, TypePage2 } = useContext(UserContext);
   
   useEffect(() => {
     // Call the necessary functions and update the state
@@ -30,10 +30,9 @@ const AllFilms = ({ route, navigation: { goBack } }) => {
         horizontal={false}
         data={TypePage2}
         renderItem={({ item }) => (
-          <TouchableOpacity>
+          <TouchableOpacity onPress={(()=>navigation.navigate('ItemFilm',{item:item}))}>
             <Image source={{ uri: `https://image.tmdb.org/t/p/original/${item?.backdrop_path}` }}
              style={styles.img} 
-             onPress={()=>navigation.navigate}
              />
             <View style={styles.fontGrade}>
               <Text style={styles.grade}>{item.vote_average}</Text>

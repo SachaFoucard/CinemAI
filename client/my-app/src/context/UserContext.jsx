@@ -79,13 +79,12 @@ const UserContextProvider = ({ children }) => {
             },
             body: JSON.stringify({ password: password, mail: mail })
         });
-        console.log('response', response.status);
         if (response.status === 401) {
             alert('Check your fields, user not found');
 
         } else if (response.status === 201) {
             const jsonResponse = await response.json();
-            alert('You Connected successfully');
+            alert('You Connected successfully as',jsonResponse);
             navigation.navigate('TabMenu');
         } else if (response.status === 402) {
             alert('fields empty');
@@ -227,7 +226,6 @@ const UserContextProvider = ({ children }) => {
         }, 1000 * t);
     }
 
-
     //profil help center  
     const handlePress = (screen) => {
         if (highlighted === screen) {
@@ -236,7 +234,6 @@ const UserContextProvider = ({ children }) => {
             setHighlighted(screen);
         }
     };
-
     //all functs of profile to logout or not 
       const handleLogout = () => {
         setModalVisible(true);
@@ -252,7 +249,6 @@ const UserContextProvider = ({ children }) => {
       const handleCancelLogout = () => {
         setModalVisible(false);
       };
-
 
 
     useEffect(() => {

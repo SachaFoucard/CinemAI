@@ -9,7 +9,7 @@ const Category = ({ title, type,films }) => {
     <>
       <View style={styles.container}>
         <Text style={styles.title}>{title}</Text>
-        <TouchableOpacity onPress={() => navigation.navigate('AllFilms',{type:type,title:title})}>
+        <TouchableOpacity onPress={() => navigation.navigate('AllFilms',{type:type,title:title,films:films})}>
           <Text style={styles.btnSeeAll}>See all</Text>
         </TouchableOpacity>
 
