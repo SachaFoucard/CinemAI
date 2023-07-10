@@ -9,9 +9,6 @@ const UserContextProvider = ({ children }) => {
     //print only movies or series on the explore screen who correspond to the array genres 
     const [genreFav, SetGenreFav] = useState([]);
 
-    //Set the User 
-    const [user, SetUser] = useState();
-
     // states All Screens details of the user 
     const [mail, setmail] = useState();
     const [password, setpassword] = useState("");
@@ -37,6 +34,8 @@ const UserContextProvider = ({ children }) => {
 
     //set the highlite on the Help Center FAQ and CONTACT and show relevent text
     const [highlighted, setHighlighted] = useState([])
+    // make visible the relevent text in help center
+    const [modalVisible, setModalVisible] = useState(false);
 
     const Delay3s = (screen, navigation) => {
         setTimeout(() => {
@@ -87,8 +86,6 @@ const UserContextProvider = ({ children }) => {
         } else if (response.status === 201) {
             const jsonResponse = await response.json();
             alert('You Connected successfully');
-            SetUser(jsonResponse.user.user);
-            console.log("user connected : ", user);
             navigation.navigate('TabMenu');
         } else if (response.status === 402) {
             alert('fields empty');
@@ -230,6 +227,8 @@ const UserContextProvider = ({ children }) => {
         }, 1000 * t);
     }
 
+
+    //profil help center  
     const handlePress = (screen) => {
         if (highlighted === screen) {
             setHighlighted('');
@@ -238,13 +237,29 @@ const UserContextProvider = ({ children }) => {
         }
     };
 
+    //all functs of profile to logout or not 
+      const handleLogout = () => {
+        setModalVisible(true);
+      };
+    
+      const handleConfirmLogout = (navigation) => {
+        // Perform logout action here
+        setModalVisible(false);
+        navigation.navigate("SignIn")
+        // Additional code to handle logout
+      };
+    
+      const handleCancelLogout = () => {
+        setModalVisible(false);
+      };
+
 
 
     useEffect(() => {
         Popular()
     }, [])
 
-    const value = { SetGenreFav, genreFav, mail, password, setmail, setpassword, Register, SetUpGenre, Delay3s, setFullName, setPhone, setGender, setCountry, setImage, image, country, gender, phone, fullName, SaveInformationSetUp, Login, popularF, Popular, LoadingCircle, setloading, loading, TopRated, topRatedF, UpComing, UpComingF, mail, AllFilmType, setTypePage2, TypePage2, GetFilmAboutUserGenre, StockageFilm, user, SetUser, checkFirstTime, highlighted, setHighlighted, handlePress }
+    const value = { SetGenreFav, genreFav, mail, password, setmail, setpassword, Register, SetUpGenre, Delay3s, setFullName, setPhone, setGender, setCountry, setImage, image, country, gender, phone, fullName, SaveInformationSetUp, Login, popularF, Popular, LoadingCircle, setloading, loading, TopRated, topRatedF, UpComing, UpComingF, mail, AllFilmType, setTypePage2, TypePage2, GetFilmAboutUserGenre, StockageFilm, checkFirstTime, highlighted, setHighlighted, handlePress,modalVisible,setModalVisible,handleLogout,handleConfirmLogout,handleCancelLogout}
     return (
         <>
             <UserContext.Provider value={value}>
