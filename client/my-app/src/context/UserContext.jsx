@@ -112,7 +112,7 @@ const UserContextProvider = ({ children }) => {
             },
             body: JSON.stringify({ name: fullName, mail: mail, phone: phone, gender: gender, country: country })
         });
-
+       
         if (response.status === 201) {
             navigation.navigate('TabMenu');
         } else {
