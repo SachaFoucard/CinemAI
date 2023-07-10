@@ -47,8 +47,7 @@ function OnBoarding() {
         <Stack.Screen name="SignUp" component={SignUpScreen} />
         <Stack.Screen name="SignIn" component={SignInScreen} />
         <Stack.Screen name="InterestScreen" component={InterestScreen} />
-        <Stack.Screen name="ProfilSetUp" component={ProfilSetUp} />
-        <Stack.Screen name="profile" component={Profil} />
+        <Stack.Screen name="ProfilSetUp" component={ProfilSetUp} />      
         <Stack.Screen name="AppPolicy" component={ProfilePolicy} />
         <Stack.Screen name="HelpCenter" component={HelpCenter} />
       </Stack.Navigator>

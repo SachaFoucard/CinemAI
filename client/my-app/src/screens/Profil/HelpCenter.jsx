@@ -7,9 +7,10 @@ const HelpCenter = ({ navigation }) => {
     
 const { highlighted,handlePress } = useContext(UserContext);
 
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
-          <TouchableOpacity style={styles.header}  onPress={()=>navigation.navigate('profile')}>
+          <TouchableOpacity style={styles.header}  onPress={() => { navigation.navigate('TabMenu')}}>
             <Ionicons  style={styles.icon}  name="chevron-back-outline"/>
             <Text style={styles.title}>Help Center</Text>
           </TouchableOpacity>
