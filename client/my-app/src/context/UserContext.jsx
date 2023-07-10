@@ -35,6 +35,9 @@ const UserContextProvider = ({ children }) => {
     // State contains a very big stockage of films (BIG DATA only use when necissary ! => slow app) 
     const [StockageFilm, setStockageFilm] = useState([])
 
+    //set the highlite on the Help Center FAQ and CONTACT and show relevent text
+    const [highlighted, setHighlighted] = useState([])
+
     const Delay3s = (screen, navigation) => {
         setTimeout(() => {
             navigation.navigate(screen)
@@ -228,13 +231,21 @@ const UserContextProvider = ({ children }) => {
         }, 1000 * t);
     }
 
+    const handlePress = (screen) => {
+        if (highlighted === screen) {
+          setHighlighted('');
+        } else {
+          setHighlighted(screen);
+        }
+      };
+
 
 
     useEffect(() => {
         Popular()
     }, [])
 
-    const value = { SetGenreFav, genreFav, mail, password, setmail, setpassword, Register, SetUpGenre, Delay3s, setFullName, setPhone, setGender, setCountry, setImage, image, country, gender, phone, fullName, SaveInformationSetUp, Login, popularF, Popular, LoadingCircle, setloading, loading, TopRated, topRatedF, UpComing, UpComingF, mail, AllFilmType, setTypePage2, TypePage2, GetFilmAboutUserGenre, StockageFilm,user,SetUser,checkFirstTime }
+    const value = { SetGenreFav, genreFav, mail, password, setmail, setpassword, Register, SetUpGenre, Delay3s, setFullName, setPhone, setGender, setCountry, setImage, image, country, gender, phone, fullName, SaveInformationSetUp, Login, popularF, Popular, LoadingCircle, setloading, loading, TopRated, topRatedF, UpComing, UpComingF, mail, AllFilmType, setTypePage2, TypePage2, GetFilmAboutUserGenre, StockageFilm,user,SetUser,checkFirstTime,highlighted, setHighlighted,handlePress }
     return (
         <>
             <UserContext.Provider value={value}>

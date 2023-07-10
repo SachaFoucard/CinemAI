@@ -49,7 +49,7 @@ const Profil = ({navigation}) => {
           <Text style={styles.textOptionLen}>English(US)</Text>
           <Ionicons style={styles.icon} name="chevron-forward-outline" />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.options}>
+        <TouchableOpacity style={styles.options} onPress={()=>navigation.navigate('HelpCenter')} >
           <Ionicons style={styles.icon} name="information-circle-outline" />
           <Text style={styles.textOption}>Help Center</Text>
           <Ionicons style={styles.icon} name="chevron-forward-outline" />
