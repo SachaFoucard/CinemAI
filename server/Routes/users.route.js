@@ -66,6 +66,22 @@ userRoutes.post('/setUpProfil', async (req, res) => {
   }
 })
 
+userRoutes.post('/editProfil', async (req, res) => {
+  console.log("1"); 
+  try {
+    
+      let { name, mail, gender, phone, country } = req.body;
+      let user = await UserModel.EditProfil(name, mail, gender, phone, country);
+      res.status(201).json({ message: 'user updated' });
+    
+  } catch (error) {
+    res.status(404).json({ error: error.message });
+  }
+  
+  
+})
+
+
 
 
 module.exports = userRoutes

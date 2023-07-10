@@ -135,5 +135,25 @@ class UserModel {
     let newUser = await new DB().UpdateById('users',_id,user)
     return newUser;
   }
+
+  static async EditProfil(name,mail,gender,phone,country) {
+    try {
+      console.log("2");
+      let query = { mail: mail }
+      let user = await new DB().FindOne('users', query);
+      console.log("user",user);
+      const _id = new ObjectId(user._id);
+      user.name = name
+      user.gender = gender;
+      user.phone = phone;
+      user.country = country;
+      console.log("3"); 
+      let newUser = await new DB().UpdateById('users',_id,user)
+      return newUser;
+      
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 module.exports = UserModel
