@@ -23,7 +23,7 @@ const Profil = ({navigation}) => {
         <Text style={styles.text}>{mail}</Text>
       </View>
       <View style={styles.selections}>
-        <TouchableOpacity style={styles.options}>
+        <TouchableOpacity style={styles.options} onPress={()=>navigation.navigate('EditProfile')}>
           <Ionicons style={styles.icon} name="person-outline" />
           <Text style={styles.textOption}>Edit Profile</Text>
           <Ionicons style={styles.icon} name="chevron-forward-outline" />

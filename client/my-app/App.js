@@ -19,6 +19,7 @@ import ProfilSetUp from './src/screens/AccountSetUp.jsx/ProfilSetUp';
 import AllFilms from './src/components/AllFilms';
 import ProfilePolicy from './src/screens/Profil/ProfilePolicy';
 import HelpCenter from './src/screens/Profil/HelpCenter';
+import EditProfile from './src/screens/Profil/EditProfile';
 
 const Stack = createNativeStackNavigator();
 
@@ -50,6 +51,7 @@ function OnBoarding() {
         <Stack.Screen name="ProfilSetUp" component={ProfilSetUp} />      
         <Stack.Screen name="AppPolicy" component={ProfilePolicy} />
         <Stack.Screen name="HelpCenter" component={HelpCenter} />
+        <Stack.Screen name="EditProfile" component={EditProfile} />
       </Stack.Navigator>
     </>
   );
