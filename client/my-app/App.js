@@ -32,8 +32,6 @@ export default function App() {
           <Stack.Navigator initialRouteName="OnBoardingScreens" screenOptions={{ headerShown: false }}>
             <Stack.Screen name="OnBoardingScreens" component={OnBoarding} />
             <Stack.Screen name="TabMenu" component={TabMenu} />
-            <Stack.Screen name="AllFilms" component={AllFilms}/>
-            <Stack.Screen name="ItemFilm" component={ItemFilm}/>
           </Stack.Navigator>
         </NavigationContainer>
       </UserContextProvider>
@@ -50,10 +48,12 @@ function OnBoarding() {
         <Stack.Screen name="SignUp" component={SignUpScreen} />
         <Stack.Screen name="SignIn" component={SignInScreen} />
         <Stack.Screen name="InterestScreen" component={InterestScreen} />
-        <Stack.Screen name="ProfilSetUp" component={ProfilSetUp} />      
+        <Stack.Screen name="ProfilSetUp" component={ProfilSetUp} />
         <Stack.Screen name="AppPolicy" component={ProfilePolicy} />
         <Stack.Screen name="HelpCenter" component={HelpCenter} />
         <Stack.Screen name="EditProfile" component={EditProfile} />
+        <Stack.Screen name="AllFilms" component={AllFilms} />
+        <Stack.Screen name="ItemFilm" component={ItemFilm} />
       </Stack.Navigator>
     </>
   );

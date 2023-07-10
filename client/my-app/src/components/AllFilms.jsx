@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { UserContext } from '../context/UserContext';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
-const AllFilms = ({ route, navigation: { goBack },navigation }) => {
+const AllFilms = ({ route, navigation: { goBack } , navigation }) => {
   // Extract the necessary parameters from the route
   const { type, title } = route.params;
   
@@ -32,8 +32,7 @@ const AllFilms = ({ route, navigation: { goBack },navigation }) => {
         renderItem={({ item }) => (
           <TouchableOpacity onPress={(()=>navigation.navigate('ItemFilm',{item:item}))}>
             <Image source={{ uri: `https://image.tmdb.org/t/p/original/${item?.backdrop_path}` }}
-             style={styles.img} 
-             />
+             style={styles.img} />
             <View style={styles.fontGrade}>
               <Text style={styles.grade}>{item.vote_average}</Text>
             </View>
