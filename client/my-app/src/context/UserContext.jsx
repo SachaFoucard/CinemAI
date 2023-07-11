@@ -283,6 +283,7 @@ const UserContextProvider = ({ children }) => {
         setModalVisible(false);
       };
 
+      //in profile/editprofile its the func to change the info of user
       const SaveEditProfile = async (navigation) => {
         let response = await fetch('https://cinemai.onrender.com/api/editProfil', {
             method: 'POST',
@@ -291,22 +292,16 @@ const UserContextProvider = ({ children }) => {
             },
             body: JSON.stringify({ name: fullName, mail: mail, phone: phone, gender: gender, country: country })
         });
-       
-          
             console.log('response', response.status);
             if (response.status === 401) {
                 alert('Check your fields, user not found');
-    
             } else if (response.status === 201) {
                 const jsonResponse = await response.json();
                 alert('You Connected successfully');
                 navigation.navigate('TabMenu')
-                // navigation.navigate('TabMenu');
             } else if (response.status === 402) {
                 alert('fields empty');
             }
-    
-        
       };
 
 
