@@ -12,7 +12,7 @@ const Film = ({ route, navigation: { goBack } }) => {
 
   useEffect(() => {
     GetActorsAboutFilm(item.id)
-  }, [item.id]) // updating screen each time that the id film is changing
+  }, [item]) // updating screen each time that the id film is changing
 
   //function to transform the array number reference id into the type (horror,comedy)
   const getGenreName = (id) => {
@@ -56,13 +56,19 @@ const Film = ({ route, navigation: { goBack } }) => {
         </View>
         <Actors actors={actors} />
       </View>
+      <View style={{flexDirection:'row'}}>
+        <TouchableOpacity onPress={()=>console.log('trailers')}><Text style={styles.titleMenuBar}>Trailers</Text></TouchableOpacity>
+        <TouchableOpacity onPress={()=>console.log('More')}><Text style={styles.titleMenuBar}>More Like This</Text></TouchableOpacity>
+        <TouchableOpacity onPress={()=>console.log('Comments')}><Text style={styles.titleMenuBar}>Comments</Text></TouchableOpacity>
+      </View>
+
     </ScrollView>
   )
 }
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#181A21'
+    backgroundColor: '#181A21',
   },
   img: {
     width: '100%',
@@ -119,6 +125,10 @@ const styles = StyleSheet.create({
     marginRight: 10,
     marginTop: 10
   },
+  titleMenuBar:{
+    fontSize:20,
+    color:'white'
+  }
 
 })
 export default Film
