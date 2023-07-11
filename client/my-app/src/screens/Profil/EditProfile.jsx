@@ -1,56 +1,49 @@
-import { View, Text,StyleSheet,TextInput,TouchableOpacity  } from 'react-native'
+import { View, Text,StyleSheet,TextInput,TouchableOpacity,Image  } from 'react-native'
 import React, { useContext, useState } from 'react'
 import { Picker } from '@react-native-picker/picker';
 import { UserContext } from '../../context/UserContext';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
-export default function EditProfile() {
+export default function EditProfile({navigation}) {
 
-    const {setFullName, setPhone, setGender, setCountry, setImage, image, country, gender, phone, fullName,mail, setmail} = useContext(UserContext)
+    const {setFullName, setPhone, setGender, setCountry, setImage, image, country, gender, phone, fullName,mail, setmail,SaveEditProfile} = useContext(UserContext)
     // name, mail, gender, phone, country
-    const handleSave = async () => {
-        let response = await fetch('https://cinemai.onrender.com/api/editProfil', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ name: fullName, mail: mail, phone: phone, gender: gender, country: country })
-        });
-       
-          
-            console.log('response', response.status);
-            if (response.status === 401) {
-                alert('Check your fields, user not found');
     
-            } else if (response.status === 201) {
-                const jsonResponse = await response.json();
-                alert('You Connected successfully');
-                // navigation.navigate('TabMenu');
-            } else if (response.status === 402) {
-                alert('fields empty');
-            }
-    
-        
-      };
   return (
     // name, mail, gender, phone, country 
     <View style={styles.container}>
-    <Text style={styles.label}>Name:</Text>
+
+          <TouchableOpacity style={styles.header}  onPress={() => { navigation.navigate('TabMenu')}}>
+            <Ionicons  style={styles.icon}  name="chevron-back-outline"/>
+            <Text style={styles.title}>Help Center</Text>
+          </TouchableOpacity>
+
+
+        <View style={styles.userDisplay}>
+        <TouchableOpacity>
+          <Image source={(require('../../../assets/setUpProfil/blankPp.webp'))} style={styles.profileImg} />
+        </TouchableOpacity>
+        <Text style={styles.text}>{mail}</Text>
+      </View>
+
+<View style={styles.inputContainer}>
+
     <TextInput
       style={styles.input}
       value={fullName}
       onChangeText={setFullName}
       placeholder="Enter your name"
+      placeholderTextColor="white"
     />
 
-    <Text style={styles.label}>Mail:</Text>
     <TextInput
       style={styles.input}
       value={mail}
       onChangeText={setmail}
       placeholder="Enter your mail"
+      placeholderTextColor="white"
     />
 
-    <Text style={styles.label}>Gender:</Text>
     <Picker
       style={styles.input}
       selectedValue={gender}
@@ -60,23 +53,24 @@ export default function EditProfile() {
       <Picker.Item label="Female" value="female" />
     </Picker>
 
-    <Text style={styles.label}>Phone:</Text>
     <TextInput
       style={styles.input}
       value={phone}
       onChangeText={setPhone}
       placeholder="Enter your phone number"
+      placeholderTextColor="white"
     />
 
-    <Text style={styles.label}>Country:</Text>
     <TextInput
       style={styles.input}
       value={country}
       onChangeText={setCountry}
       placeholder="Enter your country"
+      placeholderTextColor="white"
     />
+</View>
 
-      <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
+      <TouchableOpacity style={styles.saveButton} onPress={() => SaveEditProfile(navigation)}>
         <Text style={styles.saveButtonText}>Save</Text>
       </TouchableOpacity>
   </View>
@@ -97,9 +91,58 @@ const styles = StyleSheet.create({
       input: {
         backgroundColor: 'white',
         borderRadius: 5,
-        padding: 10,
-        marginBottom: 20,
+        padding: 15,
+        marginBottom: 25,
+        backgroundColor:"#2D353A",
+        color:"white",
+        borderRadius:12,
       },
+      inputContainer:{
+        paddingTop:17,
+      },
+      header: {
+        flexDirection: 'row',
+        margin: 15,
+        fontSize: 24,
+        fontWeight: 'bold',
+        color: 'white',
+        textAlign: 'left', // Align the text to the left 
+        alignItems:"center",
+        padding:10,  
+      },
+      icon: {
+        fontSize: 30,
+        color: 'white',
+      },
+      title: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        color: 'white',
+        marginLeft:10,
+      },
+      userDisplay: {
+        alignItems: 'center',
+        marginTop: 25,
+      },
+      text: {
+        color: 'white',
+        fontSize: 30,
+      },
+      profileImg: {
+        width: 100,
+        height: 100,
+        marginRight: 10,
+        borderRadius: 50,
+      },
+      saveButton:{
+        padding:20,
+        borderRadius:30,
+        backgroundColor:"red",
+        alignItems:"center",
+      },
+      saveButtonText:{
+        color:"white"
+      }
   });
 
   
