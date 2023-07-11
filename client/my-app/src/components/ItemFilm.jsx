@@ -53,8 +53,8 @@ const Film = ({ route, navigation: { goBack } }) => {
         </View>
         <View style={styles.genreOverview}>
           <Text style={styles.genres}>
-            Genre:
-            {item?.genre_ids?.map((genreId, index, array) => (
+            Genre: 
+            { item?.genre_ids?.map((genreId, index, array) => (
               <Text style={styles.genres} key={genreId}>
                 {getGenreName(genreId)}
                 {index !== array.length - 1 ? ', ' : ', ...'}
