@@ -6,7 +6,6 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const HeaderHome = ({ film }) => {
   const { width } = Dimensions.get('window');
-  const [activeIndex, setActiveIndex] = useState(0);
 
   const renderCarouselItem = ({ item, index }) => (
     <View style={styles.carouselItem}>
@@ -16,7 +15,7 @@ const HeaderHome = ({ film }) => {
       </Text>
       <Text style={styles.genres}>
         {item?.genre_ids?.map((genreId, index, array) => (
-          <Text key={genreId}>{getGenreName(genreId)}{index !== array.length - 1 ? ', ' : ', ...'}</Text>
+          <Text style={styles.genreId} key={genreId}>{getGenreName(genreId)}{index !== array.length - 1 ? ', ' : ', ...'}</Text>
         ))}
       </Text>
       <View style={styles.rowBts}>
@@ -38,13 +37,6 @@ const HeaderHome = ({ film }) => {
     return genre ? genre.type : '';
   };
 
-  // function to know on which film am I
-  const handleSnapToItem = (index) => {
-    setActiveIndex(index);
-    // Perform any additional actions based on the active item index
-    console.log('Active Item Index:', index);
-  };
-
   return (
     <View>
       <Carousel
@@ -52,7 +44,6 @@ const HeaderHome = ({ film }) => {
         renderItem={renderCarouselItem}
         sliderWidth={width}
         itemWidth={width}
-        onSnapToItem={handleSnapToItem}
       />
     </View>
   );

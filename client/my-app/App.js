@@ -21,6 +21,7 @@ import ProfilePolicy from './src/screens/Profil/ProfilePolicy';
 import HelpCenter from './src/screens/Profil/HelpCenter';
 import EditProfile from './src/screens/Profil/EditProfile';
 import ItemFilm from './src/components/ItemFilm';
+import Category from './src/components/Category';
 
 const Stack = createNativeStackNavigator();
 
@@ -54,6 +55,8 @@ function OnBoarding() {
         <Stack.Screen name="EditProfile" component={EditProfile} />
         <Stack.Screen name="AllFilms" component={AllFilms} />
         <Stack.Screen name="ItemFilm" component={ItemFilm} />
+        <Stack.Screen name="Category" component={Category} />
+
       </Stack.Navigator>
     </>
   );

@@ -32,6 +32,9 @@ const UserContextProvider = ({ children }) => {
     // State contains a very big stockage of films (BIG DATA only use when necissary ! => slow app) 
     const [StockageFilm, setStockageFilm] = useState([])
 
+    // Dinamic State Actors array is changing every time that ItemFilm is changing 
+    const [actors, setActors] = useState([]);
+
     //set the highlite on the Help Center FAQ and CONTACT and show relevent text
     const [highlighted, setHighlighted] = useState([])
     // make visible the relevent text in help center
@@ -210,7 +213,26 @@ const UserContextProvider = ({ children }) => {
             throw error;
         }
     };
-
+    
+    const GetActorsAboutFilm = async (id) => {
+        const options = {
+          method: 'GET',
+          headers: {
+            accept: 'application/json',
+            Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4ZWM2NzRlZWU2NTc5ZWI3ZWMxZTEyZGY2NmJlNDAwMyIsInN1YiI6IjY0NjIyNjlmOGM0NGI5MDE1M2RjMWQ4YSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.UeA6Vc9H6D7Bl34qAgv5dLIPBGwtQlu_v74yXGbbUbA'
+          }
+        };
+        try {
+          const data = await fetch(`https://api.themoviedb.org/3/movie/${id}/credits?language=en-US&limit=10`, options);
+          const res = await data.json();
+          const limitedActors = res.cast.slice(0, 10); // Limit the actors array to the first 10 elements
+          setActors(limitedActors);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      
+    
     // check if its the first time login in or not if it is show the intro if not go to the sign up 
     async function checkFirstTime(navigation) {
         const isFirstTime = await AsyncStorage.getItem('firstTime');
@@ -255,7 +277,7 @@ const UserContextProvider = ({ children }) => {
         Popular()
     }, [])
 
-    const value = { SetGenreFav, genreFav, mail, password, setmail, setpassword, Register, SetUpGenre, Delay3s, setFullName, setPhone, setGender, setCountry, setImage, image, country, gender, phone, fullName, SaveInformationSetUp, Login, popularF, Popular, LoadingCircle, setloading, loading, TopRated, topRatedF, UpComing, UpComingF, mail, AllFilmType, setTypePage2, TypePage2, GetFilmAboutUserGenre, StockageFilm, checkFirstTime, highlighted, setHighlighted, handlePress,modalVisible,setModalVisible,handleLogout,handleConfirmLogout,handleCancelLogout}
+    const value = { SetGenreFav, genreFav, mail, password, setmail, setpassword, Register, SetUpGenre, Delay3s, setFullName, setPhone, setGender, setCountry, setImage, image, country, gender, phone, fullName, SaveInformationSetUp, Login, popularF, Popular, LoadingCircle, setloading, loading, TopRated, topRatedF, UpComing, UpComingF, mail, AllFilmType, setTypePage2, TypePage2, GetFilmAboutUserGenre, StockageFilm, checkFirstTime, highlighted, setHighlighted, handlePress,modalVisible,setModalVisible,handleLogout,handleConfirmLogout,handleCancelLogout,GetActorsAboutFilm,actors, setActors}
     return (
         <>
             <UserContext.Provider value={value}>
