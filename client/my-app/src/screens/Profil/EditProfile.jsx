@@ -48,6 +48,7 @@ export default function EditProfile({navigation}) {
       style={styles.input}
       selectedValue={gender}
       onValueChange={(itemValue) => setGender(itemValue)}
+      dropdownIconColor="white"
     >
       <Picker.Item label="Male" value="male" />
       <Picker.Item label="Female" value="female" />
