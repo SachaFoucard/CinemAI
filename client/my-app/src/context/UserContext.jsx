@@ -73,7 +73,8 @@ const UserContextProvider = ({ children }) => {
             alert('User already exists with this email address');
         }
     };
-    
+
+    // function to connect user
     const Login = async (navigation, mail, password) => {
         let response = await fetch('https://cinemai.onrender.com/api/login', {
             method: 'POST',
@@ -94,6 +95,8 @@ const UserContextProvider = ({ children }) => {
         }
 
     };
+
+    //screen after Registration //function to save in database the genre films that the users like 
     const SetUpGenre = async (navigation) => {
         let response = await fetch('https://cinemai.onrender.com/api/updateGenre', {
             method: 'POST',
@@ -123,6 +126,7 @@ const UserContextProvider = ({ children }) => {
         }
     };
 
+    //function to get popular films
     const Popular = async () => {
         const options = {
             method: 'GET',
@@ -140,6 +144,7 @@ const UserContextProvider = ({ children }) => {
             console.error(error);
         }
     };
+    //function to get top rated films
     const TopRated = async () => {
         const options = {
             method: 'GET',
@@ -157,6 +162,7 @@ const UserContextProvider = ({ children }) => {
             console.error(error);
         }
     }
+    //function to get  upcoming films
     const UpComing = async () => {
         const options = {
             method: 'GET',
@@ -188,7 +194,11 @@ const UserContextProvider = ({ children }) => {
             console.error(error);
         }
     };
-    //Function for "Explore screen" 
+
+    // Function for "Explore screen" to print all films with genres equal to the user.genres{
+    //     mail:"Uu"
+    //     genres=['Comedy','Action']
+    // }
     const GetFilmAboutUserGenre = async (mail) => {
         try {
             const response = await fetch('http://localhost:8000/api/getGenresFromUser', {
@@ -213,7 +223,8 @@ const UserContextProvider = ({ children }) => {
             throw error;
         }
     };
-    
+
+    //function to get actors about idFilm that the function got as parameter
     const GetActorsAboutFilm = async (id) => {
         const options = {
           method: 'GET',
