@@ -138,10 +138,8 @@ class UserModel {
 
   static async EditProfil(name,mail,gender,phone,country) {
     try {
-      console.log("2");
       let query = { mail: mail }
       let user = await new DB().FindOne('users', query);
-      console.log("user",user);
       const _id = new ObjectId(user._id);
       user.name = name
       user.gender = gender;

@@ -11,6 +11,7 @@ specifiers:
   '@react-navigation/native': ^6.1.7
   '@react-navigation/native-stack': ^6.9.13
   expo: ~48.0.19
+  expo-av: ~13.2.1
   expo-image-picker: ~14.1.1
   expo-status-bar: ~1.4.4
   ionicons: ^7.1.2
@@ -34,6 +35,7 @@ dependencies:
   '@react-navigation/native': 6.1.7_gajkl6h4mub3maplmto5awooha
   '@react-navigation/native-stack': 6.9.13_sx3ixxcz67mdhf6i65ya2e34b4
   expo: 48.0.19_@babel+core@7.22.5
+  expo-av: 13.2.1_expo@48.0.19
   expo-image-picker: 14.1.1_expo@48.0.19
   expo-status-bar: 1.4.4
   ionicons: 7.1.2
@@ -4744,6 +4746,14 @@ packages:
     transitivePeerDependencies:
       - expo
       - supports-color
+    dev: false
+
+  /expo-av/13.2.1_expo@48.0.19:
+    resolution: {integrity: sha512-mC0mYSzaOaZgXjzhW2l4Ag325JjH6q5IbptfwD7gkMOFYy7VPOMxEMUnetadbs3DDzmgE6vUWrTjUIUbwq59qg==}
+    peerDependencies:
+      expo: '*'
+    dependencies:
+      expo: 48.0.19_@babel+core@7.22.5
     dev: false
 
   /expo-constants/14.2.1_expo@48.0.19:

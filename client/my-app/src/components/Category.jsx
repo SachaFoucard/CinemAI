@@ -19,7 +19,7 @@ const Category = ({ title, type,films }) => {
         horizontal
         data={films}
         renderItem={({ item }) => (
-          <TouchableOpacity>
+          <TouchableOpacity onPress={(()=>navigation.navigate('ItemFilm',{item:item}))}>
             <Image source={{ uri: `https://image.tmdb.org/t/p/original/${item?.backdrop_path}` }}
               style={styles.img} />
             <View style={styles.fontGrade}>

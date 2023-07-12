@@ -88,7 +88,7 @@ const UserContextProvider = ({ children }) => {
 
         } else if (response.status === 201) {
             const jsonResponse = await response.json();
-            alert('You Connected successfully as',jsonResponse);
+            alert('You Connected successfully as', jsonResponse);
             navigation.navigate('TabMenu');
         } else if (response.status === 402) {
             alert('fields empty');
@@ -117,7 +117,7 @@ const UserContextProvider = ({ children }) => {
             },
             body: JSON.stringify({ name: fullName, mail: mail, phone: phone, gender: gender, country: country })
         });
-       
+
         if (response.status === 201) {
             navigation.navigate('TabMenu');
         } else {
@@ -201,49 +201,47 @@ const UserContextProvider = ({ children }) => {
     // }
     const GetFilmAboutUserGenre = async (mail) => {
         try {
-            const response = await fetch('http://localhost:8000/api/getGenresFromUser', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ mail })
-            });
-
-            if (response.status === 201) {
-                console.log('status 201');
-                const data = await response.json();
-                SetGenreFav(data);
-            } else {
-                throw new Error('Request failed');
-                console.log('not enter into the good status ');
-            }
+          const response = await fetch('http://localhost:8000/api/getGenresFromUser', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ mail })
+          });
+          if (response.status === 201) {
+            const data = await response.json();
+            SetGenreFav((prevGenres) => [...prevGenres, data]); // Update the state using the SetGenreFav function
+          } else {
+            throw new Error('Request failed');
+            console.log('not enter into the good status ');
+          }
         } catch (error) {
-            console.log('error', error);
-            console.error(error);
-            throw error;
+          console.log('error', error);
+          console.error(error);
+          throw error;
         }
-    };
+      };
 
     //function to get actors about idFilm that the function got as parameter
     const GetActorsAboutFilm = async (id) => {
         const options = {
-          method: 'GET',
-          headers: {
-            accept: 'application/json',
-            Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4ZWM2NzRlZWU2NTc5ZWI3ZWMxZTEyZGY2NmJlNDAwMyIsInN1YiI6IjY0NjIyNjlmOGM0NGI5MDE1M2RjMWQ4YSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.UeA6Vc9H6D7Bl34qAgv5dLIPBGwtQlu_v74yXGbbUbA'
-          }
+            method: 'GET',
+            headers: {
+                accept: 'application/json',
+                Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4ZWM2NzRlZWU2NTc5ZWI3ZWMxZTEyZGY2NmJlNDAwMyIsInN1YiI6IjY0NjIyNjlmOGM0NGI5MDE1M2RjMWQ4YSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.UeA6Vc9H6D7Bl34qAgv5dLIPBGwtQlu_v74yXGbbUbA'
+            }
         };
         try {
-          const data = await fetch(`https://api.themoviedb.org/3/movie/${id}/credits?language=en-US&limit=10`, options);
-          const res = await data.json();
-          const limitedActors = res.cast.slice(0, 10); // Limit the actors array to the first 10 elements
-          setActors(limitedActors);
+            const data = await fetch(`https://api.themoviedb.org/3/movie/${id}/credits?language=en-US&limit=10`, options);
+            const res = await data.json();
+            const limitedActors = res.cast.slice(0, 10); // Limit the actors array to the first 10 elements
+            setActors(limitedActors);
         } catch (error) {
-          console.log(error);
+            console.log(error);
         }
-      };
-      
-    
+    };
+
+
     // check if its the first time login in or not if it is show the intro if not go to the sign up 
     async function checkFirstTime(navigation) {
         const isFirstTime = await AsyncStorage.getItem('firstTime');
@@ -268,23 +266,23 @@ const UserContextProvider = ({ children }) => {
         }
     };
     //all functs of profile to logout or not 
-      const handleLogout = () => {
+    const handleLogout = () => {
         setModalVisible(true);
-      };
-    
-      const handleConfirmLogout = (navigation) => {
+    };
+
+    const handleConfirmLogout = (navigation) => {
         // Perform logout action here
         setModalVisible(false);
         navigation.navigate("SignIn")
         // Additional code to handle logout
-      };
-    
-      const handleCancelLogout = () => {
-        setModalVisible(false);
-      };
+    };
 
-      //in profile/editprofile its the func to change the info of user
-      const SaveEditProfile = async (navigation) => {
+    const handleCancelLogout = () => {
+        setModalVisible(false);
+    };
+
+    //in profile/editprofile its the func to change the info of user
+    const SaveEditProfile = async (navigation) => {
         let response = await fetch('https://cinemai.onrender.com/api/editProfil', {
             method: 'POST',
             headers: {
@@ -292,24 +290,23 @@ const UserContextProvider = ({ children }) => {
             },
             body: JSON.stringify({ name: fullName, mail: mail, phone: phone, gender: gender, country: country })
         });
-            console.log('response', response.status);
-            if (response.status === 401) {
-                alert('Check your fields, user not found');
-            } else if (response.status === 201) {
-                const jsonResponse = await response.json();
-                alert('You Connected successfully');
-                navigation.navigate('TabMenu')
-            } else if (response.status === 402) {
-                alert('fields empty');
-            }
-      };
-
+        console.log('response', response.status);
+        if (response.status === 401) {
+            alert('Check your fields, user not found');
+        } else if (response.status === 201) {
+            const jsonResponse = await response.json();
+            alert('You Connected successfully');
+            navigation.navigate('TabMenu')
+        } else if (response.status === 402) {
+            alert('fields empty');
+        }
+    };
 
     useEffect(() => {
         Popular()
     }, [])
 
-    const value = { SetGenreFav, genreFav, mail, password, setmail, setpassword, Register, SetUpGenre, Delay3s, setFullName, setPhone, setGender, setCountry, setImage, image, country, gender, phone, fullName, SaveInformationSetUp, Login, popularF, Popular, LoadingCircle, setloading, loading, TopRated, topRatedF, UpComing, UpComingF, mail, AllFilmType, setTypePage2, TypePage2, GetFilmAboutUserGenre, StockageFilm, checkFirstTime, highlighted, setHighlighted, handlePress,modalVisible,setModalVisible,handleLogout,handleConfirmLogout,handleCancelLogout,GetActorsAboutFilm,actors, setActors,SaveEditProfile}
+    const value = { SetGenreFav, genreFav, mail, password, setmail, setpassword, Register, SetUpGenre, Delay3s, setFullName, setPhone, setGender, setCountry, setImage, image, country, gender, phone, fullName, SaveInformationSetUp, Login, popularF, Popular, LoadingCircle, setloading, loading, TopRated, topRatedF, UpComing, UpComingF, mail, AllFilmType, setTypePage2, TypePage2, GetFilmAboutUserGenre, StockageFilm, checkFirstTime, highlighted, setHighlighted, handlePress, modalVisible, setModalVisible, handleLogout, handleConfirmLogout, handleCancelLogout, GetActorsAboutFilm, actors, setActors, SaveEditProfile }
     return (
         <>
             <UserContext.Provider value={value}>

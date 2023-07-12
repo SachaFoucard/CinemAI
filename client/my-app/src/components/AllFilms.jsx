@@ -3,13 +3,13 @@ import React, { useContext, useEffect, useState } from 'react';
 import { UserContext } from '../context/UserContext';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
-const AllFilms = ({ route, navigation: { goBack } , navigation }) => {
+const AllFilms = ({ route, navigation }) => {
   // Extract the necessary parameters from the route
   const { type, title } = route.params;
-  
+
   // Access the necessary data and functions from the context
   const { AllFilmType, TypePage2 } = useContext(UserContext);
-  
+
   useEffect(() => {
     // Call the necessary functions and update the state
     AllFilmType(type);
@@ -18,7 +18,7 @@ const AllFilms = ({ route, navigation: { goBack } , navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       {/* Header */}
-      <TouchableOpacity style={styles.header} onPress={() => goBack()}>
+      <TouchableOpacity style={styles.header} onPress={() => navigation.goBack()}>
         <Ionicons name="arrow-back" size={32} color="white" style={styles.iconArrow} />
         <Text style={styles.title}>{title}</Text>
       </TouchableOpacity>
@@ -30,9 +30,9 @@ const AllFilms = ({ route, navigation: { goBack } , navigation }) => {
         horizontal={false}
         data={TypePage2}
         renderItem={({ item }) => (
-          <TouchableOpacity onPress={(()=>navigation.navigate('ItemFilm',{item:item}))}>
+          <TouchableOpacity onPress={(() => navigation.navigate('ItemFilm', { item: item }))}>
             <Image source={{ uri: `https://image.tmdb.org/t/p/original/${item?.backdrop_path}` }}
-             style={styles.img} />
+              style={styles.img} />
             <View style={styles.fontGrade}>
               <Text style={styles.grade}>{item.vote_average}</Text>
             </View>

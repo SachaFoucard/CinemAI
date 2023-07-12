@@ -56,7 +56,6 @@ function OnBoarding() {
         <Stack.Screen name="AllFilms" component={AllFilms} />
         <Stack.Screen name="ItemFilm" component={ItemFilm} />
         <Stack.Screen name="Category" component={Category} />
-
       </Stack.Navigator>
     </>
   );

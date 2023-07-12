@@ -4,8 +4,9 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import genreId from '../data/genres.json';
 import { UserContext } from '../context/UserContext';
 import Actors from './Actors';
+import Trailer from '../components/Trailer'
 
-const Film = ({ route, navigation: { goBack } }) => {
+const Film = ({ route, navigation: goBack }) => {
   const { item } = route.params;
   const { actors, GetActorsAboutFilm } = useContext(UserContext);
   const [selectedMenu, setSelectedMenu] = useState('');
@@ -35,8 +36,9 @@ const Film = ({ route, navigation: { goBack } }) => {
           size={32}
           color="white"
           style={styles.iconArrow}
-          onPress={() => goBack()}
+          onPress={() => goBack.goBack()} // Use goBack.goBack() instead of goBack()
         />
+
       </View>
       <View style={styles.body}>
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -53,8 +55,8 @@ const Film = ({ route, navigation: { goBack } }) => {
         </View>
         <View style={styles.genreOverview}>
           <Text style={styles.genres}>
-            Genre: 
-            { item?.genre_ids?.map((genreId, index, array) => (
+            Genre:
+            {item?.genre_ids?.map((genreId, index, array) => (
               <Text style={styles.genres} key={genreId}>
                 {getGenreName(genreId)}
                 {index !== array.length - 1 ? ', ' : ', ...'}
@@ -80,6 +82,7 @@ const Film = ({ route, navigation: { goBack } }) => {
       {selectedMenu === 'trailers' && (
         <View>
           <Text style={styles.menuContent}>Trailers content goes here</Text>
+          <Trailer name={item}/>
         </View>
       )}
       {selectedMenu === 'more' && (
