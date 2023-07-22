@@ -5,8 +5,9 @@ import genreId from '../data/genres.json';
 import { UserContext } from '../context/UserContext';
 import Actors from './Actors';
 import Trailer from '../components/Trailer'
+import Comment from '../components/Comments'
 
-const Film = ({ route, navigation: goBack }) => {
+const Film = ({ route, navigation: goBack,navigation }) => {
   const { item } = route.params;
   const { actors, GetActorsAboutFilm } = useContext(UserContext);
   const [selectedMenu, setSelectedMenu] = useState('');
@@ -92,7 +93,10 @@ const Film = ({ route, navigation: goBack }) => {
       )}
       {selectedMenu === 'comments' && (
         <View>
-          <Text style={styles.menuContent}>Comments content goes here</Text>
+          <TouchableOpacity>
+            <Text style={styles.all} onPress={()=>navigation.navigate('allcomments')}>All Comments</Text>
+          </TouchableOpacity>
+         
         </View>
       )}
     </ScrollView>
@@ -175,6 +179,9 @@ const styles = StyleSheet.create({
     fontSize: 18,
     margin: 10,
   },
+  all:{
+    color:'white'
+  }
 });
 
 export default Film;

@@ -1,10 +1,12 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import { View, Text, Image } from 'react-native'
+import React, { useContext, useState } from 'react'
+import { UserContext } from '../context/UserContext'
 
-const Comments = () => {
+const Comments = (name, title) => {
+  const { fullName } = useContext(UserContext)
   return (
     <View>
-      <Text>Comments</Text>
+      
     </View>
   )
 }

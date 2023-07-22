@@ -1,40 +1,79 @@
-import React, {useState} from 'react';
-import MapView , {  Marker,Heatmap  } from 'react-native-maps';
-import { StyleSheet, View, Text } from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
+import { Platform, View, StyleSheet, TouchableOpacity } from 'react-native';
 
-export default function Map() {
+import * as Location from 'expo-location';
+import MapView, { Marker } from 'react-native-maps';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
-  const [mapLat, setMapLat] = useState(6.841776681);
-  const [mapLong, setMapLong] = useState(79.869319);
- 
-  const locationData = [
-    {latitude: 6.841776681, longitude: 79.869319},
-    {latitude: 6.84076664, longitude: 79.871323},
-  ];
+export default function App() {
+  const [location, setLocation] = useState(null);
+  const [errorMsg, setErrorMsg] = useState(null);
+  const mapRef = useRef(null); // Ref for the MapView component
+
+  const localizeMySelf = async () => {
+    if (Platform.OS === 'android' && !Device.isDevice) {
+      setErrorMsg(
+        'Oops, this will not work on Snack in an Android Emulator. Try it on your device!'
+      );
+      return;
+    }
+    let { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== 'granted') {
+      setErrorMsg('Permission to access location was denied');
+      return;
+    }
+
+    let location = await Location.getCurrentPositionAsync({});
+    setLocation(location);
+  };
+
+  useEffect(() => {
+    // The `localizeMySelf` function will only run once when the component mounts
+    localizeMySelf();
+  }, []);
+
+  const handleLocalizeMe = () => {
+    if (mapRef.current && location) {
+      mapRef.current.animateToRegion({
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421,
+      });
+    }
+  };
+
+  let text = 'Waiting..';
+  if (errorMsg) {
+    text = errorMsg;
+  } else if (location) {
+    text = JSON.stringify(location);
+  }
 
   return (
-   <View style={styles.container}>
-      <MapView
-        style={styles.map}
-        initialRegion={{
-          latitude: mapLat,
-          longitude: mapLong,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
-        }}
-      >
-      {locationData.map((data, index) => (
+    <View style={styles.container}>
+      {location && (
+        <MapView
+          ref={mapRef}
+          style={{ alignSelf: 'stretch', height: '100%' }}
+          region={{
+            latitude: location.coords.latitude,
+            longitude: location.coords.longitude,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+          }}
+        >
+          {/* Corrected image prop syntax */}
           <Marker
-            key={index}
-            coordinate={{
-              latitude: data.latitude,
-              longitude: data.longitude,
-            }}
-            title={`Marker ${index + 1}`}
-            description={`Weight: ${data.weight}`}
+            coordinate={location.coords}
+            title='Your Position'
+            style={{ width: 30, height: 30 }}
           />
-        ))}
-      </MapView>
+        </MapView>
+      )}
+      <TouchableOpacity style={styles.positionme} onPress={handleLocalizeMe}>
+        <Ionicons name="navigate-circle" color='blue' size={30} />
+      </TouchableOpacity>
     </View>
   );
 }
@@ -42,9 +81,22 @@ export default function Map() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  map: {
+    alignItems: 'center',
+    justifyContent: 'center',
     width: '100%',
     height: '100%',
+  },
+  paragraph: {
+    fontSize: 18,
+    textAlign: 'center',
+  },
+  positionme: {
+    position: 'absolute',
+    bottom: '5%',
+    right: '5%',
+    backgroundColor: 'white',
+    padding: 10,
+    borderRadius: 8,
+    elevation: 5,
   },
 });

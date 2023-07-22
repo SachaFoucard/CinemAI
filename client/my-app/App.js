@@ -22,6 +22,7 @@ import HelpCenter from './src/screens/Profil/HelpCenter';
 import EditProfile from './src/screens/Profil/EditProfile';
 import ItemFilm from './src/components/ItemFilm';
 import Category from './src/components/Category';
+import AllComments from './src/components/AllComments';
 
 const Stack = createNativeStackNavigator();
 
@@ -56,6 +57,8 @@ function OnBoarding() {
         <Stack.Screen name="AllFilms" component={AllFilms} />
         <Stack.Screen name="ItemFilm" component={ItemFilm} />
         <Stack.Screen name="Category" component={Category} />
+        <Stack.Screen name="allcomments" component={AllComments} />
+
       </Stack.Navigator>
     </>
   );

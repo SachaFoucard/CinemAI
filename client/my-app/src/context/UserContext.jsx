@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { createContext } from 'react'
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import AsyncStorage from '@react-native-async-storage/async-storage'; // Assuming you've installed the "serpapi" package
 
 export const UserContext = createContext()
 const UserContextProvider = ({ children }) => {
@@ -39,6 +38,8 @@ const UserContextProvider = ({ children }) => {
     const [highlighted, setHighlighted] = useState([])
     // make visible the relevent text in help center
     const [modalVisible, setModalVisible] = useState(false);
+
+    const [allCinemas, setallCinema] = useState([])
 
     const Delay3s = (screen, navigation) => {
         setTimeout(() => {
@@ -201,26 +202,26 @@ const UserContextProvider = ({ children }) => {
     // }
     const GetFilmAboutUserGenre = async (mail) => {
         try {
-          const response = await fetch('http://localhost:8000/api/getGenresFromUser', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ mail })
-          });
-          if (response.status === 201) {
-            const data = await response.json();
-            SetGenreFav((prevGenres) => [...prevGenres, data]); // Update the state using the SetGenreFav function
-          } else {
-            throw new Error('Request failed');
-            console.log('not enter into the good status ');
-          }
+            const response = await fetch('http://localhost:8000/api/getGenresFromUser', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ mail })
+            });
+            if (response.status === 201) {
+                const data = await response.json();
+                SetGenreFav((prevGenres) => [...prevGenres, data]); // Update the state using the SetGenreFav function
+            } else {
+                throw new Error('Request failed');
+                console.log('not enter into the good status ');
+            }
         } catch (error) {
-          console.log('error', error);
-          console.error(error);
-          throw error;
+            console.log('error', error);
+            console.error(error);
+            throw error;
         }
-      };
+    };
 
     //function to get actors about idFilm that the function got as parameter
     const GetActorsAboutFilm = async (id) => {
@@ -302,11 +303,12 @@ const UserContextProvider = ({ children }) => {
         }
     };
 
+
     useEffect(() => {
         Popular()
     }, [])
 
-    const value = { SetGenreFav, genreFav, mail, password, setmail, setpassword, Register, SetUpGenre, Delay3s, setFullName, setPhone, setGender, setCountry, setImage, image, country, gender, phone, fullName, SaveInformationSetUp, Login, popularF, Popular, LoadingCircle, setloading, loading, TopRated, topRatedF, UpComing, UpComingF, mail, AllFilmType, setTypePage2, TypePage2, GetFilmAboutUserGenre, StockageFilm, checkFirstTime, highlighted, setHighlighted, handlePress, modalVisible, setModalVisible, handleLogout, handleConfirmLogout, handleCancelLogout, GetActorsAboutFilm, actors, setActors, SaveEditProfile }
+    const value = { SetGenreFav, genreFav, mail, password, setmail, setpassword, Register, SetUpGenre, Delay3s, setFullName, setPhone, setGender, setCountry, setImage, image, country, gender, phone, fullName, SaveInformationSetUp, Login, popularF, Popular, LoadingCircle, setloading, loading, TopRated, topRatedF, UpComing, UpComingF, mail, AllFilmType, setTypePage2, TypePage2, GetFilmAboutUserGenre, StockageFilm, checkFirstTime, highlighted, setHighlighted, handlePress, modalVisible, setModalVisible, handleLogout, handleConfirmLogout, handleCancelLogout, GetActorsAboutFilm, actors, setActors, SaveEditProfile,fullName }
     return (
         <>
             <UserContext.Provider value={value}>
