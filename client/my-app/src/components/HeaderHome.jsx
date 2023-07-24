@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
   text: {
     color: 'white',
     fontSize: 18,
-    fontWeight: 600,
+    fontWeight: '600',// you typed 600 and you need to type '600'
     alignSelf: 'center',
     marginTop: 1.5
   }
