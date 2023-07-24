@@ -136,7 +136,7 @@ class UserModel {
     return newUser;
   }
 
-  static async EditProfil(name,mail,gender,phone,country) {
+  static async EditProfil(name,mail,gender,phone,country,genres) {
     try {
       let query = { mail: mail }
       let user = await new DB().FindOne('users', query);
@@ -145,6 +145,7 @@ class UserModel {
       user.gender = gender;
       user.phone = phone;
       user.country = country;
+      user.genres = genres
       console.log("3"); 
       let newUser = await new DB().UpdateById('users',_id,user)
       return newUser;

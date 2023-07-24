@@ -290,7 +290,7 @@ const UserContextProvider = ({ children }) => {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ name: fullName, mail: mail, phone: phone, gender: gender, country: country })
+            body: JSON.stringify({ name: fullName, mail: mail, phone: phone, gender: gender, country: country,genres:genreFav })
         });
         console.log('response', response.status);
         if (response.status === 401) {

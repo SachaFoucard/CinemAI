@@ -69,8 +69,8 @@ userRoutes.post('/setUpProfil', async (req, res) => {
 userRoutes.post('/editProfil', async (req, res) => {
   
     // { name: fullName, mail: mail, phone: phone, gender: gender, country: country }
-      let { name, mail, gender, phone, country } = req.body;
-      let user = await UserModel.EditProfil(name, mail, gender, phone, country);
+      let { name, mail, gender, phone, country,genres } = req.body;
+      let user = await UserModel.EditProfil(name, mail, gender, phone, country,genres);
       res.status(201).json({ message: 'user updated' });
     
     if (!user) {
