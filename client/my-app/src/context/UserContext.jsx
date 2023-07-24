@@ -201,7 +201,6 @@ const UserContextProvider = ({ children }) => {
     //     genres=['Comedy','Action']
     // }
     const GetFilmAboutUserGenre = async (mail) => {
-        console.log("yey");
         try {
             const response = await fetch('https://cinemai.onrender.com/api/getGenresFromUser', {
                 method: 'POST',
@@ -224,6 +223,20 @@ const UserContextProvider = ({ children }) => {
             throw error;
         }
     };
+
+    // function for edit profile to remove or add genre to user 
+    const handleGenreSelection = (itemValue) => {
+        // Check if the itemValue is already in genreFav
+        if (genreFav.includes(itemValue)) {
+          // If already selected, remove it from genreFav
+          const updatedGenreFav = genreFav.filter((genre) => genre !== itemValue);
+          SetGenreFav(updatedGenreFav);
+        } else {
+          // If not selected, add it to genreFav
+          SetGenreFav((prevGenres) => [...prevGenres, itemValue]);
+        }
+      };
+  
 
     //function to get actors about idFilm that the function got as parameter
     const GetActorsAboutFilm = async (id) => {
@@ -310,7 +323,7 @@ const UserContextProvider = ({ children }) => {
         Popular()
     }, [])
 
-    const value = { SetGenreFav, genreFav, mail, password, setmail, setpassword, Register, SetUpGenre, Delay3s, setFullName, setPhone, setGender, setCountry, setImage, image, country, gender, phone, fullName, SaveInformationSetUp, Login, popularF, Popular, LoadingCircle, setloading, loading, TopRated, topRatedF, UpComing, UpComingF, mail, AllFilmType, setTypePage2, TypePage2, GetFilmAboutUserGenre, StockageFilm, checkFirstTime, highlighted, setHighlighted, handlePress, modalVisible, setModalVisible, handleLogout, handleConfirmLogout, handleCancelLogout, GetActorsAboutFilm, actors, setActors, SaveEditProfile,fullName }
+    const value = { SetGenreFav, genreFav, mail, password, setmail, setpassword, Register, SetUpGenre, Delay3s, setFullName, setPhone, setGender, setCountry, setImage, image, country, gender, phone, fullName, SaveInformationSetUp, Login, popularF, Popular, LoadingCircle, setloading, loading, TopRated, topRatedF, UpComing, UpComingF, mail, AllFilmType, setTypePage2, TypePage2, GetFilmAboutUserGenre, StockageFilm, checkFirstTime, highlighted, setHighlighted, handlePress, modalVisible, setModalVisible, handleLogout, handleConfirmLogout, handleCancelLogout, GetActorsAboutFilm, actors, setActors, SaveEditProfile,fullName,handleGenreSelection }
     return (
         <>
             <UserContext.Provider value={value}>
