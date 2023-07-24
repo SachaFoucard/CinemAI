@@ -212,7 +212,8 @@ const UserContextProvider = ({ children }) => {
             });
             if (response.status === 201) {
                 const data = await response.json();
-                SetGenreFav((prevGenres) => [...prevGenres, data]); // Update the state using the SetGenreFav function
+               
+                SetGenreFav(data); // Update the state using the SetGenreFav function
             } else {
                 throw new Error('Request failed');
                 console.log('not enter into the good status ');

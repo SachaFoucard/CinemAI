@@ -15,7 +15,7 @@ export default function EditProfile({navigation}) {
     console.log();
     console.log(genreFav);
     const buttons = [
-      'Action',
+      'genres',
       'Adventure',
       'Animation',
       'Comedy',
@@ -33,7 +33,8 @@ export default function EditProfile({navigation}) {
       'TV Movie',
       'Thriller',
       'War',
-      'Western'
+      'Western',
+      "action"
     ];
 
     console.log( Array.isArray(genreFav));
@@ -51,10 +52,8 @@ export default function EditProfile({navigation}) {
         SetGenreFav(updatedGenreFav);
       } else {
         // If not selected, add it to genreFav
-        const updatedGenreFav = [...genreFav, itemValue];
-        SetGenreFav(updatedGenreFav);
+        SetGenreFav((prevGenres) => [...prevGenres, itemValue]);
       }
-      console.log(genreFav);
     };
 
     // const saveGenres = () => {
@@ -108,20 +107,24 @@ export default function EditProfile({navigation}) {
     </Picker>
 
     <Picker
-        style={styles.input}
-        selectedValue={genreFav}
-        onValueChange={handleGenreSelection} // Use the updated function
-        dropdownIconColor="white"
-        mode="dropdown"
-      >
-        {buttons.map((genreName) => (
-          <Picker.Item
-            key={genreName}
-            label={`${genreName}${isGenreSelected(genreName) ? ' ✓' : ''}`}
-            value={genreName}
-          />
-        ))}
-      </Picker>
+  style={styles.input}
+  selectedValue={genreFav}
+  onValueChange={handleGenreSelection}
+  dropdownIconColor="white"
+  mode="dialog"
+>
+  {buttons.map((genreName) => (
+    <Picker.Item
+      key={genreName}
+      label={`${genreName}${genreFav.includes(genreName) ? ' ✓' : ''}`}
+      value={genreName}
+      
+      color="black"
+     
+      
+    />
+  ))}
+</Picker>
 
       
 
@@ -162,16 +165,15 @@ const styles = StyleSheet.create({
         marginBottom: 5,
       },
       input: {
-        backgroundColor: 'white',
         borderRadius: 5,
-        padding: 15,
+        padding: 12,
         marginBottom: 25,
         backgroundColor:"#2D353A",
         color:"white",
         borderRadius:12,
       },
       inputContainer:{
-        paddingTop:17,
+        paddingTop:12,
       },
       header: {
         flexDirection: 'row',
@@ -195,7 +197,7 @@ const styles = StyleSheet.create({
       },
       userDisplay: {
         alignItems: 'center',
-        marginTop: 25,
+        marginTop: 5,
       },
       text: {
         color: 'white',
@@ -208,14 +210,15 @@ const styles = StyleSheet.create({
         borderRadius: 50,
       },
       saveButton:{
-        padding:20,
+        padding:17,
         borderRadius:30,
         backgroundColor:"red",
         alignItems:"center",
       },
       saveButtonText:{
         color:"white"
-      }
+      },
+    
   });
 
   
