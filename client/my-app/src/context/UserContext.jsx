@@ -201,8 +201,9 @@ const UserContextProvider = ({ children }) => {
     //     genres=['Comedy','Action']
     // }
     const GetFilmAboutUserGenre = async (mail) => {
+        console.log("yey");
         try {
-            const response = await fetch('http://localhost:8000/api/getGenresFromUser', {
+            const response = await fetch('https://cinemai.onrender.com/api/getGenresFromUser', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

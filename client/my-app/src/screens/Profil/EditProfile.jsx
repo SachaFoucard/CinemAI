@@ -1,13 +1,66 @@
-import { View, Text,StyleSheet,TextInput,TouchableOpacity,Image  } from 'react-native'
-import React, { useContext, useState } from 'react'
+import { View, Text,StyleSheet,TextInput,TouchableOpacity,Image,FlatList  } from 'react-native'
+import React, { useContext, useEffect, useState } from 'react'
 import { Picker } from '@react-native-picker/picker';
 import { UserContext } from '../../context/UserContext';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
 export default function EditProfile({navigation}) {
 
-    const {setFullName, setPhone, setGender, setCountry, setImage, image, country, gender, phone, fullName,mail, setmail,SaveEditProfile} = useContext(UserContext)
+    const {setFullName, setPhone, setGender, setCountry, setImage, image, country, gender, phone, fullName,mail, setmail,SaveEditProfile,genreFav, SetGenreFav,GetFilmAboutUserGenre} = useContext(UserContext)
     // name, mail, gender, phone, country
+    const [isPickerOpen, setIsPickerOpen] = useState(false);
+
+    useEffect(() => { GetFilmAboutUserGenre(mail)},[])
+   
+    console.log();
+    console.log(genreFav);
+    const buttons = [
+      'Action',
+      'Adventure',
+      'Animation',
+      'Comedy',
+      'Crime',
+      'Documentary',
+      'Drama',
+      'Family',
+      'Fantasy',
+      'History',
+      'Horror',
+      'Music',
+      'Mystery',
+      'Romance',
+      'Science Fiction',
+      'TV Movie',
+      'Thriller',
+      'War',
+      'Western'
+    ];
+
+    console.log( Array.isArray(genreFav));
+   
+
+    const isGenreSelected = (genreName) => {
+      return genreFav.includes(genreName);
+    };
+
+    const handleGenreSelection = (itemValue) => {
+      // Check if the itemValue is already in genreFav
+      if (genreFav.includes(itemValue)) {
+        // If already selected, remove it from genreFav
+        const updatedGenreFav = genreFav.filter((genre) => genre !== itemValue);
+        SetGenreFav(updatedGenreFav);
+      } else {
+        // If not selected, add it to genreFav
+        const updatedGenreFav = [...genreFav, itemValue];
+        SetGenreFav(updatedGenreFav);
+      }
+      console.log(genreFav);
+    };
+
+    // const saveGenres = () => {
+    //   SetGenreFav(genreFavTemp); // Save the selected genres to the global state
+    //   setIsPickerOpen(false); // Close the picker
+    // };
     
   return (
     // name, mail, gender, phone, country 
@@ -53,6 +106,25 @@ export default function EditProfile({navigation}) {
       <Picker.Item label="Male" value="male" />
       <Picker.Item label="Female" value="female" />
     </Picker>
+
+    <Picker
+        style={styles.input}
+        selectedValue={genreFav}
+        onValueChange={handleGenreSelection} // Use the updated function
+        dropdownIconColor="white"
+        mode="dropdown"
+      >
+        {buttons.map((genreName) => (
+          <Picker.Item
+            key={genreName}
+            label={`${genreName}${isGenreSelected(genreName) ? ' ✓' : ''}`}
+            value={genreName}
+          />
+        ))}
+      </Picker>
+
+      
+
 
     <TextInput
       style={styles.input}
