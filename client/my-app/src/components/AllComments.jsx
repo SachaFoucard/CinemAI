@@ -7,7 +7,7 @@ const AllComments = ({ route }) => {
   const { itemId } = route.params;
 
   const getAllcomments = async (itemId) => {
-    let data = await fetch(`http://localhost:8000/api/comments/allcomments/${itemId}`, {
+    let data = await fetch(`https://cinemai.onrender.com/api/comments/allcomments/${itemId}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
