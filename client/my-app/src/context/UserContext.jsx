@@ -39,8 +39,6 @@ const UserContextProvider = ({ children }) => {
     // make visible the relevent text in help center
     const [modalVisible, setModalVisible] = useState(false);
 
-    const [allCinemas, setallCinema] = useState([])
-
     const Delay3s = (screen, navigation) => {
         setTimeout(() => {
             navigation.navigate(screen)
@@ -75,8 +73,11 @@ const UserContextProvider = ({ children }) => {
         }
     };
 
+    // state to custome the login button 
+    const [pushed, setPushed] = useState(false);
     // function to connect user
     const Login = async (navigation, mail, password) => {
+        setPushed(true);
         let response = await fetch('https://cinemai.onrender.com/api/login', {
             method: 'POST',
             headers: {
@@ -211,7 +212,7 @@ const UserContextProvider = ({ children }) => {
             });
             if (response.status === 201) {
                 const data = await response.json();
-               
+
                 SetGenreFav(data); // Update the state using the SetGenreFav function
             } else {
                 throw new Error('Request failed');
@@ -228,15 +229,15 @@ const UserContextProvider = ({ children }) => {
     const handleGenreSelection = (itemValue) => {
         // Check if the itemValue is already in genreFav
         if (genreFav.includes(itemValue)) {
-          // If already selected, remove it from genreFav
-          const updatedGenreFav = genreFav.filter((genre) => genre !== itemValue);
-          SetGenreFav(updatedGenreFav);
+            // If already selected, remove it from genreFav
+            const updatedGenreFav = genreFav.filter((genre) => genre !== itemValue);
+            SetGenreFav(updatedGenreFav);
         } else {
-          // If not selected, add it to genreFav
-          SetGenreFav((prevGenres) => [...prevGenres, itemValue]);
+            // If not selected, add it to genreFav
+            SetGenreFav((prevGenres) => [...prevGenres, itemValue]);
         }
-      };
-  
+    };
+
 
     //function to get actors about idFilm that the function got as parameter
     const GetActorsAboutFilm = async (id) => {
@@ -304,7 +305,7 @@ const UserContextProvider = ({ children }) => {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ name: fullName, mail: mail, phone: phone, gender: gender, country: country,genres:genreFav })
+            body: JSON.stringify({ name: fullName, mail: mail, phone: phone, gender: gender, country: country, genres: genreFav })
         });
         console.log('response', response.status);
         if (response.status === 401) {
@@ -323,7 +324,7 @@ const UserContextProvider = ({ children }) => {
         Popular()
     }, [])
 
-    const value = { SetGenreFav, genreFav, mail, password, setmail, setpassword, Register, SetUpGenre, Delay3s, setFullName, setPhone, setGender, setCountry, setImage, image, country, gender, phone, fullName, SaveInformationSetUp, Login, popularF, Popular, LoadingCircle, setloading, loading, TopRated, topRatedF, UpComing, UpComingF, mail, AllFilmType, setTypePage2, TypePage2, GetFilmAboutUserGenre, StockageFilm, checkFirstTime, highlighted, setHighlighted, handlePress, modalVisible, setModalVisible, handleLogout, handleConfirmLogout, handleCancelLogout, GetActorsAboutFilm, actors, setActors, SaveEditProfile,fullName,handleGenreSelection }
+    const value = { SetGenreFav, genreFav, mail, password, setmail, setpassword, Register, SetUpGenre, Delay3s, setFullName, setPhone, setGender, setCountry, setImage, image, country, gender, phone, fullName, SaveInformationSetUp, Login, popularF, Popular, LoadingCircle, setloading, loading, TopRated, topRatedF, UpComing, UpComingF, mail, AllFilmType, setTypePage2, TypePage2, GetFilmAboutUserGenre, StockageFilm, checkFirstTime, highlighted, setHighlighted, handlePress, modalVisible, setModalVisible, handleLogout, handleConfirmLogout, handleCancelLogout, GetActorsAboutFilm, actors, setActors, SaveEditProfile, fullName, handleGenreSelection,pushed }
     return (
         <>
             <UserContext.Provider value={value}>

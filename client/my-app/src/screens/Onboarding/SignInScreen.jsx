@@ -6,7 +6,7 @@ import { UserContext } from '../../context/UserContext';
 
 const SignInScreen = ({ navigation }) => {
 
-  const { Login, setmail, setpassword, mail, password} = useContext(UserContext);
+  const { Login, setmail, setpassword, mail, password,pushed} = useContext(UserContext);
 
   return (
     <>
@@ -28,7 +28,7 @@ const SignInScreen = ({ navigation }) => {
             onChangeText={setpassword}
           />
         </Stack>
-        <TouchableOpacity style={styles.button}
+        <TouchableOpacity style={[styles.button , pushed && {backgroundColor : 'grey' }]}
           onPress={() => Login(navigation, mail, password)}>
           <Text style={styles.buttonText}>Sign In</Text>
         </TouchableOpacity>
@@ -69,9 +69,9 @@ const styles = StyleSheet.create({
     color: 'white'
   },
   button: {
+    backgroundColor: '#E21121',
     width: 350,
     height: 60,
-    backgroundColor: '#E21121',
     justifyContent: 'center',
     borderRadius: 25,
     alignSelf: 'center'

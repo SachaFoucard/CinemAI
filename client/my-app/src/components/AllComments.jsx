@@ -1,6 +1,6 @@
-import { View, Text, ScrollView, FlatList } from 'react-native'
+import { View, Text, ScrollView, FlatList, StyleSheet } from 'react-native'
 import React, { useEffect, useState } from 'react'
-
+import Comment from './Comments'
 const AllComments = ({ route }) => {
   // State for all comments 
   const [allcomments, setAllcomments] = useState([]);
@@ -20,21 +20,34 @@ const AllComments = ({ route }) => {
   useEffect(() => {
     getAllcomments(itemId);
   }, [itemId]);
+ 
 
   return (
-    <ScrollView>
+    <View style={styles.container}>
       {
-        allcomments.length == 0 ? <Text>No Comments</Text> : <FlatList
+        allcomments.length == 0 ? <Text style={styles.txt}>No Comments</Text> : <FlatList
+        style={styles.flatlist}
           data={allcomments}
-          keyExtractor={(item) => item.id.toString()} // Assuming the item object has a unique 'id' property
+          keyExtractor={(item, index) => index} // Assuming the item object has a unique 'id' property
           renderItem={({ item }) => (
-            <Comment username={item.username} text={item.text} date={item.date} />
+            <Comment username={item.username} text={item.text} date={item.date} style={styles.txt} />
           )}
         />
       }
-
-    </ScrollView>
+    </View>
   );
 };
-
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#181A21',
+  },
+  txt: {
+    color: 'white',
+    fontSize: 30
+  },
+  flatlist:{
+    flexDirection:'column'
+  }
+})
 export default AllComments;
