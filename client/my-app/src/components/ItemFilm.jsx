@@ -94,7 +94,7 @@ const Film = ({ route, navigation: goBack,navigation }) => {
       {selectedMenu === 'comments' && (
         <View>
           <TouchableOpacity>
-            <Text style={styles.all} onPress={()=>navigation.navigate('allcomments')}>All Comments</Text>
+            <Text style={styles.all} onPress={()=>navigation.navigate('allcomments',{itemId:item.id})}>All Comments</Text>
           </TouchableOpacity>
          
         </View>

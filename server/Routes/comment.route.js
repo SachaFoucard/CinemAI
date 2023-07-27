@@ -12,8 +12,8 @@ commentRoutes.post('/postComment', async (req, res) => {
     }
 })
 
-commentRoutes.get('/allcomments', async (req, res) => {
-    const { idFilm } = req.body;
+commentRoutes.get('/allcomments/:idFilm', async (req, res) => {
+    const { idFilm } = req.params;
     try {
         let comms = await CommentModel.PrintAllComments(idFilm)
         res.status(200).json(comms)

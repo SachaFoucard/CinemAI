@@ -1,14 +1,14 @@
-import { View, Text, Image } from 'react-native'
-import React, { useContext, useState } from 'react'
-import { UserContext } from '../context/UserContext'
+import React from 'react';
+import { View, Text } from 'react-native';
 
-const Comments = (name, title) => {
-  const { fullName } = useContext(UserContext)
+const Comment = ({ username, text, date }) => {
   return (
     <View>
-      
+      <Text>{username}</Text>
+      <Text>{text}</Text>
+      <Text>{date}</Text>
     </View>
-  )
-}
+  );
+};
 
-export default Comments
+export default Comment;
