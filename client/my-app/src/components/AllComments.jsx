@@ -20,7 +20,9 @@ const AllComments = ({ route }) => {
   useEffect(() => {
     getAllcomments(itemId);
   }, [itemId]);
- 
+ {
+  console.log(itemId);
+ }
 
   return (
     <View style={styles.container}>
