@@ -5,8 +5,10 @@ import { Avatar } from '@react-native-material/core';
 const Comment = ({ username, text, date }) => {
   return (
     <View style={styles.post}>
-      <Avatar alt={username} />
-      <Text style={styles.username}>{username}</Text>
+      <View style={{ flexDirection: 'row' }}>
+        <Avatar alt={username} />
+        <Text style={styles.username}>{username}</Text>
+      </View>
       <Text style={styles.text}>{text}</Text>
       <Text style={styles.date}>{date}</Text>
     </View>
@@ -16,12 +18,10 @@ const Comment = ({ username, text, date }) => {
 const styles = StyleSheet.create({
   post: {
     flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
     padding: 10,
-    backgroundColor: '#333333',
     marginBottom: 10,
     borderRadius: 8,
+    marginLeft:10
   },
   username: {
     marginLeft: 10,
@@ -30,7 +30,9 @@ const styles = StyleSheet.create({
   },
   text: {
     color: 'white',
-    marginTop: 5,
+    marginTop: 15,
+    marginLeft:5
+
   },
   date: {
     color: 'white',

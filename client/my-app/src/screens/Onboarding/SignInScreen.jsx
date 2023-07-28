@@ -28,7 +28,7 @@ const SignInScreen = ({ navigation }) => {
             onChangeText={setpassword}
           />
         </Stack>
-        <TouchableOpacity style={[styles.button , pushed && {backgroundColor : 'grey' }]}
+        <TouchableOpacity style={[styles.button , pushed && mail && password && {backgroundColor : '#E21121' }]}
           onPress={() => Login(navigation, mail, password)}>
           <Text style={styles.buttonText}>Sign In</Text>
         </TouchableOpacity>
@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     color: 'white'
   },
   button: {
-    backgroundColor: '#E21121',
+    backgroundColor: 'grey',
     width: 350,
     height: 60,
     justifyContent: 'center',
