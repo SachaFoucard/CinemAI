@@ -30,7 +30,7 @@ const AllComments = ({ route }) => {
   return (
     <View style={styles.container}>
       {
-        allcomments.length == 0 ? <Text style={styles.txt}>Waiting comments</Text> :
+        !allcomments ? <Text style={styles.txt}> 0 comments</Text> :
           <View style={styles.comments}>
             <View style={styles.headerBar}>
               <Ionicons name='arrow-back-outline' color='white' size='40' style={styles.icon} />
