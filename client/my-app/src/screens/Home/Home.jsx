@@ -4,7 +4,7 @@ import { UserContext } from '../../context/UserContext';
 import Category from '../../components/Category';
 import HeaderHome from '../../components/HeaderHome';
 
-const Home = () => {
+const Home = ({navigation}) => {
   const { popularF, TopRated, topRatedF, UpComing, UpComingF, mail } = useContext(UserContext);
   const [slider, setSlider] = useState([]); // Carousselle state
 
@@ -20,13 +20,12 @@ const Home = () => {
 
   return (
     <ScrollView style={styles.container}>
-      <HeaderHome film={slider} />
+      <HeaderHome film={slider} navigation={navigation} />
 
       {/* Categories */}
       <Category title="Popular" films={popularF} type="popular" />
       <Category title="Up Coming" films={UpComingF} type="upcoming" />
       <Category title="Top Rated" films={topRatedF} type="top_rated" />
-      <Category title="Now Playing" films={popularF} type="popular" />
     </ScrollView>
   );
 };

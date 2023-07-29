@@ -6,7 +6,7 @@ const Comment = ({ username, text, date }) => {
   return (
     <View style={styles.post}>
       <View style={{ flexDirection: 'row' }}>
-        <Avatar alt={username} />
+        <Avatar label={username} />
         <Text style={styles.username}>{username}</Text>
       </View>
       <Text style={styles.text}>{text}</Text>

@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Image } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Image, FlatList } from 'react-native';
 import React, { useContext, useEffect, useState } from 'react';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import genreId from '../data/genres.json';
@@ -7,14 +7,17 @@ import Actors from './Actors';
 import Trailer from '../components/Trailer'
 import Comment from '../components/Comments'
 
-const Film = ({ route, navigation: goBack,navigation }) => {
+const Film = ({ route, navigation }) => {
   const { item } = route.params;
-  const { actors, GetActorsAboutFilm } = useContext(UserContext);
+  const { actors, GetActorsAboutFilm, getAllcomments, LastComment, setLastComment } = useContext(UserContext);
   const [selectedMenu, setSelectedMenu] = useState('');
 
+
   useEffect(() => {
+    getAllcomments(item.id); // Fetch all comments when the Film component mounts
+    setLastComment([])
     GetActorsAboutFilm(item.id);
-  }, [item]);
+  }, [item.id]);
 
   const getGenreName = (id) => {
     const genre = genreId.find((genre) => genre.id === id);
@@ -23,7 +26,11 @@ const Film = ({ route, navigation: goBack,navigation }) => {
 
   const handleMenuClick = (menu) => {
     setSelectedMenu(menu);
+    if (selectedMenu === 'comments') {
+      getAllcomments(item.id);
+    }
   };
+
 
   return (
     <ScrollView style={styles.container}>
@@ -37,7 +44,7 @@ const Film = ({ route, navigation: goBack,navigation }) => {
           size={32}
           color="white"
           style={styles.iconArrow}
-          onPress={() => goBack.goBack()} // Use goBack.goBack() instead of goBack()
+          onPress={() => navigation.navigate('TabMenu')} // Use goBack.goBack() instead of goBack()
         />
 
       </View>
@@ -83,7 +90,7 @@ const Film = ({ route, navigation: goBack,navigation }) => {
       {selectedMenu === 'trailers' && (
         <View>
           <Text style={styles.menuContent}>Trailers content goes here</Text>
-          <Trailer name={item}/>
+          <Trailer name={item} />
         </View>
       )}
       {selectedMenu === 'more' && (
@@ -94,9 +101,24 @@ const Film = ({ route, navigation: goBack,navigation }) => {
       {selectedMenu === 'comments' && (
         <View>
           <TouchableOpacity>
-            <Text style={styles.all} onPress={()=>navigation.navigate('allcomments',{itemId:item.id})}>All Comments</Text>
+            <Text style={styles.all} onPress={() => navigation.navigate('allcomments', { itemId: item.id })}>See all</Text>
           </TouchableOpacity>
-         
+          {
+            !LastComment ? <Text style={styles.txt}> 0 comments</Text> :
+              <View style={styles.comments}>
+                <View style={styles.headerBar}>
+                  <Text style={styles.nbrscomm}>{LastComment.length} Comments</Text>
+                </View>
+                <FlatList
+                  style={styles.flatlist}
+                  data={LastComment}
+                  keyExtractor={(item, index) => index} // Assuming the item object has a unique 'id' property
+                  renderItem={({ item }) => (
+                    <Comment username={item.username} text={item.text} date={item.date} style={styles.txt} />
+                  )}
+                />
+              </View>
+          }
         </View>
       )}
     </ScrollView>
@@ -179,9 +201,18 @@ const styles = StyleSheet.create({
     fontSize: 18,
     margin: 10,
   },
-  all:{
-    color:'white'
-  }
+  all: {
+    color: 'red',
+    textAlign: 'right',
+    marginRight: 10,
+    marginTop: 20,
+    fontSize: 20
+  },
+  nbrscomm: {
+    fontSize: 25,
+    color: 'white',
+    marginLeft: 15,
+  },
 });
 
 export default Film;

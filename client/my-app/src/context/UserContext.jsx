@@ -28,8 +28,6 @@ const UserContextProvider = ({ children }) => {
     // states AllFilm films (state values who change anytimes)
     const [TypePage2, setTypePage2] = useState([]);
 
-    // State contains a very big stockage of films (BIG DATA only use when necissary ! => slow app) 
-    const [StockageFilm, setStockageFilm] = useState([])
 
     // Dinamic State Actors array is changing every time that ItemFilm is changing 
     const [actors, setActors] = useState([]);
@@ -38,6 +36,32 @@ const UserContextProvider = ({ children }) => {
     const [highlighted, setHighlighted] = useState([])
     // make visible the relevent text in help center
     const [modalVisible, setModalVisible] = useState(false);
+
+    const [explorefilms, setexploreFilms] = useState([]);
+
+    const getStockage30Films = async () => {
+        const options = {
+          method: 'GET',
+          headers: {
+            accept: 'application/json',
+            Authorization:
+              'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4ZWM2NzRlZWU2NTc5ZWI3ZWMxZTEyZGY2NmJlNDAwMyIsInN1YiI6IjY0NjIyNjlmOGM0NGI5MDE1M2RjMWQ4YSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.UeA6Vc9H6D7Bl34qAgv5dLIPBGwtQlu_v74yXGbbUbA',
+          },
+        };
+      
+        try {
+          let data = await fetch('https://api.themoviedb.org/3/discover/movie', options);
+          if (!data.ok) {
+            throw new Error('Network response was not ok');
+          }
+          let response = await data.json();
+          setexploreFilms(response.results);
+        } catch (error) {
+          console.error('Error fetching films:', error);
+          // Handle the error or show an error message to the user.
+        }
+      };
+      
 
     const Delay3s = (screen, navigation) => {
         setTimeout(() => {
@@ -141,7 +165,6 @@ const UserContextProvider = ({ children }) => {
             let response = await fetch('https://api.themoviedb.org/3/movie/popular?language=en-US&page=1', options);
             let data = await response.json();
             setPopularF(data.results);
-            setStockageFilm(data.results)
         } catch (error) {
             console.error(error);
         }
@@ -159,7 +182,6 @@ const UserContextProvider = ({ children }) => {
             let response = await fetch('https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1', options);
             let data = await response.json();
             setTopRatedF(data.results);
-            setStockageFilm([...StockageFilm, ...data.results]);
         } catch (error) {
             console.error(error);
         }
@@ -176,7 +198,6 @@ const UserContextProvider = ({ children }) => {
         let response = await fetch('https://api.themoviedb.org/3/movie/upcoming?language=en-US&page=1', options)
         let data = await response.json();
         setUpComingF(data.results);
-        setStockageFilm([...StockageFilm, ...data.results]);
     }
 
     // Function for "AllFilms screens" to know which page from the URL to print 
@@ -197,11 +218,12 @@ const UserContextProvider = ({ children }) => {
         }
     };
 
+
     // Function for "Explore screen" to print all films with genres equal to the user.genres{
     //     mail:"Uu"
     //     genres=['Comedy','Action']
     // }
-    const GetFilmAboutUserGenre = async (mail) => {
+    const GetGenreofUser = async (mail) => {
         try {
             const response = await fetch('https://cinemai.onrender.com/api/getGenresFromUser', {
                 method: 'POST',
@@ -320,11 +342,36 @@ const UserContextProvider = ({ children }) => {
     };
 
 
+    // State for all comments 
+    const [allcomments, setAllcomments] = useState([]);
+
+    //state just first comment for the itemfil component
+    const [LastComment, setLastComment] = useState([]);
+
+    const getAllcomments = async (itemId) => {
+        let data = await fetch(`https://cinemai.onrender.com/api/comments/allcomments/${itemId}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        let response = await data.json();
+        setAllcomments(response);
+        if (response.status === 200) {
+            setLastComment(response.slice(0, 2));
+        }
+    };
+
+
     useEffect(() => {
         Popular()
+        getStockage30Films();
+
     }, [])
 
-    const value = { SetGenreFav, genreFav, mail, password, setmail, setpassword, Register, SetUpGenre, Delay3s, setFullName, setPhone, setGender, setCountry, setImage, image, country, gender, phone, fullName, SaveInformationSetUp, Login, popularF, Popular, LoadingCircle, setloading, loading, TopRated, topRatedF, UpComing, UpComingF, mail, AllFilmType, setTypePage2, TypePage2, GetFilmAboutUserGenre, StockageFilm, checkFirstTime, highlighted, setHighlighted, handlePress, modalVisible, setModalVisible, handleLogout, handleConfirmLogout, handleCancelLogout, GetActorsAboutFilm, actors, setActors, SaveEditProfile, fullName, handleGenreSelection,pushed }
+
+
+    const value = { SetGenreFav, genreFav, mail, password, setmail, setpassword, Register, SetUpGenre, Delay3s, setFullName, setPhone, setGender, setCountry, setImage, image, country, gender, phone, fullName, SaveInformationSetUp, Login, popularF, Popular, LoadingCircle, setloading, loading, TopRated, topRatedF, UpComing, UpComingF, mail, AllFilmType, setTypePage2, TypePage2, GetGenreofUser, checkFirstTime, highlighted, setHighlighted, handlePress, modalVisible, setModalVisible, handleLogout, handleConfirmLogout, handleCancelLogout, GetActorsAboutFilm, actors, setActors, SaveEditProfile, fullName, handleGenreSelection, pushed, getAllcomments, LastComment, allcomments, setLastComment,explorefilms,getStockage30Films }
     return (
         <>
             <UserContext.Provider value={value}>

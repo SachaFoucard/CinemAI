@@ -9,7 +9,6 @@ class DB {
         this.db_uri = process.env.DB_URI;
         this.db_name = process.env.DB_NAME;
         this.client = new MongoClient(this.db_uri);
-        console.log('connected');
     }
 
     async FindAll(collection, query = {}, project = {}) {
@@ -39,7 +38,6 @@ class DB {
     async Insert(collection, doc) {
         try {
             await this.client.connect();
-            console.log('connected successfuly');
             return await this.client.db(this.db_name).collection(collection).insertOne(doc);
         } catch (error) {
             throw error;

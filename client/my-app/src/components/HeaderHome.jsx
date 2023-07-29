@@ -4,11 +4,12 @@ import Carousel from 'react-native-snap-carousel';
 import genreId from '../data/genres.json';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-const HeaderHome = ({ film }) => {
+const HeaderHome = ({ film,navigation }) => {
   const { width } = Dimensions.get('window');
 
+
   const renderCarouselItem = ({ item, index }) => (
-    <View style={styles.carouselItem}>
+    <TouchableOpacity style={styles.carouselItem} onPress={()=>navigation.navigate('ItemFilm',{item:item})}>
       <Image source={{ uri: `https://image.tmdb.org/t/p/original/${item?.backdrop_path}` }} style={styles.imgHEADER} />
       <Text style={styles.title}>
         {item?.title.length > 12 ? `${item?.title.substring(0, 12)}...` : item?.title}
@@ -26,7 +27,7 @@ const HeaderHome = ({ film }) => {
           <Text style={styles.text}>+ My List</Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 
 

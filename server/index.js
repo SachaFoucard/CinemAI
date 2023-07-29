@@ -9,6 +9,7 @@ server.use(cors());
 
 server.use('/api',require('./Routes/users.route'))
 server.use('/api/comments',require('./Routes/comment.route'))
+server.use('/api/map',require('./Routes/map.route'))
 
 
 server.listen(PORT, () => console.log(`http://localhost:${PORT}`));

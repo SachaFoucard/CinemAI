@@ -28,7 +28,7 @@ const SignInScreen = ({ navigation }) => {
             onChangeText={setpassword}
           />
         </Stack>
-        <TouchableOpacity style={[styles.button , pushed && mail && password && {backgroundColor : '#E21121' }]}
+        <TouchableOpacity style={[styles.button , pushed , mail && password && {backgroundColor : '#E21121' }]}
           onPress={() => Login(navigation, mail, password)}>
           <Text style={styles.buttonText}>Sign In</Text>
         </TouchableOpacity>

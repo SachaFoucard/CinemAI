@@ -23,6 +23,7 @@ import EditProfile from './src/screens/Profil/EditProfile';
 import ItemFilm from './src/components/ItemFilm';
 import Category from './src/components/Category';
 import AllComments from './src/components/AllComments';
+import HeaderHome from './src/components/HeaderHome';
 
 const Stack = createNativeStackNavigator();
 
@@ -58,6 +59,7 @@ function OnBoarding() {
         <Stack.Screen name="ItemFilm" component={ItemFilm} />
         <Stack.Screen name="Category" component={Category} />
         <Stack.Screen name="allcomments" component={AllComments} />
+        <Stack.Screen name="HeaderHome" component={HeaderHome}/>
 
       </Stack.Navigator>
     </>
