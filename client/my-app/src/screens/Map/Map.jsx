@@ -49,7 +49,7 @@ export default function App() {
   const findCinemaClosest = async () => {
     try {
       let data = await fetch('https://cinemai.onrender.com/api/map/findCinema', {
-        method: 'POST', // Use POST method to send the body data
+        method: 'GET', // Use POST method to send the body data
         headers: {
           'Content-Type': 'application/json',
         },

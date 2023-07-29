@@ -20,7 +20,7 @@ const Explore = ({ navigation }) => {
     await getStockage30Films()
     setIsLoading(true);
     await GetGenreofUser(mail);
-    await getFilmAfterFilterGenre();
+    getFilmAfterFilterGenre();
     setIsLoading(false);
   };
 
