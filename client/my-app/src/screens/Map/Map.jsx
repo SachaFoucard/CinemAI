@@ -49,7 +49,7 @@ export default function App() {
   const findCinemaClosest = async () => {
     try {
       let data = await fetch('https://cinemai.onrender.com/api/map/findCinema', {
-        method: 'GET', // Use POST method to send the body data
+        method: 'POST', // Use POST method to send the body data
         headers: {
           'Content-Type': 'application/json',
         },
@@ -59,6 +59,7 @@ export default function App() {
         }),
       });
       const response = await data.json();
+      console.log("response cine",response);
 
       // Update the state with the closest cinema's location
       setCinemaclosest({
