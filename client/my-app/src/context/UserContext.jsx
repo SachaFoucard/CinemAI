@@ -41,27 +41,27 @@ const UserContextProvider = ({ children }) => {
 
     const getStockage30Films = async () => {
         const options = {
-          method: 'GET',
-          headers: {
-            accept: 'application/json',
-            Authorization:
-              'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4ZWM2NzRlZWU2NTc5ZWI3ZWMxZTEyZGY2NmJlNDAwMyIsInN1YiI6IjY0NjIyNjlmOGM0NGI5MDE1M2RjMWQ4YSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.UeA6Vc9H6D7Bl34qAgv5dLIPBGwtQlu_v74yXGbbUbA',
-          },
+            method: 'GET',
+            headers: {
+                accept: 'application/json',
+                Authorization:
+                    'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4ZWM2NzRlZWU2NTc5ZWI3ZWMxZTEyZGY2NmJlNDAwMyIsInN1YiI6IjY0NjIyNjlmOGM0NGI5MDE1M2RjMWQ4YSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.UeA6Vc9H6D7Bl34qAgv5dLIPBGwtQlu_v74yXGbbUbA',
+            },
         };
-      
+
         try {
-          let data = await fetch('https://api.themoviedb.org/3/discover/movie', options);
-          if (!data.ok) {
-            throw new Error('Network response was not ok');
-          }
-          let response = await data.json();
-          setexploreFilms(response.results);
+            let data = await fetch('https://api.themoviedb.org/3/discover/movie', options);
+            if (!data.ok) {
+                throw new Error('Network response was not ok');
+            }
+            let response = await data.json();
+            setexploreFilms(response.results);
         } catch (error) {
-          console.error('Error fetching films:', error);
-          // Handle the error or show an error message to the user.
+            console.error('Error fetching films:', error);
+            // Handle the error or show an error message to the user.
         }
-      };
-      
+    };
+
 
     const Delay3s = (screen, navigation) => {
         setTimeout(() => {
@@ -363,21 +363,38 @@ const UserContextProvider = ({ children }) => {
     };
 
 
-    useEffect(() => {
-        Popular()
-        getStockage30Films();
+    //state favorites list films
+    const [listFavs, setListFavs] = useState([]);
 
-    }, [])
+    const getFavoritesList = async (mail) => {
+        const data = await fetch('http://localhost:8000/api/playlist', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ mail })
+        });
+        const response = await data.json();
+        setListFavs(response);
+    }
+}
+
+
+useEffect(() => {
+    Popular()
+    getStockage30Films();
+
+}, [])
 
 
 
-    const value = { SetGenreFav, genreFav, mail, password, setmail, setpassword, Register, SetUpGenre, Delay3s, setFullName, setPhone, setGender, setCountry, setImage, image, country, gender, phone, fullName, SaveInformationSetUp, Login, popularF, Popular, LoadingCircle, setloading, loading, TopRated, topRatedF, UpComing, UpComingF, mail, AllFilmType, setTypePage2, TypePage2, GetGenreofUser, checkFirstTime, highlighted, setHighlighted, handlePress, modalVisible, setModalVisible, handleLogout, handleConfirmLogout, handleCancelLogout, GetActorsAboutFilm, actors, setActors, SaveEditProfile, fullName, handleGenreSelection, pushed, getAllcomments, LastComment, allcomments, setLastComment,explorefilms,getStockage30Films }
-    return (
-        <>
-            <UserContext.Provider value={value}>
-                {children}
-            </UserContext.Provider>
-        </>
-    )
+const value = { SetGenreFav, genreFav, mail, password, setmail, setpassword, Register, SetUpGenre, Delay3s, setFullName, setPhone, setGender, setCountry, setImage, image, country, gender, phone, fullName, SaveInformationSetUp, Login, popularF, Popular, LoadingCircle, setloading, loading, TopRated, topRatedF, UpComing, UpComingF, mail, AllFilmType, setTypePage2, TypePage2, GetGenreofUser, checkFirstTime, highlighted, setHighlighted, handlePress, modalVisible, setModalVisible, handleLogout, handleConfirmLogout, handleCancelLogout, GetActorsAboutFilm, actors, setActors, SaveEditProfile, fullName, handleGenreSelection, pushed, getAllcomments, LastComment, allcomments, setLastComment, explorefilms, getStockage30Films }
+return (
+    <>
+        <UserContext.Provider value={value}>
+            {children}
+        </UserContext.Provider>
+    </>
+)
 }
 export default UserContextProvider
