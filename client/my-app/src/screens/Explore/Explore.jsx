@@ -5,7 +5,7 @@ import { ActivityIndicator } from "@react-native-material/core";
 import dataId from '../../data/genres.json';
 
 const Explore = ({ navigation }) => {
-  const { mail, GetGenreofUser, genreFav,explorefilms,getStockage30Films } = useContext(UserContext);
+  const { mail, GetGenreofUser, genreFav, explorefilms, getStockage30Films } = useContext(UserContext);
 
   // All films after filters 
   const [filmsAboutGenre, setFilmAboutGenre] = useState([]);
@@ -40,27 +40,31 @@ const Explore = ({ navigation }) => {
       </View>
     );
   }
-{
-  console.log("genreFav",genreFav);
-}
+
+  {
+    console.log("genreFav", genreFav);
+  }
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Explore More...</Text>
-      <FlatList
-        style={styles.flatlist}
-        keyExtractor={(item) => item.id.toString()}
-        horizontal={false}
-        data={filmsAboutGenre} // Use the filtered films here
-        renderItem={({ item }) => (
-          <TouchableOpacity onPress={() => navigation.navigate('ItemFilm', { item: item })}>
-            <Image source={{ uri: `https://image.tmdb.org/t/p/original/${item?.backdrop_path}` }} style={styles.img} />
-            <View style={styles.fontGrade}>
-              <Text style={styles.grade}>{item.vote_average}</Text>
-            </View>
-          </TouchableOpacity>
-        )}
-        numColumns={2}
-      />
+      {filmsAboutGenre ? <View><Text style={styles.title}>Explore More...</Text>
+        <FlatList
+          style={styles.flatlist}
+          keyExtractor={(item) => item.id.toString()}
+          horizontal={false}
+          data={filmsAboutGenre} // Use the filtered films here
+          renderItem={({ item }) => (
+            <TouchableOpacity onPress={() => navigation.navigate('ItemFilm', { item: item })}>
+              <Image source={{ uri: `https://image.tmdb.org/t/p/original/${item?.backdrop_path}` }} style={styles.img} />
+              <View style={styles.fontGrade}>
+                <Text style={styles.grade}>{item.vote_average}</Text>
+              </View>
+            </TouchableOpacity>
+          )}
+          numColumns={2}
+        /></View> :
+        <Text>Search about your genre</Text>}
+
     </View>
   );
 };
