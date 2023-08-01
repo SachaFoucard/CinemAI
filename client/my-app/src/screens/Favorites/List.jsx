@@ -9,7 +9,9 @@ const List = () => {
   useEffect(() => {
     getFavoritesList(mail);
   }, [mail,listFavs])
-
+{
+  console.log(listFavs);
+}
 
   return (
     <View style={styles.container}>

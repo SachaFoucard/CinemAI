@@ -370,16 +370,27 @@ const UserContextProvider = ({ children }) => {
 
     //fetch films from database
     const getFavoritesList = async (mail) => {
-        const data = await fetch('https://cinemai.onrender.com/api/playlist', {
+        try {
+          const response = await fetch('https://cinemai.onrender.com/api/playlist', {
             method: 'GET',
             headers: {
-                'Content-Type': 'application/json'
+              'Content-Type': 'application/json'
             },
             body: JSON.stringify({ mail })
-        });
-        const response = await data.json();
-        setListFavs(response);
-    }
+          });
+      
+          if (!response.ok) {
+            throw new Error('Failed to fetch favorites');
+          }
+      
+          const data = await response.json();
+          setListFavs(data);
+        } catch (error) {
+          console.error('Error fetching favorites:', error.message);
+          // You can add appropriate error handling here, like showing an error message to the user.
+        }
+      };
+      
 
     //add films intodatabase
     const AddFilm = async (userId, film) => {
