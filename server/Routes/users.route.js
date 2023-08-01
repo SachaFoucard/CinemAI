@@ -37,8 +37,8 @@ userRoutes.post('/addFilm', async (req, res) => {
 }
 )
 
-userRoutes.get('/playlist', async (req, res) => {
-  let { mail } = req.body;
+userRoutes.get('/playlist/:mail', async (req, res) => {
+  let { mail } = req.params;
   let user = await UserModel.PrintAllFilmPlayList(mail);
   res.status(201).json(user)
 })

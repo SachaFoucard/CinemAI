@@ -371,12 +371,11 @@ const UserContextProvider = ({ children }) => {
     //fetch films from database
     const getFavoritesList = async (mail) => {
         try {
-          const response = await fetch('https://cinemai.onrender.com/api/playlist', {
+          const response = await fetch(`https://cinemai.onrender.com/api/playlist?mail=${encodeURIComponent(mail)}`, {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ mail })
           });
       
           if (!response.ok) {
@@ -390,6 +389,7 @@ const UserContextProvider = ({ children }) => {
           // You can add appropriate error handling here, like showing an error message to the user.
         }
       };
+      
       
 
     //add films intodatabase
