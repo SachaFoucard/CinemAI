@@ -367,7 +367,7 @@ const UserContextProvider = ({ children }) => {
     const [listFavs, setListFavs] = useState([]);
 
     const getFavoritesList = async (mail) => {
-        const data = await fetch('http://localhost:8000/api/playlist', {
+        const data = await fetch('https://cinemai.onrender.com/api/playlist', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -377,7 +377,7 @@ const UserContextProvider = ({ children }) => {
         const response = await data.json();
         setListFavs(response);
     }
-}
+
 
 
 useEffect(() => {
@@ -388,7 +388,7 @@ useEffect(() => {
 
 
 
-const value = { SetGenreFav, genreFav, mail, password, setmail, setpassword, Register, SetUpGenre, Delay3s, setFullName, setPhone, setGender, setCountry, setImage, image, country, gender, phone, fullName, SaveInformationSetUp, Login, popularF, Popular, LoadingCircle, setloading, loading, TopRated, topRatedF, UpComing, UpComingF, mail, AllFilmType, setTypePage2, TypePage2, GetGenreofUser, checkFirstTime, highlighted, setHighlighted, handlePress, modalVisible, setModalVisible, handleLogout, handleConfirmLogout, handleCancelLogout, GetActorsAboutFilm, actors, setActors, SaveEditProfile, fullName, handleGenreSelection, pushed, getAllcomments, LastComment, allcomments, setLastComment, explorefilms, getStockage30Films }
+const value = { SetGenreFav, genreFav, mail, password, setmail, setpassword, Register, SetUpGenre, Delay3s, setFullName, setPhone, setGender, setCountry, setImage, image, country, gender, phone, fullName, SaveInformationSetUp, Login, popularF, Popular, LoadingCircle, setloading, loading, TopRated, topRatedF, UpComing, UpComingF, mail, AllFilmType, setTypePage2, TypePage2, GetGenreofUser, checkFirstTime, highlighted, setHighlighted, handlePress, modalVisible, setModalVisible, handleLogout, handleConfirmLogout, handleCancelLogout, GetActorsAboutFilm, actors, setActors, SaveEditProfile, fullName, handleGenreSelection, pushed, getAllcomments, LastComment, allcomments, setLastComment, explorefilms, getStockage30Films,listFavs,getFavoritesList }
 return (
     <>
         <UserContext.Provider value={value}>
