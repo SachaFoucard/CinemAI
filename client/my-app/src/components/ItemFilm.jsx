@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Image, FlatList } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Image, FlatList, Alert } from 'react-native';
 import React, { useContext, useEffect, useState } from 'react';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import genreId from '../data/genres.json';
@@ -9,7 +9,7 @@ import Comment from '../components/Comments'
 
 const Film = ({ route, navigation }) => {
   const { item } = route.params;
-  const { actors, GetActorsAboutFilm, getAllcomments, LastComment, setLastComment } = useContext(UserContext);
+  const { actors, GetActorsAboutFilm, getAllcomments, LastComment, setLastComment,AddFilm,userId } = useContext(UserContext);
   const [selectedMenu, setSelectedMenu] = useState('');
 
 
@@ -30,7 +30,17 @@ const Film = ({ route, navigation }) => {
       getAllcomments(item.id);
     }
   };
-
+ 
+  const AlertAdd = () => {
+    Alert.alert('Are you sure ?', 'To add the film to your playlist ', [
+      {
+        text: 'NO',
+        onPress: () => console.log('No Pressed'),
+        style: 'cancel',
+      },
+      {text: 'YES', onPress: () => AddFilm(userId,item)},
+    ]);
+  }
 
   return (
     <ScrollView style={styles.container}>
@@ -48,6 +58,9 @@ const Film = ({ route, navigation }) => {
         />
 
       </View>
+      <TouchableOpacity style={styles.btnAdd} onPress={()=>AlertAdd()}>
+        <Ionicons name="add-circle" color={'white'} size={40} />
+      </TouchableOpacity>
       <View style={styles.body}>
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
           <Text style={styles.title}>{item?.original_title}</Text>
@@ -213,6 +226,16 @@ const styles = StyleSheet.create({
     color: 'white',
     marginLeft: 15,
   },
+  btnAdd: {
+    position: 'absolute',
+    top: '40%',
+    right: '2%',
+
+  },
+  txt: {
+    color: 'white',
+    textAlign: 'center',
+  }
 });
 
 export default Film;

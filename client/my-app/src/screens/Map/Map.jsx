@@ -113,6 +113,7 @@ export default function App() {
               coordinate={location.coords}
               title='Your Position'
               style={{ width: 30, height: 30 }}
+              pinColor='blue'
             />
           )}
 
@@ -120,7 +121,8 @@ export default function App() {
             <Marker
               coordinate={cinemaclosest}
               title={positionClosest?.name}
-              pinColor='green' // You can customize the pin color
+              description={positionClosest?.adress+'phone'+positionClosest?.tel}
+              pinColor='red' // You can customize the pin color
             />
           )}
         </MapView>

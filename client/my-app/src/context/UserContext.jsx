@@ -11,6 +11,7 @@ const UserContextProvider = ({ children }) => {
     // states All Screens details of the user 
     const [mail, setmail] = useState();
     const [password, setpassword] = useState("");
+    const [userId, setId] = useState('');
 
     // states setUp Screens details of the user 
     const [fullName, setFullName] = useState();
@@ -114,8 +115,10 @@ const UserContextProvider = ({ children }) => {
 
         } else if (response.status === 201) {
             const jsonResponse = await response.json();
-            alert('You Connected successfully as', jsonResponse);
+            alert(`Happy to see you Back ${jsonResponse?.user?.mail} !`);
+            setId(jsonResponse?.user?._id)
             navigation.navigate('TabMenu');
+            console.log();
         } else if (response.status === 402) {
             alert('fields empty');
         }
@@ -329,7 +332,6 @@ const UserContextProvider = ({ children }) => {
             },
             body: JSON.stringify({ name: fullName, mail: mail, phone: phone, gender: gender, country: country, genres: genreFav })
         });
-        console.log('response', response.status);
         if (response.status === 401) {
             alert('Check your fields, user not found');
         } else if (response.status === 201) {
@@ -366,6 +368,7 @@ const UserContextProvider = ({ children }) => {
     //state favorites list films
     const [listFavs, setListFavs] = useState([]);
 
+    //fetch films from database
     const getFavoritesList = async (mail) => {
         const data = await fetch('https://cinemai.onrender.com/api/playlist', {
             method: 'GET',
@@ -378,23 +381,39 @@ const UserContextProvider = ({ children }) => {
         setListFavs(response);
     }
 
+    //add films intodatabase
+    const AddFilm = async (userId, film) => {
+        let data = await fetch('https://cinemai.onrender.com/api/addFilm', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ _id: userId, obj: film })
+        })
+        if (data.status === 201) {
+            alert('film added !')
+        }
+        else {
+            alert('film already in your list')
+        }
+    }
 
 
-useEffect(() => {
-    Popular()
-    getStockage30Films();
+    useEffect(() => {
+        Popular()
+        getStockage30Films();
 
-}, [])
+    }, [])
 
 
 
-const value = { SetGenreFav, genreFav, mail, password, setmail, setpassword, Register, SetUpGenre, Delay3s, setFullName, setPhone, setGender, setCountry, setImage, image, country, gender, phone, fullName, SaveInformationSetUp, Login, popularF, Popular, LoadingCircle, setloading, loading, TopRated, topRatedF, UpComing, UpComingF, mail, AllFilmType, setTypePage2, TypePage2, GetGenreofUser, checkFirstTime, highlighted, setHighlighted, handlePress, modalVisible, setModalVisible, handleLogout, handleConfirmLogout, handleCancelLogout, GetActorsAboutFilm, actors, setActors, SaveEditProfile, fullName, handleGenreSelection, pushed, getAllcomments, LastComment, allcomments, setLastComment, explorefilms, getStockage30Films,listFavs,getFavoritesList }
-return (
-    <>
-        <UserContext.Provider value={value}>
-            {children}
-        </UserContext.Provider>
-    </>
-)
+    const value = { SetGenreFav, genreFav, mail, password, setmail, setpassword, Register, SetUpGenre, Delay3s, setFullName, setPhone, setGender, setCountry, setImage, image, country, gender, phone, fullName, SaveInformationSetUp, Login, popularF, Popular, LoadingCircle, setloading, loading, TopRated, topRatedF, UpComing, UpComingF, mail, AllFilmType, setTypePage2, TypePage2, GetGenreofUser, checkFirstTime, highlighted, setHighlighted, handlePress, modalVisible, setModalVisible, handleLogout, handleConfirmLogout, handleCancelLogout, GetActorsAboutFilm, actors, setActors, SaveEditProfile, fullName, handleGenreSelection, pushed, getAllcomments, LastComment, allcomments, setLastComment, explorefilms, getStockage30Films, listFavs, getFavoritesList, AddFilm, userId }
+    return (
+        <>
+            <UserContext.Provider value={value}>
+                {children}
+            </UserContext.Provider>
+        </>
+    )
 }
 export default UserContextProvider
