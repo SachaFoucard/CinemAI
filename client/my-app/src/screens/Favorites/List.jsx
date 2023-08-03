@@ -8,16 +8,15 @@ const List = () => {
 
   useEffect(() => {
     getFavoritesList(mail);
-  }, [mail,listFavs])
+  }, [mail,listFavs.length])
+
 {
   console.log(listFavs);
 }
 
   return (
     <View style={styles.container}>
-      {
-        !listFavs ? <Text style={styles.txt}>Empty</Text> : <Text style={styles.txt}>not Empty</Text>
-      }
+      
 
     </View>
   )

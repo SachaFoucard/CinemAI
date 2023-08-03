@@ -371,7 +371,7 @@ const UserContextProvider = ({ children }) => {
     //fetch films from database
     const getFavoritesList = async (mail) => {
         try {
-          const response = await fetch(`https://cinemai.onrender.com/api/playlist?mail=${encodeURIComponent(mail)}`, {
+          const response = await fetch(`https://cinemai.onrender.com/api/playlist/${mail}}`, {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json'
