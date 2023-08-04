@@ -24,7 +24,7 @@ class CommentModel {
         else {
             film = { idFilm, comments };
             await new DB().Insert("filmsComments", film);
-            return "Added To Favourite";
+            return "comments posted";
         }
     }
     //Print all comments about one Film

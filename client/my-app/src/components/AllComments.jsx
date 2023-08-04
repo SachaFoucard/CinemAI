@@ -24,7 +24,7 @@ const AllComments = ({ route, navigation }) => {
           !allcomments ? <Text style={styles.txt}> 0 comments</Text> :
             <View style={styles.comments}>
               <View style={styles.headerBar}>
-                <Ionicons name='arrow-back-outline' color='white' size='40' style={styles.icon} onPress={() => navigation.goBack()} />
+                <Ionicons name='arrow-back-outline' color='white' size={40} style={styles.icon} onPress={() => navigation.goBack()} />
                 <Text style={styles.nbrscomm}>{allcomments.length} Comments</Text>
               </View>
               <FlatList
@@ -38,7 +38,7 @@ const AllComments = ({ route, navigation }) => {
             </View>
         }
         <View style={styles.addCommentContainer}>
-          <AddComment />
+          <AddComment idFilm={itemId}/>
         </View>
       </View>
     </KeyboardAvoidingView>
