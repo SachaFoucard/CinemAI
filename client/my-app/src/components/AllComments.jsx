@@ -11,7 +11,7 @@ const AllComments = ({ route, navigation }) => {
 
   useEffect(() => {
     getAllcomments(itemId);
-  }, [allcomments.length]);
+  }, [allcomments.length,allcomments]);
 
   return (
     <KeyboardAvoidingView
