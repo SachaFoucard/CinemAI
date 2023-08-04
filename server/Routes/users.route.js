@@ -34,8 +34,7 @@ userRoutes.post('/addFilm', async (req, res) => {
   let { _id, obj } = req.body;
   let user = await UserModel.AddFilmtoPlaylist(_id, obj);
   res.status(201).json(user)
-}
-)
+})
 
 userRoutes.get('/playlist/:mail', async (req, res) => {
   let { mail } = req.params;
@@ -43,7 +42,7 @@ userRoutes.get('/playlist/:mail', async (req, res) => {
   if (favorites) {
     res.status(201).json(favorites);
   } else {
-res.status(401).json({message:'empty'})
+    res.status(401).json({ message: 'empty' })
 
   }
 })
@@ -87,7 +86,18 @@ userRoutes.post('/editProfil', async (req, res) => {
 
 })
 
+userRoutes.post('/deleteFilm', async (req, res) => {
+  try {
+    const { _id, filmid } = req.body;
+    // Call the deleteFilmById function to delete the film
+    const updatedFavorites = await UserModel.deleteFilmById(_id, filmid);
 
+    res.status(200).json({ message: 'Film deleted successfully', updatedFavorites });
+  } catch (error) {
+    console.error('Error deleting film:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
 
 
 module.exports = userRoutes

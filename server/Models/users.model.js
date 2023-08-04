@@ -123,20 +123,20 @@ class UserModel {
     return user.genres
   }
 
-  static async SetUpProfil(name,mail,gender,phone,country) {
+  static async SetUpProfil(name, mail, gender, phone, country) {
     let query = { mail: mail }
     let user = await new DB().FindOne('users', query);
-    console.log("user",user);
+    console.log("user", user);
     const _id = new ObjectId(user._id);
     user.name = name
     user.gender = gender;
     user.phone = phone;
     user.country = country;
-    let newUser = await new DB().UpdateById('users',_id,user)
+    let newUser = await new DB().UpdateById('users', _id, user)
     return newUser;
   }
 
-  static async EditProfil(name,mail,gender,phone,country,genres) {
+  static async EditProfil(name, mail, gender, phone, country, genres) {
     try {
       let query = { mail: mail }
       let user = await new DB().FindOne('users', query);
@@ -146,12 +146,34 @@ class UserModel {
       user.phone = phone;
       user.country = country;
       user.genres = genres
-      console.log("3"); 
-      let newUser = await new DB().UpdateById('users',_id,user)
+      console.log("3");
+      let newUser = await new DB().UpdateById('users', _id, user)
       return newUser;
-      
+
     } catch (error) {
       throw error;
+    }
+  }
+
+  static async deleteFilmById(_id, filmid) {
+    try {
+
+      const id = new ObjectId(_id); // Convert string _id to ObjectId
+
+      const user = await new DB().FindOne("users", { _id: id })
+      if (!user || !user.favorites) {
+        console.log('User or favorites array not found.');
+        return;
+      }
+      const favorites = user.favorites
+      console.log("favorites", favorites);
+      const favoritesArray = favorites.filter((obj) => obj.id != filmid) // create new array without the film that got as parameter
+      user.favorites = favoritesArray; // push the new new array updated
+      console.log(2);
+      const newUser = await new DB().UpdateById("users", _id, user)
+      return newUser;
+    } catch (error) {
+      console.log(error);
     }
   }
 }

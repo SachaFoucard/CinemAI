@@ -371,7 +371,7 @@ const UserContextProvider = ({ children }) => {
     //fetch films from database
     const getFavoritesList = async (mail) => {
         try {
-          const response = await fetch(`https://cinemai.onrender.com/api/playlist/${mail}}`, {
+          const response = await fetch(`https://cinemai.onrender.com/api/playlist/${mail}`, {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json'
@@ -389,7 +389,6 @@ const UserContextProvider = ({ children }) => {
           // You can add appropriate error handling here, like showing an error message to the user.
         }
       };
-      
       
 
     //add films intodatabase
@@ -409,16 +408,30 @@ const UserContextProvider = ({ children }) => {
         }
     }
 
+    const removeFilmFromFavorites = async (_id,filmid) => {
+        let data = await fetch('https://cinemai.onrender.com/api/deleteFilm', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ _id: _id, filmid: filmid })
+        })
+        if (data.status === 200) {
+            alert('film removed !')
+        }
+        else {
+            alert('try again')
+        }
+    }
 
     useEffect(() => {
         Popular()
         getStockage30Films();
-
     }, [])
 
 
 
-    const value = { SetGenreFav, genreFav, mail, password, setmail, setpassword, Register, SetUpGenre, Delay3s, setFullName, setPhone, setGender, setCountry, setImage, image, country, gender, phone, fullName, SaveInformationSetUp, Login, popularF, Popular, LoadingCircle, setloading, loading, TopRated, topRatedF, UpComing, UpComingF, mail, AllFilmType, setTypePage2, TypePage2, GetGenreofUser, checkFirstTime, highlighted, setHighlighted, handlePress, modalVisible, setModalVisible, handleLogout, handleConfirmLogout, handleCancelLogout, GetActorsAboutFilm, actors, setActors, SaveEditProfile, fullName, handleGenreSelection, pushed, getAllcomments, LastComment, allcomments, setLastComment, explorefilms, getStockage30Films, listFavs, getFavoritesList, AddFilm, userId }
+    const value = { SetGenreFav, genreFav, mail, password, setmail, setpassword, Register, SetUpGenre, Delay3s, setFullName, setPhone, setGender, setCountry, setImage, image, country, gender, phone, fullName, SaveInformationSetUp, Login, popularF, Popular, LoadingCircle, setloading, loading, TopRated, topRatedF, UpComing, UpComingF, mail, AllFilmType, setTypePage2, TypePage2, GetGenreofUser, checkFirstTime, highlighted, setHighlighted, handlePress, modalVisible, setModalVisible, handleLogout, handleConfirmLogout, handleCancelLogout, GetActorsAboutFilm, actors, setActors, SaveEditProfile, fullName, handleGenreSelection, pushed, getAllcomments, LastComment, allcomments, setLastComment, explorefilms, getStockage30Films, listFavs, getFavoritesList, AddFilm, userId,removeFilmFromFavorites }
     return (
         <>
             <UserContext.Provider value={value}>
