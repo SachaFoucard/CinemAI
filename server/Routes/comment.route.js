@@ -6,6 +6,8 @@ commentRoutes.post('/postComment', async (req, res) => {
     const { idFilm, comments} = req.body;
     try {
         let newComment = await CommentModel.Addcomment(idFilm, comments);
+        console.log(idFilm);
+        console.log(comments);
         res.status(201).json(newComment);
     } catch (error) {
         res.status(500).json({ error: error.message });

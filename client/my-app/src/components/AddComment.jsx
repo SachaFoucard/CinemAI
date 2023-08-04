@@ -7,34 +7,37 @@ const AddComment = ({ idFilm }) => {
   const { mail, allcomments } = useContext(UserContext);
 
   const [date, setDate] = useState(new Date());
-  const [text, setText] = useState("");
+  const [text, setText] = useState(null);
 
-  const [comments, setcomment] = useState({
-    username: mail,
-    text: text,
-    date: date
-  });
-  
+
   useEffect(() => {
 
   }, [allcomments.length, allcomments])
-  
 
   const PostComment = async () => {
+    const idFilmString = String(idFilm); // Convert idFilm to a string
+
+    const newComment = {
+      username: mail,
+      text: text,
+      date: date,
+    };
+  
     const data = await fetch('https://cinemai.onrender.com/api/comments/postComment', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ idFilm: idFilm, comments: comments })
+      body: JSON.stringify({ idFilm: idFilmString, comments: newComment }),
     });
-    if (data.status == 201) {
+  
+    if (data.status === 201) {
       alert('Comment posted');
-    }
-    else {
-      alert(data.status)
+    } else {
+      alert(data.status);
     }
   };
+  
   {
     console.log(idFilm);
   }
