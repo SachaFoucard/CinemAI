@@ -28,7 +28,6 @@ class DB {
             await this.client.connect();
             return await this.client.db(this.db_name).collection(collection).findOne(query, project);
         } catch (error) {
-            console.log("1");
             throw error;
         }
         finally {

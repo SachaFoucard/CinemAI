@@ -146,7 +146,6 @@ class UserModel {
       user.phone = phone;
       user.country = country;
       user.genres = genres
-      console.log("3");
       let newUser = await new DB().UpdateById('users', _id, user)
       return newUser;
 
@@ -169,7 +168,6 @@ class UserModel {
       console.log("favorites", favorites);
       const favoritesArray = favorites.filter((obj) => obj.id != filmid) // create new array without the film that got as parameter
       user.favorites = favoritesArray; // push the new new array updated
-      console.log(2);
       const newUser = await new DB().UpdateById("users", _id, user)
       return newUser;
     } catch (error) {

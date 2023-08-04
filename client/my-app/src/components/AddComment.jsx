@@ -7,7 +7,7 @@ const AddComment = ({ idFilm }) => {
   const { mail } = useContext(UserContext);
 
   const [date, setDate] = useState(new Date());
-  const [text, setText] = useState(null);
+  const [text, setText] = useState("");
 
   const [comments, setcomment] = useState({
     username: mail,
@@ -15,19 +15,20 @@ const AddComment = ({ idFilm }) => {
     date: date
   });
 
-
   const PostComment = async () => {
-    const data = fetch('https://cinemai.onrender.com/api/postComment', {
+    const data = await fetch('https://cinemai.onrender.com/api/comments/postComment', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({ idFilm: idFilm, comments: comments })
-    })
+    });
+    if (data.status === 201) {
+      alert('Comment posted');
+      setText(""); // Clear the input field
+    }
   };
-  {
-    console.log("idFilm", idFilm);
-  }
+
   return (
     <View style={styles.container}>
       <TextInput
@@ -35,9 +36,9 @@ const AddComment = ({ idFilm }) => {
         placeholder="Add comment..."
         placeholderTextColor="grey"
         value={text}
-        onChangeText={setText} 
+        onChangeText={setText}
       />
-      <TouchableOpacity style={styles.postButton}>
+      <TouchableOpacity style={styles.postButton} onPress={() => PostComment()}>
         <Ionicons name="send" size={24} color="white" />
       </TouchableOpacity>
     </View>

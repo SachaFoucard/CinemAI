@@ -32,10 +32,8 @@ class CommentModel {
         let query = { idFilm: idFilm };
         let film = await new DB().FindOne('filmsComments', query);
         if (film) {
-            console.log("2");
             return film.comments;
         } else {
-            console.log("3");
             throw new Error('Film not found'); // or handle the case where the film is not found
         }
     }
