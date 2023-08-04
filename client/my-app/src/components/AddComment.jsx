@@ -25,7 +25,7 @@ const AddComment = ({ idFilm }) => {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ idFilm: idFilm, comments: comments })
+      body: JSON.stringify({ idFilm: idFilm, comments:[{comments}] })
     });
     if (data.status === 201) {
       alert('Comment posted');
