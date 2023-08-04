@@ -1,10 +1,10 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { View, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { UserContext } from '../context/UserContext';
 
 const AddComment = ({ idFilm }) => {
-  const { mail } = useContext(UserContext);
+  const { mail,allcomments } = useContext(UserContext);
 
   const [date, setDate] = useState(new Date());
   const [text, setText] = useState("");
@@ -14,6 +14,10 @@ const AddComment = ({ idFilm }) => {
     text: text,
     date: date
   });
+
+  useEffect(()=>{
+
+  },[allcomments.length,allcomments])
 
   const PostComment = async () => {
     const data = await fetch('https://cinemai.onrender.com/api/comments/postComment', {
@@ -28,7 +32,9 @@ const AddComment = ({ idFilm }) => {
       setText(""); // Clear the input field
     }
   };
-
+{
+  console.log(idFilm);
+}
   return (
     <View style={styles.container}>
       <TextInput
