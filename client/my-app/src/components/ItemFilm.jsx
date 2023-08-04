@@ -24,7 +24,7 @@ const Film = ({ route, navigation }) => {
     return genre ? genre.type : '';
   };
 
-  const handleMenuClick = (menu) => {
+  const ToggleBarBottom = (menu) => {
     setSelectedMenu(menu);
     if (selectedMenu === 'comments') {
       getAllcomments(item.id);
@@ -58,7 +58,7 @@ const Film = ({ route, navigation }) => {
         />
 
       </View>
-      <TouchableOpacity style={styles.btnAdd} onPress={()=>AlertAdd()}>
+      <TouchableOpacity onPress={()=>AlertAdd()} style={styles.btnAdd}>
         <Ionicons name="add-circle" color={'white'} size={40} />
       </TouchableOpacity>
       <View style={styles.body}>
@@ -89,13 +89,13 @@ const Film = ({ route, navigation }) => {
         <Actors actors={actors} />
       </View>
       <View style={styles.barMenu}>
-        <TouchableOpacity onPress={() => handleMenuClick('trailers')}>
+        <TouchableOpacity onPress={() => ToggleBarBottom('trailers')}>
           <Text style={[styles.titleMenuBar, selectedMenu === 'trailers' && styles.highlightedMenu]}>Trailers</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => handleMenuClick('more')}>
+        <TouchableOpacity onPress={() => ToggleBarBottom('more')}>
           <Text style={[styles.titleMenuBar, selectedMenu === 'more' && styles.highlightedMenu]}>More Like This</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => handleMenuClick('comments')}>
+        <TouchableOpacity onPress={() => ToggleBarBottom('comments')}>
           <Text style={[styles.titleMenuBar, selectedMenu === 'comments' && styles.highlightedMenu]}>Comments</Text>
         </TouchableOpacity>
       </View>

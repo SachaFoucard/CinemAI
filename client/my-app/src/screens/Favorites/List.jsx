@@ -1,38 +1,55 @@
-import { View, Text, StyleSheet, FlatList, TouchableOpacity, Image } from 'react-native';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, Image, Alert } from 'react-native';
 import React, { useContext, useEffect } from 'react';
 import { UserContext } from '../../context/UserContext';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
 const List = ({ navigation }) => {
-  const { listFavs, getFavoritesList, removeFilmFromFavorites, mail,userId } = useContext(UserContext);
+  const { listFavs, getFavoritesList, removeFilmFromFavorites, mail, userId } = useContext(UserContext);
 
 
-  
+
   useEffect(() => {
     getFavoritesList(mail);
-  }, [mail, listFavs.length]);
+  }, [mail, listFavs.length, listFavs]);
 
-
+  const AlertRemoveFilm = (item) => {
+    Alert.alert('Are you sure ?', 'To remove the film from your playlist ', [
+      {
+        text: 'NO',
+        onPress: () => console.log('No Pressed'),
+        style: 'cancel',
+      },
+      { text: 'YES', onPress: () => removeFilmFromFavorites(userId, item.id) },
+    ]);
+  }
 
   return (
     <View style={styles.container}>
-      <FlatList
-        style={styles.flatlist}
-        keyExtractor={(item) => item.id.toString()}
-        data={listFavs}
-        renderItem={({ item }) => (
-          <TouchableOpacity style={styles.itemContainer}>
-            <Image source={{ uri: `https://image.tmdb.org/t/p/original/${item?.backdrop_path}` }} style={styles.img} />
-            <View style={styles.fontGrade}>
-              <Text style={styles.grade}>{item.vote_average}</Text>
-            </View>
-            <TouchableOpacity onPress={() => removeFilmFromFavorites(userId,item.id)} style={styles.removeButton}>
-              <Ionicons name="remove-outline" size={30} color="red" />
+      {
+        listFavs.length > 0 ? <FlatList
+          style={styles.flatlist}
+          keyExtractor={(item) => item.original_title}
+          data={listFavs}
+          renderItem={({ item }) => (
+            <TouchableOpacity style={styles.itemContainer}>
+              <Image source={{ uri: `https://image.tmdb.org/t/p/original/${item?.backdrop_path}` }} style={styles.img} />
+              <View style={styles.fontGrade}>
+                <Text style={styles.grade}>{item.vote_average}</Text>
+              </View>
+              <TouchableOpacity onPress={() => AlertRemoveFilm(item)} style={styles.removeButton}>
+                <Ionicons name="trash-outline" size={30} color="red" />
+              </TouchableOpacity>
             </TouchableOpacity>
-          </TouchableOpacity>
-        )}
-        numColumns={1}
-      />
+          )}
+          numColumns={1}
+        />
+          : <View style={styles.emptyMess}>
+            <Text style={styles.wht}>PlayList Empty</Text>
+            <TouchableOpacity style={styles.iconAdd} onPress={()=>navigation.navigate('Home')}>
+              <Ionicons name="add-outline" size={30} color="red" />
+            </TouchableOpacity>
+          </View>}
+
     </View>
   );
 };
@@ -50,6 +67,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginVertical: 10,
   },
+  wht: {
+    color: 'white',
+    fontSize: 30,
+  },
+  emptyMess: {
+    position: 'absolute',
+    top: '50%',
+    left: '25%',
+  },
   fontGrade: {
     position: 'absolute',
     left: '15%',
@@ -62,7 +88,7 @@ const styles = StyleSheet.create({
   },
   img: {
     width: 180,
-    height: 250,
+    height: 200,
     borderRadius: 20,
     marginLeft: 15,
   },
@@ -75,6 +101,13 @@ const styles = StyleSheet.create({
     top: '6%',
     right: '6%',
   },
+  iconAdd: {
+    backgroundColor: 'white',
+    padding: 10,
+    borderWidth: 5,
+    borderRadius: 20,
+    alignItems: 'center'
+  }
 });
 
 export default List;

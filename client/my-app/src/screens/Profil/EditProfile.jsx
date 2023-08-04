@@ -14,7 +14,7 @@ export default function EditProfile({ navigation }) {
   }, [])
 
   return (
-    <ScrollView style={styles.container}>
+    <View style={styles.container}>
       <TouchableOpacity style={styles.header} onPress={() => navigation.navigate('TabMenu')}>
         <Ionicons style={styles.icon} name="chevron-back-outline" />
         <Text style={styles.title}>Help Center</Text>
@@ -70,7 +70,7 @@ export default function EditProfile({ navigation }) {
       <TouchableOpacity style={styles.saveButton} onPress={() => SaveEditProfile(navigation)}>
         <Text style={styles.saveButtonText}>Save</Text>
       </TouchableOpacity>
-    </ScrollView>
+    </View>
   )
 }
 
@@ -79,6 +79,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#181A21',
   },
+
   label: {
     color: 'white',
     fontSize: 16,
@@ -87,13 +88,12 @@ const styles = StyleSheet.create({
   input: {
     borderRadius: 5,
     padding: 12,
-    marginBottom: 25,
     backgroundColor: "#2D353A",
     color: "white",
     borderRadius: 12,
   },
   inputContainer: {
-    paddingTop: 12,
+
   },
   header: {
     flexDirection: 'row',
@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
   },
   userDisplay: {
     alignItems: 'center',
-    marginTop: 5,
+
   },
   text: {
     color: 'white',

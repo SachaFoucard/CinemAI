@@ -41,16 +41,13 @@ const Explore = ({ navigation }) => {
     );
   }
 
-  {
-    console.log("genreFav", genreFav);
-  }
 
   return (
     <View style={styles.container}>
       {filmsAboutGenre ? <View><Text style={styles.title}>Explore More...</Text>
         <FlatList
           style={styles.flatlist}
-          keyExtractor={(item) => item.id.toString()}
+          keyExtractor={(item) => item.id}
           horizontal={false}
           data={filmsAboutGenre} // Use the filtered films here
           renderItem={({ item }) => (
