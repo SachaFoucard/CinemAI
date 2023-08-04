@@ -9,11 +9,11 @@ const AddComment = ({ idFilm }) => {
   const [date, setDate] = useState(new Date());
   const [text, setText] = useState("");
 
-  const [comments, setcomment] = useState({
+  const [comments, setcomment] = useState([{
     username: mail,
     text: text,
     date: date
-  });
+  }]);
 
   useEffect(()=>{
 
@@ -25,11 +25,14 @@ const AddComment = ({ idFilm }) => {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ idFilm: idFilm, comments:[{comments}] })
+      body: JSON.stringify({ idFilm: idFilm, comments:[comments] })
     });
-    if (data.status === 201) {
+    if (data.status == 201) {
       alert('Comment posted');
       setText(""); // Clear the input field
+    }
+    else {
+      alert('wrong')
     }
   };
 {
