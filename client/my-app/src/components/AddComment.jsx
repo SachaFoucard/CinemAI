@@ -22,7 +22,7 @@ const AddComment = ({ idFilm }) => {
       text: text,
       date: date,
     };
-  
+
     const data = await fetch('https://cinemai.onrender.com/api/comments/postComment', {
       method: 'POST',
       headers: {
@@ -30,11 +30,10 @@ const AddComment = ({ idFilm }) => {
       },
       body: JSON.stringify({ idFilm: idFilmString, comments: newComment }),
     });
-  
     if (data.status === 201) {
       alert('Comment posted');
     } else {
-      alert(data.status);
+      alert(typeof(idFilm));
     }
   };
   
