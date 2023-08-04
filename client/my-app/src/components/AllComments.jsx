@@ -29,7 +29,7 @@ const AllComments = ({ route, navigation }) => {
               </View>
               <FlatList
                 style={styles.flatlist}
-                data={allcomments}
+                data={allcomments.reverse()}
                 keyExtractor={(item, index) => index.toString()} // Use index.toString() to generate unique keys
                 renderItem={({ item }) => (
                   <Comment username={item.username} text={item.text} date={item.date} style={styles.txt} />

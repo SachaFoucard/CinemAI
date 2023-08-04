@@ -4,20 +4,21 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { UserContext } from '../context/UserContext';
 
 const AddComment = ({ idFilm }) => {
-  const { mail,allcomments } = useContext(UserContext);
+  const { mail, allcomments } = useContext(UserContext);
 
   const [date, setDate] = useState(new Date());
   const [text, setText] = useState("");
 
-  const [comments, setcomment] = useState([{
+  const [comments, setcomment] = useState({
     username: mail,
     text: text,
     date: date
-  }]);
+  });
+  
+  useEffect(() => {
 
-  useEffect(()=>{
-
-  },[allcomments.length,allcomments])
+  }, [allcomments.length, allcomments])
+  
 
   const PostComment = async () => {
     const data = await fetch('https://cinemai.onrender.com/api/comments/postComment', {
@@ -25,19 +26,18 @@ const AddComment = ({ idFilm }) => {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ idFilm: idFilm, comments:[comments] })
+      body: JSON.stringify({ idFilm: idFilm, comments: comments })
     });
     if (data.status == 201) {
       alert('Comment posted');
-      setText(""); // Clear the input field
     }
     else {
-      alert('wrong')
+      alert(data.status)
     }
   };
-{
-  console.log(idFilm);
-}
+  {
+    console.log(idFilm);
+  }
   return (
     <View style={styles.container}>
       <TextInput
