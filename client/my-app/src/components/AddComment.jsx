@@ -16,24 +16,29 @@ const AddComment = ({ idFilm }) => {
 
   const PostComment = async () => {
     const idFilmString = String(idFilm); // Convert idFilm to a string
-
+  
     const newComment = {
       username: mail,
       text: text,
       date: date,
     };
-
+  
+    const comments = {
+      comments: [newComment], // Wrap the newComment in an array
+    };
+  
     const data = await fetch('https://cinemai.onrender.com/api/comments/postComment', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ idFilm: idFilmString, comments: newComment }),
+      body: JSON.stringify(comments,{idFilmString}), 
     });
+  
     if (data.status === 201) {
       alert('Comment posted');
     } else {
-      alert(typeof(idFilm));
+      console.log('wrong');
     }
   };
   
