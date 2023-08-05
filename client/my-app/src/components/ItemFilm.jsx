@@ -41,7 +41,9 @@ const Film = ({ route, navigation }) => {
       {text: 'YES', onPress: () => AddFilm(userId,item)},
     ]);
   }
-
+  {
+    console.log("LastComment",LastComment);
+  }
   return (
     <ScrollView style={styles.container}>
       <View style={styles.headerImage}>
@@ -111,21 +113,21 @@ const Film = ({ route, navigation }) => {
           <Text style={styles.menuContent}>More Like This content goes here</Text>
         </View>
       )}
-      {selectedMenu === 'comments' && (
+       {selectedMenu === 'comments' && (
         <View>
           <TouchableOpacity>
             <Text style={styles.all} onPress={() => navigation.navigate('allcomments', { itemId: item.id })}>See all</Text>
           </TouchableOpacity>
           {
-            !LastComment ? <Text style={styles.txt}> 0 comments</Text> :
+            !LastComment || !Array.isArray(LastComment) ? <Text style={styles.txt}> 0 comments</Text> :
               <View style={styles.comments}>
                 <View style={styles.headerBar}>
                   <Text style={styles.nbrscomm}>{LastComment.length} Comments</Text>
                 </View>
                 <FlatList
                   style={styles.flatlist}
-                  data={LastComment}
-                  keyExtractor={(item, index) => index} // Assuming the item object has a unique 'id' property
+                  data={LastComment.reverse()}
+                  keyExtractor={(item, index) => index.toString()} // Change keyExtractor to use index.toString()
                   renderItem={({ item }) => (
                     <Comment username={item.username} text={item.text} date={item.date} style={styles.txt} />
                   )}

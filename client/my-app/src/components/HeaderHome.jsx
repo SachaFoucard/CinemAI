@@ -20,8 +20,9 @@ const HeaderHome = ({ film,navigation }) => {
         ))}
       </Text>
       <View style={styles.rowBts}>
-        <TouchableOpacity style={styles.btnPlay}>
-          <Text style={styles.text}><Ionicons style={styles.icon} name="play-circle" /> Play</Text>
+        <TouchableOpacity style={styles.btnPlay} onPress={()=>navigation.navigate('Trailer',{name:film[index]})}>
+          <Text style={styles.text}>
+            <Ionicons style={styles.icon} name="play-circle" /> Play</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.btnMylist}>
           <Text style={styles.text}>+ My List</Text>
@@ -29,8 +30,6 @@ const HeaderHome = ({ film,navigation }) => {
       </View>
     </TouchableOpacity>
   );
-
-
 
   //function to transform the number reference id into the type (horror,comedy)
   const getGenreName = (id) => {

@@ -1,0 +1,22 @@
+[
+    {
+        "id": 1,
+        "text": "Salutations, I am a virtual AI designed to assist you in making informed decisions regarding your choice of films. May I inquire about the specific genre of film you are currently seeking?"
+    },
+    {
+        "id":2,
+        "text":"Ok.. I think that I'm understing which type of film do you need"
+    },
+    {
+        "id":3,
+        "text":"If the film not correspond to what you wanted you can write me for exemple if you want it more comic or more fancy"
+    },
+    {
+        "id":4,
+        "text":"okay wait... I'm searching in my database if there is a film which corresponds more to your needs"
+    },
+    {
+        "id":5,
+        "text":"What about it ? "
+    }
+]

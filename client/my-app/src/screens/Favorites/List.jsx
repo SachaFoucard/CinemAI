@@ -26,26 +26,32 @@ const List = ({ navigation }) => {
   return (
     <View style={styles.container}>
       {
-        listFavs.length > 0 ? <FlatList
-          style={styles.flatlist}
-          keyExtractor={(item) => item.original_title}
-          data={listFavs}
-          renderItem={({ item }) => (
-            <TouchableOpacity style={styles.itemContainer}>
-              <Image source={{ uri: `https://image.tmdb.org/t/p/original/${item?.backdrop_path}` }} style={styles.img} />
-              <View style={styles.fontGrade}>
-                <Text style={styles.grade}>{item.vote_average}</Text>
-              </View>
-              <TouchableOpacity onPress={() => AlertRemoveFilm(item)} style={styles.removeButton}>
-                <Ionicons name="trash-outline" size={30} color="red" />
-              </TouchableOpacity>
-            </TouchableOpacity>
-          )}
-          numColumns={1}
-        />
+        listFavs.length > 0 ?
+          <View>
+            <View style={styles.ttleHEADR}>
+              <Ionicons name='film-outline' size={50} color='white'/>
+            </View>
+            <FlatList
+              style={styles.flatlist}
+              keyExtractor={(item) => item.original_title}
+              data={listFavs}
+              renderItem={({ item }) => (
+                <TouchableOpacity style={styles.itemContainer}>
+                  <Image source={{ uri: `https://image.tmdb.org/t/p/original/${item?.backdrop_path}` }} style={styles.img} />
+                  <View style={styles.fontGrade}>
+                    <Text style={styles.grade}>{item.vote_average}</Text>
+                  </View>
+                  <TouchableOpacity onPress={() => AlertRemoveFilm(item)} style={styles.removeButton}>
+                    <Ionicons name="trash-outline" size={30} color="red" />
+                  </TouchableOpacity>
+                </TouchableOpacity>
+              )}
+              numColumns={1}
+            />
+          </View>
           : <View style={styles.emptyMess}>
             <Text style={styles.wht}>PlayList Empty</Text>
-            <TouchableOpacity style={styles.iconAdd} onPress={()=>navigation.navigate('Home')}>
+            <TouchableOpacity style={styles.iconAdd} onPress={() => navigation.navigate('Home')}>
               <Ionicons name="add-outline" size={30} color="red" />
             </TouchableOpacity>
           </View>}
@@ -58,9 +64,19 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#181A21',
+    paddingBottom:150
+  },
+  ttleHEADR:{
+    flexDirection:'row',
+    paddingTop:30,
+    justifyContent:'center',
+    margin:30
   },
   flatlist: {
-    marginTop: 20,
+  },
+  ttleList: {
+    fontSize: 30,
+    color: 'red'
   },
   itemContainer: {
     flexDirection: 'row',
@@ -78,8 +94,8 @@ const styles = StyleSheet.create({
   },
   fontGrade: {
     position: 'absolute',
-    left: '15%',
-    top: '6%',
+    left: '42%',
+    top:'0%',
     padding: 7,
     paddingLeft: 10,
     paddingRight: 10,
@@ -98,8 +114,8 @@ const styles = StyleSheet.create({
   },
   removeButton: {
     position: 'absolute',
-    top: '6%',
-    right: '6%',
+    top: '30%',
+    right: '20%',
   },
   iconAdd: {
     backgroundColor: 'white',

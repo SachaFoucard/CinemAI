@@ -6,7 +6,7 @@ import { UserContext } from '../context/UserContext';
 const AddComment = ({ idFilm }) => {
   const { mail, allcomments } = useContext(UserContext);
 
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(new Date().toISOString().split('T')[0]); // take only the good part date
   const [text, setText] = useState("");
 
   const inputRef = useRef(null); // Create a ref for the input

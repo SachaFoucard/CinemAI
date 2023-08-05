@@ -21,7 +21,7 @@ const AllComments = ({ route, navigation }) => {
     >
       <View style={styles.container}>
         {
-          !allcomments ? <Text style={styles.txt}> 0 comments</Text> :
+          !allcomments || !Array.isArray(allcomments)?  <Text style={styles.txt}> 0 comments</Text> :
             <View style={styles.comments}>
               <View style={styles.headerBar}>
                 <Ionicons name='arrow-back-outline' color='white' size={40} style={styles.icon} onPress={() => navigation.goBack()} />
@@ -29,7 +29,7 @@ const AllComments = ({ route, navigation }) => {
               </View>
               <FlatList
                 style={styles.flatlist}
-                data={allcomments}
+                data={allcomments.reverse()}
                 keyExtractor={(item, index) => index.toString()} // Use index.toString() to generate unique keys
                 renderItem={({ item }) => (
                   <Comment username={item.username} text={item.text} date={item.date} style={styles.txt} />
@@ -52,20 +52,20 @@ const styles = StyleSheet.create({
   },
   txt: {
     color: 'white',
-    fontSize: 30
+    fontSize: 30,
+    marginTop:40,
+    marginLeft:30
   },
   flatlist: {
     flexDirection: 'column'
   },
   comments: {
-    marginTop: 100,
+    marginTop: 50,
     flex: 1, // Make the comments section take the available space
   },
   headerBar: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 10,
-    padding: 10,
   },
   nbrscomm: {
     fontSize: 25,

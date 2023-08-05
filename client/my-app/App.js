@@ -24,6 +24,7 @@ import ItemFilm from './src/components/ItemFilm';
 import Category from './src/components/Category';
 import AllComments from './src/components/AllComments';
 import HeaderHome from './src/components/HeaderHome';
+import Trailer from './src/components/Trailer';
 
 const Stack = createNativeStackNavigator();
 
@@ -60,6 +61,7 @@ function OnBoarding() {
         <Stack.Screen name="Category" component={Category} />
         <Stack.Screen name="allcomments" component={AllComments} />
         <Stack.Screen name="HeaderHome" component={HeaderHome}/>
+        <Stack.Screen name="Trailer" component={Trailer}/>
 
       </Stack.Navigator>
     </>

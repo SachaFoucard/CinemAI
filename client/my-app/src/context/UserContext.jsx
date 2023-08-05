@@ -349,20 +349,31 @@ const UserContextProvider = ({ children }) => {
 
     //state just first comment for the itemfil component
     const [LastComment, setLastComment] = useState([]);
-
     const getAllcomments = async (itemId) => {
-        let data = await fetch(`https://cinemai.onrender.com/api/comments/allcomments/${itemId}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
+        try {
+            let data = await fetch(`https://cinemai.onrender.com/api/comments/allcomments/${itemId}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            let response = await data.json();
+            setAllcomments(response);
+    
+            // Check if the response is not empty before using .slice()
+            if (response.length > 0) {
+                // Slice the first two elements of the response array
+                let firstTwoComments = response.slice(0, 2);
+                setLastComment(firstTwoComments);
+            } else {
+                setLastComment([]); // Set an empty array if there are no comments
             }
-        });
-        let response = await data.json();
-        setAllcomments(response);
-        if (response.status === 200) {
-            setLastComment(response.slice(0, 2));
+        } catch (error) {
+            console.error('Error fetching comments:', error);
         }
     };
+    
+    
 
 
     //state favorites list films
