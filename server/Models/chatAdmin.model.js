@@ -19,6 +19,7 @@ class adminChatModel {
 
         if (userComplaint) {
             userComplaint.chat.push(...chat)
+            userComplaint.fromUser.push(...fromUser)
             await new DB().UpdateById('chatAdmin', userComplaint._id, userComplaint)
             return userComplaint;
         }

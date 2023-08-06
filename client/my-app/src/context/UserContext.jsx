@@ -10,6 +10,7 @@ const UserContextProvider = ({ children }) => {
 
     // chat text for reading and showing user
     const [chat,SetChat] = useState()
+    const [FromUser,SetFromUser] = useState()
     
 
     // states All Screens details of the user 
@@ -453,8 +454,8 @@ const UserContextProvider = ({ children }) => {
           if (response.ok) {
             let data = await response.json(); // Parse the response data as JSON
             alert('got the chat', data);
-            console.log(data);
-            SetChat(data)
+            SetChat(data.chat)
+            SetFromUser(data.fromUser)
             return await data.chat,data.fromUser;
           } else {
             alert('did not work');
@@ -475,7 +476,7 @@ const UserContextProvider = ({ children }) => {
 
 
 
-    const value = { SetGenreFav, genreFav, mail, password, setmail, setpassword, Register, SetUpGenre, Delay3s, setFullName, setPhone, setGender, setCountry, setImage, image, country, gender, phone, fullName, SaveInformationSetUp, Login, popularF, Popular, LoadingCircle, setloading, loading, TopRated, topRatedF, UpComing, UpComingF, mail, AllFilmType, setTypePage2, TypePage2, GetGenreofUser, checkFirstTime, highlighted, setHighlighted, handlePress, modalVisible, setModalVisible, handleLogout, handleConfirmLogout, handleCancelLogout, GetActorsAboutFilm, actors, setActors, SaveEditProfile, fullName, handleGenreSelection, pushed, getAllcomments, LastComment, allcomments, setLastComment, explorefilms, getStockage30Films, listFavs, getFavoritesList, AddFilm, userId,removeFilmFromFavorites,GetChatForUser,chat,SetChat }
+    const value = { SetGenreFav, genreFav, mail, password, setmail, setpassword, Register, SetUpGenre, Delay3s, setFullName, setPhone, setGender, setCountry, setImage, image, country, gender, phone, fullName, SaveInformationSetUp, Login, popularF, Popular, LoadingCircle, setloading, loading, TopRated, topRatedF, UpComing, UpComingF, mail, AllFilmType, setTypePage2, TypePage2, GetGenreofUser, checkFirstTime, highlighted, setHighlighted, handlePress, modalVisible, setModalVisible, handleLogout, handleConfirmLogout, handleCancelLogout, GetActorsAboutFilm, actors, setActors, SaveEditProfile, fullName, handleGenreSelection, pushed, getAllcomments, LastComment, allcomments, setLastComment, explorefilms, getStockage30Films, listFavs, getFavoritesList, AddFilm, userId,removeFilmFromFavorites,GetChatForUser,chat,SetChat,FromUser,SetFromUser }
     return (
         <>
             <UserContext.Provider value={value}>

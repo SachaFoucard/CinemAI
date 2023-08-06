@@ -1,27 +1,35 @@
-import { View, Text,ScrollView,StyleSheet,TextInput } from 'react-native'
+import { View, Text,ScrollView,StyleSheet,TextInput,FlatList } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import { UserContext } from '../../context/UserContext'
+import ShowChatLog from '../../components/ShowChatLog'
+
 
 export default function ChatAdmin() {
 
-    const {GetChatForUser,mail,chat,SetChat} = useContext(UserContext)
-  
+    const {GetChatForUser,mail,chat,SetChat,FromUser,SetFromUser} = useContext(UserContext)
+    
 
    
     useEffect(() => { GetChatForUser(mail)}, [])
-  
-    console.log(chat, "its here");
+    
+
 
   return (
-    <ScrollView style={styles.container}>
-        <Text>ya</Text>
+    <View style={styles.container}>
 
+        <FlatList
+        data={chat}
+        renderItem={({item,index}) => <ShowChatLog chat={item}  FromUser={FromUser} index={index} />}
+        keyExtractor={(item, index) => index.toString()}
+      
+        
+      />
 
         <View style={styles.inputContainer}>
         <TextInput style={styles.input} placeholder="Type your message here" />
         </View>
 
-    </ScrollView>
+        </View>
   )
 }
 
