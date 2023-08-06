@@ -33,9 +33,9 @@ const Profil = ({navigation}) => {
           <Text style={styles.textOption}>Notification</Text>
           <Ionicons style={styles.icon} name="chevron-forward-outline" />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.options}>
+        <TouchableOpacity style={styles.options} onPress={()=>navigation.navigate('ChatAdmin')}>
           <Ionicons style={styles.icon} name="download-outline" />
-          <Text style={styles.textOption}>Download</Text>
+          <Text style={styles.textOption}>admin chat</Text>
           <Ionicons style={styles.icon} name="chevron-forward-outline" />
         </TouchableOpacity>
         <TouchableOpacity style={styles.options}>
