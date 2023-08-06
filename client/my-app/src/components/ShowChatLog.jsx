@@ -1,14 +1,25 @@
-import { View, Text,StyleSheet } from 'react-native'
-import React from 'react'
+import { View, Text,StyleSheet,FlatList } from 'react-native'
+import React, { useContext,useEffect } from 'react'
+import { UserContext } from '../context/UserContext';
 
-export default function ShowChatLog({chat,FromUser,index}) {
-    console.log(FromUser,"yey");
+export default function ShowChatLog({chat}) {
+    const {FromUser,SetFromUser} = useContext(UserContext)
     console.log(FromUser);
-    console.log(index);
+    console.log(chat);
+
   return (
-    <View style={[styles.container, FromUser[index]? styles.fromUser : styles.fromOthers]}>
-    <Text style={styles.messageText}>{chat}</Text>
-  </View>
+    <>
+    {
+        <FlatList
+          data={FromUser}
+          renderItem={({item,index}) => <View  style={[item ? styles.fromUser : styles.fromOthers]}>
+          <Text style={styles.messageText}>{chat[index]}</Text>
+        </View>}
+          keyExtractor={(item, index) => index.toString()}
+        />
+
+    }
+    </>
   )
 }
 
@@ -31,8 +42,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'red',
       },
       messageText: {
-        width: 250,
-       
+        width: 250,    
         color: 'white', // Change the text color to black for better visibility
       },
 })

@@ -22,8 +22,4 @@ admingChatRoutes.post('/addchat', async (req, res) => {
   }
   )
 
-
-
-
-
   module.exports = admingChatRoutes

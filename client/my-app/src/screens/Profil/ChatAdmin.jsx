@@ -2,34 +2,26 @@ import { View, Text,ScrollView,StyleSheet,TextInput,FlatList } from 'react-nativ
 import React, { useContext, useEffect, useState } from 'react'
 import { UserContext } from '../../context/UserContext'
 import ShowChatLog from '../../components/ShowChatLog'
-
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 export default function ChatAdmin() {
-
-    const {GetChatForUser,mail,chat,SetChat,FromUser,SetFromUser} = useContext(UserContext)
-    
-
-   
-    useEffect(() => { GetChatForUser(mail)}, [])
-    
-
+    const {GetChatForUser,mail,chat,SetChat,FromUser,SetFromUser} = useContext(UserContext)  
+    useEffect(() => {GetChatForUser(mail) }, [])
 
   return (
     <View style={styles.container}>
-
-        <FlatList
-        data={chat}
-        renderItem={({item,index}) => <ShowChatLog chat={item}  FromUser={FromUser} index={index} />}
-        keyExtractor={(item, index) => index.toString()}
-      
-        
-      />
-
+       {/* { <FlatList
+          data={chat}
+          renderItem={({ item }) => <ShowChatLog chat={item}  />}
+          keyExtractor={(item, index) => index.toString()}
+        />} */}
+        <ShowChatLog chat={chat}  />
         <View style={styles.inputContainer}>
         <TextInput style={styles.input} placeholder="Type your message here" />
+        <Ionicons style={styles.icon} name="send-outline" />
         </View>
 
-        </View>
+    </View>
   )
 }
 
@@ -50,6 +42,10 @@ const styles = StyleSheet.create({
         paddingVertical: 5,
         borderTopWidth: 1,
         borderTopColor: '#ccc',
+      },
+      icon: {
+        fontSize: 30,
+        color: 'white',
       },
       input: {
         flex: 1,
