@@ -1,12 +1,16 @@
 import { View, Text,ScrollView,StyleSheet,TextInput } from 'react-native'
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { UserContext } from '../../context/UserContext'
 
 export default function ChatAdmin() {
 
-    const [GetChatForUser,mail] = useContext(UserContext)
-    let chatHistory = GetChatForUser(mail)
-    console.log(chatHistory);
+    const {GetChatForUser,mail,chat,SetChat} = useContext(UserContext)
+  
+
+   
+    useEffect(() => { GetChatForUser(mail)}, [])
+  
+    console.log(chat, "its here");
 
   return (
     <ScrollView style={styles.container}>
