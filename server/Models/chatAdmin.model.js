@@ -33,7 +33,7 @@ class adminChatModel {
         let query = { mail: mail };
         let userComplaint = await new DB().FindOne('chatAdmin', query);
         if (userComplaint) {
-            let info = {chat:userComplaint.chat,mail:userComplaint.mail}
+            let info = {chat:userComplaint.chat,mail:userComplaint.mail,fromUser: userComplaint.fromUser}
             return info;
         } else {
             throw new Error('chat not found'); // or handle the case where the film is not found

@@ -453,8 +453,8 @@ const UserContextProvider = ({ children }) => {
           if (response.ok) {
             let data = await response.json(); // Parse the response data as JSON
             alert('got the chat', data);
-            console.log(data.chat);
-            SetChat(data.chat)
+            console.log(data);
+            SetChat(data)
             return await data.chat,data.fromUser;
           } else {
             alert('did not work');
