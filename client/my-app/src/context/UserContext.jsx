@@ -454,8 +454,6 @@ const UserContextProvider = ({ children }) => {
           if (response.ok) {
             let data = await response.json(); // Parse the response data as JSON
             console.log("data",data);
-            SetChat(data.chat)
-            SetFromUser(data.fromUser)
             return await data.chat,data.fromUser;
           } else {
             return null; // Return null or throw an error to indicate failure
@@ -479,7 +477,7 @@ const UserContextProvider = ({ children }) => {
       
           if (response.ok) {
             let data = await response.json(); // Parse the response data as JSON
-            console.log("data",data);
+            console.log("dataaaaaaaaaaaaaaaaaaaaaa",data);
             SetChat(data.chat)
             SetFromUser(data.fromUser)
             return await data.chat,data.fromUser;

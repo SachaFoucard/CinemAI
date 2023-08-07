@@ -9,7 +9,7 @@ export default function ChatAdmin() {
     const [inputMessage, setInputMessage] = useState('');
     useEffect(() => {GetChatForUser(mail) }, [])
 
-    const handleSendMessage = () => {
+    const handleSendMessage = async () => {
       
           // Assuming you have a function to send the message to the backend
           // Here, you can implement the logic to send the message and update the chat
@@ -22,11 +22,11 @@ export default function ChatAdmin() {
           
     
           SetChat(newMessage); // Update the chat state with the new message
-          AddChatForUser(mail,chat,FromUser = true)
+          await AddChatForUser(mail,chat,true)
     
           // Clear the input field after sending the message
           setInputMessage(' added');
-          GetChatForUser(mail)
+          await GetChatForUser(mail)
       };
 
   return (
