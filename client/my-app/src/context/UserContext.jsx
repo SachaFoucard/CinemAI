@@ -467,11 +467,7 @@ const UserContextProvider = ({ children }) => {
         }
       };
 
-      const AddChatForUser = async (mail,newChat,fromUser) => {
-        console.log("11");
-        console.log("mail:",mail);
-        console.log("newChat:",newChat)
-        console.log("fromUser:",fromUser)
+      const AddChatForUser = async (mail,chat,fromUser) => {
         try {
             console.log("Before fetch...");
           let response = await fetch('https://cinemai.onrender.com/api/chat/addchat', {
@@ -479,7 +475,7 @@ const UserContextProvider = ({ children }) => {
             headers: {
               'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ mail:mail,chat:newChat,fromUser:fromUser})
+            body: JSON.stringify({mail:mail,chat:chat,fromUser:fromUser})
           });
           console.log("After fetch...");
           if (response.ok) {
