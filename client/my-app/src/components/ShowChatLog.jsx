@@ -36,13 +36,17 @@ const styles = StyleSheet.create({
       fromUser: {
         alignSelf: 'flex-end',
         backgroundColor: '#007AFF',
+        padding:5,
+        margin:5
       },
       fromOthers: {
         alignSelf: 'flex-start',
         backgroundColor: 'red',
+        padding:5,
+        margin:5
       },
       messageText: {
-        width: 250,    
+        width: "auto",    
         color: 'white', // Change the text color to black for better visibility
       },
 })

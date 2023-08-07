@@ -11,6 +11,9 @@ const UserContextProvider = ({ children }) => {
     // chat text for reading and showing user
     const [chat,SetChat] = useState()
     const [FromUser,SetFromUser] = useState()
+    const [allChatsAdmin,SetallChatsAdmin] = useState();
+    
+
     
 
     // states All Screens details of the user 
@@ -122,7 +125,16 @@ const UserContextProvider = ({ children }) => {
             const jsonResponse = await response.json();
             alert(`Happy to see you Back ${jsonResponse?.user?.mail} !`);
             setId(jsonResponse?.user?._id)
-            navigation.navigate('TabMenu');
+            console.log(mail);
+
+            console.log(mail.trim() =='Admin');
+            
+            if (mail == 'Admin') {
+                console.log("yes");
+                navigation.navigate('AdminTabMenu');
+            }else{
+                navigation.navigate('TabMenu');
+            }
             console.log();
         } else if (response.status === 402) {
             alert('fields empty');
@@ -468,6 +480,9 @@ const UserContextProvider = ({ children }) => {
       };
 
       const AddChatForUser = async (mail,chat,fromUser) => {
+        console.log("mail:",mail);
+        console.log("chat:",chat);
+        console.log("fromUser:",fromUser);
         try {
             console.log("Before fetch...");
           let response = await fetch('https://cinemai.onrender.com/api/chat/addchat', {
@@ -483,7 +498,32 @@ const UserContextProvider = ({ children }) => {
             console.log("dataaaaaaaaaaaaaaaaaaaaaa",data);
             return await data.chat,data.fromUser;
           } else {
-            console.log("the else");
+            return null; // Return null or throw an error to indicate failure
+          }
+        } catch (error) {
+          console.error('Error fetching chat:', error);
+          alert('An error occurred while fetching chat');
+          return null; // Return null or throw an error to indicate failure
+        }
+      };
+
+      const GetAllChatForAdmin = async () => {
+        try {
+            console.log("Before fetch...");
+          let response = await fetch('https://cinemai.onrender.com/api/chat/allchats', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({})
+          });
+          console.log("After fetch...");
+          if (response.ok) {
+            let data = await response.json(); // Parse the response data as JSON
+            console.log("data",data);
+            SetallChatsAdmin(data);
+            return "got all chats";
+          } else {
             return null; // Return null or throw an error to indicate failure
           }
         } catch (error) {
@@ -501,7 +541,7 @@ const UserContextProvider = ({ children }) => {
 
 
 
-    const value = { SetGenreFav, genreFav, mail, password, setmail, setpassword, Register, SetUpGenre, Delay3s, setFullName, setPhone, setGender, setCountry, setImage, image, country, gender, phone, fullName, SaveInformationSetUp, Login, popularF, Popular, LoadingCircle, setloading, loading, TopRated, topRatedF, UpComing, UpComingF, mail, AllFilmType, setTypePage2, TypePage2, GetGenreofUser, checkFirstTime, highlighted, setHighlighted, handlePress, modalVisible, setModalVisible, handleLogout, handleConfirmLogout, handleCancelLogout, GetActorsAboutFilm, actors, setActors, SaveEditProfile, fullName, handleGenreSelection, pushed, getAllcomments, LastComment, allcomments, setLastComment, explorefilms, getStockage30Films, listFavs, getFavoritesList, AddFilm, userId,removeFilmFromFavorites,GetChatForUser,AddChatForUser,chat,SetChat,FromUser,SetFromUser }
+    const value = { SetGenreFav, genreFav, mail, password, setmail, setpassword, Register, SetUpGenre, Delay3s, setFullName, setPhone, setGender, setCountry, setImage, image, country, gender, phone, fullName, SaveInformationSetUp, Login, popularF, Popular, LoadingCircle, setloading, loading, TopRated, topRatedF, UpComing, UpComingF, mail, AllFilmType, setTypePage2, TypePage2, GetGenreofUser, checkFirstTime, highlighted, setHighlighted, handlePress, modalVisible, setModalVisible, handleLogout, handleConfirmLogout, handleCancelLogout, GetActorsAboutFilm, actors, setActors, SaveEditProfile, fullName, handleGenreSelection, pushed, getAllcomments, LastComment, allcomments, setLastComment, explorefilms, getStockage30Films, listFavs, getFavoritesList, AddFilm, userId,removeFilmFromFavorites,GetChatForUser,AddChatForUser,GetAllChatForAdmin,chat,SetChat,FromUser,SetFromUser,allChatsAdmin,SetallChatsAdmin }
     return (
         <>
             <UserContext.Provider value={value}>

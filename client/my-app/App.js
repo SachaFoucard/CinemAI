@@ -26,6 +26,8 @@ import AllComments from './src/components/AllComments';
 import HeaderHome from './src/components/HeaderHome';
 import Trailer from './src/components/Trailer';
 import ChatAdmin from './src/screens/Profil/ChatAdmin';
+import UsersInfo from './src/screens/adminTabs/UsersInfo';
+import ChatWithUsers from './src/screens/adminTabs/ChatWithUsers';
 
 
 
@@ -42,6 +44,7 @@ export default function App() {
           <Stack.Navigator initialRouteName="OnBoardingScreens" screenOptions={{ headerShown: false }}>
             <Stack.Screen name="OnBoardingScreens" component={OnBoarding} />
             <Stack.Screen name="TabMenu" component={TabMenu} />
+            <Stack.Screen name="AdminTabMenu" component={AdminTabMenu} />
           </Stack.Navigator>
         </NavigationContainer>
       </UserContextProvider>
@@ -131,6 +134,41 @@ function TabMenu() {
           component={Profil}
           options={{ headerShown: false }} // Hide the header for the Profil screen
         />
+      </Tab.Navigator>
+    </>
+  );
+}
+
+
+function AdminTabMenu() {
+  return (
+    <>
+      <Tab.Navigator
+        screenOptions={({ route }) => ({
+          tabBarIcon: ({ focused, color, size }) => {
+            let iconName;
+
+            if (route.name === 'UsersInfo') { iconName = focused ? 'home' : 'home-outline'; }
+            else if (route.name === 'ChatWithUsers') { iconName = focused ? 'analytics-sharp' : 'analytics-outline'; }
+
+            return <Ionicons name={iconName} size={size} color={color} />;
+          },
+          tabBarActiveTintColor: '#E21121',
+          tabBarInactiveTintColor: 'gray',
+        })}
+        tabBarStyle={{ backgroundColor: '#181A21' }}
+      >
+        <Tab.Screen
+          name="UsersInfo"
+          component={UsersInfo}
+          options={{ headerShown: false }} // Hide the header for the Home screen
+        />
+        <Tab.Screen
+          name="ChatWithUsers"
+          component={ChatWithUsers}
+          options={{ headerShown: false }} // Hide the header for the Explore screen
+        />
+        
       </Tab.Navigator>
     </>
   );

@@ -5,14 +5,13 @@ import ShowChatLog from '../../components/ShowChatLog'
 import Ionicons from '@expo/vector-icons/Ionicons';
 
 export default function ChatAdmin() {
-    const {GetChatForUser,mail,chat,SetChat,FromUser,SetFromUser,AddChatForUser} = useContext(UserContext)  
+    const {GetChatForUser,mail,chat,SetChat,FromUser,SetFromUser,AddChatForUser,loading, setloading} = useContext(UserContext)  
     const [inputMessage, setInputMessage] = useState('');
-    const [loading, setLoading] = useState(true); // Add a loading state
-
+   
   useEffect(() => {
     const fetchChat = async () => {
       await GetChatForUser(mail);
-      setLoading(false); // Set loading to false after fetching the chat
+      setloading(false); // Set loading to false after fetching the chat
       console.log("FromUser in ChatAdmin",FromUser);
       console.log("chat in ChatAdmin",chat);
   
@@ -36,12 +35,12 @@ export default function ChatAdmin() {
           // Here, you can implement the logic to send the message and update the chat
           // For example:
           const chat = [inputMessage];
-          const fromUser = true;
+          const fromUser = [true];
           
           await AddChatForUser(mail,chat,fromUser)
     
           // Clear the input field after sending the message
-          setInputMessage('added');
+          setInputMessage('');
           await GetChatForUser(mail)
       };
 
@@ -85,6 +84,12 @@ const styles = StyleSheet.create({
         paddingVertical: 5,
         borderTopWidth: 1,
         borderTopColor: '#ccc',
+      },
+      loadingContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#181A21',
       },
       icon: {
         fontSize: 30,
