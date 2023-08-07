@@ -1,4 +1,4 @@
-import { View, Text,ScrollView,StyleSheet,TextInput,FlatList, TouchableOpacity } from 'react-native'
+import { View, Text,ScrollView,StyleSheet,TextInput,FlatList, TouchableOpacity,ActivityIndicator  } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import { UserContext } from '../../context/UserContext'
 import ShowChatLog from '../../components/ShowChatLog'
@@ -7,10 +7,31 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 export default function ChatAdmin() {
     const {GetChatForUser,mail,chat,SetChat,FromUser,SetFromUser,AddChatForUser} = useContext(UserContext)  
     const [inputMessage, setInputMessage] = useState('');
-    useEffect(() => {GetChatForUser(mail) }, [])
+    const [loading, setLoading] = useState(true); // Add a loading state
+
+  useEffect(() => {
+    const fetchChat = async () => {
+      await GetChatForUser(mail);
+      setLoading(false); // Set loading to false after fetching the chat
+      console.log("FromUser in ChatAdmin",FromUser);
+      console.log("chat in ChatAdmin",chat);
+  
+    };
+
+    fetchChat();
+  }, []);
+
+  if (loading) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="white" />
+      </View>
+    );
+  }
+    //useEffect(() => {GetChatForUser(mail) }, [])
 
     const handleSendMessage = async () => {
-      
+        console.log("handleSendMessage");
           // Assuming you have a function to send the message to the backend
           // Here, you can implement the logic to send the message and update the chat
           // For example:
@@ -20,9 +41,7 @@ export default function ChatAdmin() {
             mail:mail
           }
           
-    
-          SetChat(newMessage); // Update the chat state with the new message
-          await AddChatForUser(mail,chat,true)
+          await AddChatForUser(mail,newMessage,true)
     
           // Clear the input field after sending the message
           setInputMessage(' added');

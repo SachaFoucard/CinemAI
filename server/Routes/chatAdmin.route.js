@@ -3,8 +3,10 @@ const admingChatRoutes = require('express').Router()
 
 
 admingChatRoutes.post('/addchat', async (req, res) => {
-    let { mail, chat,fromUser } = req.body;
-    let text = await chatAdminModel.AddTochat(mail, chat,fromUser);
+    let {mail,chat,fromUser} = req.body;
+    console.log("1");
+    let text = await chatAdminModel.AddTochat(mail,chat,fromUser);
+    console.log("2");
     res.status(201).json(text)
   }
   )

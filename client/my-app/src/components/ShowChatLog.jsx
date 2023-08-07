@@ -4,8 +4,8 @@ import { UserContext } from '../context/UserContext';
 
 export default function ShowChatLog({chat}) {
     const {FromUser,SetFromUser} = useContext(UserContext)
-    console.log(FromUser);
-    console.log(chat);
+    console.log("FromUser in showchatlog",FromUser);
+    console.log("chat in showchatlog",chat);
 
   return (
     <>

@@ -454,6 +454,8 @@ const UserContextProvider = ({ children }) => {
           if (response.ok) {
             let data = await response.json(); // Parse the response data as JSON
             console.log("data",data);
+            SetChat(data.chat)
+            SetFromUser(data.fromUser)
             return await data.chat,data.fromUser;
           } else {
             return null; // Return null or throw an error to indicate failure
@@ -466,6 +468,7 @@ const UserContextProvider = ({ children }) => {
       };
 
       const AddChatForUser = async (mail,chat,fromUser) => {
+        console.log("boom");
         try {
           let response = await fetch('https://cinemai.onrender.com/api/chat/addchat', {
             method: 'POST',
@@ -482,6 +485,7 @@ const UserContextProvider = ({ children }) => {
             SetFromUser(data.fromUser)
             return await data.chat,data.fromUser;
           } else {
+            console.log("the else");
             return null; // Return null or throw an error to indicate failure
           }
         } catch (error) {
