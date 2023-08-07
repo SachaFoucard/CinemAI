@@ -35,14 +35,14 @@ export default function ChatAdmin() {
           // Assuming you have a function to send the message to the backend
           // Here, you can implement the logic to send the message and update the chat
           // For example:
-          const chat = inputMessage;
+          const chat = [inputMessage];
           const fromUser = true;
           
           await AddChatForUser(mail,chat,fromUser)
     
           // Clear the input field after sending the message
           setInputMessage('added');
-        //   await GetChatForUser(mail)
+          await GetChatForUser(mail)
       };
 
   return (

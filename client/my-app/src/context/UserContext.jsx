@@ -475,7 +475,7 @@ const UserContextProvider = ({ children }) => {
             headers: {
               'Content-Type': 'application/json'
             },
-            body: JSON.stringify({mail:mail,chat:chat,fromUser:fromUser})
+            body: JSON.stringify({ mail: mail,chat: chat,fromUser: fromUser })
           });
           console.log("After fetch...");
           if (response.ok) {
