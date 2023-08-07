@@ -515,7 +515,6 @@ const UserContextProvider = ({ children }) => {
             headers: {
               'Content-Type': 'application/json'
             },
-            body: JSON.stringify({})
           });
           console.log("After fetch...");
           if (response.ok) {

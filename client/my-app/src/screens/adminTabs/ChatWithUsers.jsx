@@ -38,4 +38,12 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#181A21',
     alignItems: 'center',
-  },})
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#181A21',
+  },
+
+})
