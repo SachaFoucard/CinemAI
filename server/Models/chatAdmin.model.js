@@ -14,12 +14,12 @@ class adminChatModel {
     }
     //add comment about one film
     static async AddTochat(mail,chat,fromUser) { 
-        console.log("3");
+        console.log(chat,"in chat");
         let query = { mail: mail };
         let userComplaint = await new DB().FindOne('chatAdmin', query);
 
         if (userComplaint) {
-            userComplaint.chat.push(...chat)
+            userComplaint.chat.push(chat)
             userComplaint.fromUser.push(...fromUser)
             await new DB().UpdateById('chatAdmin', userComplaint._id, userComplaint)
             return userComplaint;
