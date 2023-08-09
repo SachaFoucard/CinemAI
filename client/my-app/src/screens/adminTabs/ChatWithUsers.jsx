@@ -30,7 +30,7 @@ export default function ChatWithUsers({navigation}) {
 
   return (
     <View style={styles.container}>
-      <Text>ChatWithUsers</Text>
+     <Text style={styles.title}>Chats With Users</Text>
     
         {
         <FlatList
@@ -77,6 +77,12 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     borderTopWidth: 1,
     borderTopColor: '#ccc',
+  },
+  title: {
+    paddingTop:45,
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: 'white',
   },
 
 })

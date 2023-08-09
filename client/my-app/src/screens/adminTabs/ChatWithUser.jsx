@@ -9,14 +9,9 @@ export default function ChatWithUser({route,navigation}) {
     const { CurrentMail } = route.params;  
     useEffect(() => {
         const fetchChat = async () => {
-            console.log(CurrentMail,"is");
           await GetChatForUser(CurrentMail);
           setloading(false); // Set loading to false after fetching the chat
-          console.log("FromUser in ChatAdmin",FromUser);
-          console.log("chat in ChatAdmin",chat);
-      
-        };
-    
+        };   
         fetchChat();
       }, [CurrentMail]);
     
@@ -27,18 +22,14 @@ export default function ChatWithUser({route,navigation}) {
           </View>
         );
       }
-        //useEffect(() => {GetChatForUser(mail) }, [])
-    
         const handleSendMessage = async () => {
             console.log("handleSendMessage");
               // Assuming you have a function to send the message to the backend
               // Here, you can implement the logic to send the message and update the chat
-              // For example:
               const chat = [inputMessage];
               const fromUser = [false];
               
               await AddChatForUser(CurrentMail,chat,fromUser)
-        
               // Clear the input field after sending the message
               setInputMessage('');
               await GetChatForUser(CurrentMail)
@@ -47,19 +38,19 @@ export default function ChatWithUser({route,navigation}) {
       return (
         <View style={styles.container}>
              <TouchableOpacity style={styles.header} onPress={() => navigation.navigate('AdminTabMenu')}>
-             <Ionicons style={styles.icon} name="chevron-back-outline" />
-             <Text style={styles.title}>Chat With {CurrentMail}</Text>
+                <Ionicons style={styles.icon} name="chevron-back-outline" />
+                <Text style={styles.title}>Chat With {CurrentMail}</Text>
              </TouchableOpacity>
             <ShowChatLog chat={chat}  />
+
             <View style={styles.inputContainer}>
-            <TextInput style={styles.input}
-              placeholder="Type your message here"
-              value={inputMessage}
-              onChangeText={setInputMessage} />
-            <TouchableOpacity onPress={handleSendMessage}>
-    
-            <Ionicons style={styles.icon} name="send-outline" />
-            </TouchableOpacity>
+                <TextInput style={styles.input}
+                placeholder="Type your message here"
+                value={inputMessage}
+                onChangeText={setInputMessage} />
+                <TouchableOpacity onPress={handleSendMessage}>
+                    <Ionicons style={styles.icon} name="send-outline" />
+                </TouchableOpacity>
             </View>
     
         </View>

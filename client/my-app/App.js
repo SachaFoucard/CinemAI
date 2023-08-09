@@ -153,8 +153,8 @@ function AdminTabMenu() {
           tabBarIcon: ({ focused, color, size }) => {
             let iconName;
 
-            if (route.name === 'UsersInfo') { iconName = focused ? 'home' : 'home-outline'; }
-            else if (route.name === 'ChatWithUsers') { iconName = focused ? 'analytics-sharp' : 'analytics-outline'; }
+            if (route.name === 'UsersInfo') { iconName = focused ? 'person' : 'person-outline'; }
+            else if (route.name === 'ChatWithUsers') { iconName = focused ? 'chatbox' : 'chatbox-outline'; }
 
             return <Ionicons name={iconName} size={size} color={color} />;
           },
