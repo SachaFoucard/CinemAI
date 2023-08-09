@@ -77,7 +77,7 @@ function OnBoarding() {
         <Stack.Screen name="ShowAdminChats" component={ShowAdminChats}/>
         <Stack.Screen name="ChatWithUser" component={ChatWithUser}/>
 
-       
+        
         
 
       </Stack.Navigator>

@@ -545,6 +545,31 @@ const UserContextProvider = ({ children }) => {
         }
       };
 
+      const RemoveChat = async (mail) => {
+        try {
+            console.log("Before fetch...");
+          let response = await fetch('https://cinemai.onrender.com/api/chat/removeChat', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ mail: mail })
+          });
+          console.log("After fetch...");
+          if (response.ok) {
+            let data = await response.json(); // Parse the response data as JSON
+            console.log("data",data);
+            return data;
+          } else {
+            return null; // Return null or throw an error to indicate failure
+          }
+        } catch (error) {
+          console.error('Error removing chat:', error);
+          alert('An error occurred while fetching chat');
+          return null; // Return null or throw an error to indicate failure
+        }
+      };
+
 
     useEffect(() => {
         Popular()
@@ -553,7 +578,7 @@ const UserContextProvider = ({ children }) => {
 
 
 
-    const value = { SetGenreFav, genreFav, mail, password, setmail, setpassword, Register, SetUpGenre, Delay3s, setFullName, setPhone, setGender, setCountry, setImage, image, country, gender, phone, fullName, SaveInformationSetUp, Login, popularF, Popular, LoadingCircle, setloading, loading, TopRated, topRatedF, UpComing, UpComingF, mail, AllFilmType, setTypePage2, TypePage2, GetGenreofUser, checkFirstTime, highlighted, setHighlighted, handlePress, modalVisible, setModalVisible, handleLogout, handleConfirmLogout, handleCancelLogout, GetActorsAboutFilm, actors, setActors, SaveEditProfile, fullName, handleGenreSelection, pushed, getAllcomments, LastComment, allcomments, setLastComment, explorefilms, getStockage30Films, listFavs, getFavoritesList, AddFilm, userId,removeFilmFromFavorites,GetChatForUser,AddChatForUser,GetAllChatForAdmin,chat,SetChat,FromUser,SetFromUser,allChatsAdmin,SetallChatsAdmin,allMails,SetallMails ,inputMessage, setInputMessage }
+    const value = { SetGenreFav, genreFav, mail, password, setmail, setpassword, Register, SetUpGenre, Delay3s, setFullName, setPhone, setGender, setCountry, setImage, image, country, gender, phone, fullName, SaveInformationSetUp, Login, popularF, Popular, LoadingCircle, setloading, loading, TopRated, topRatedF, UpComing, UpComingF, mail, AllFilmType, setTypePage2, TypePage2, GetGenreofUser, checkFirstTime, highlighted, setHighlighted, handlePress, modalVisible, setModalVisible, handleLogout, handleConfirmLogout, handleCancelLogout, GetActorsAboutFilm, actors, setActors, SaveEditProfile, fullName, handleGenreSelection, pushed, getAllcomments, LastComment, allcomments, setLastComment, explorefilms, getStockage30Films, listFavs, getFavoritesList, AddFilm, userId,removeFilmFromFavorites,GetChatForUser,AddChatForUser,GetAllChatForAdmin,RemoveChat,chat,SetChat,FromUser,SetFromUser,allChatsAdmin,SetallChatsAdmin,allMails,SetallMails ,inputMessage, setInputMessage }
     return (
         <>
             <UserContext.Provider value={value}>

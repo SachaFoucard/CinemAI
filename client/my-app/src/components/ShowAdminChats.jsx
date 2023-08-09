@@ -5,13 +5,17 @@ import ShowChatLog from './ShowChatLog'
 import Ionicons from '@expo/vector-icons/Ionicons';
 
 export default function ShowAdminChats({mail,navigation}) {
-    
+    const {RemoveChat} = useContext(UserContext)
    console.log("This is cureent mail", mail);
   return (
     <View style={styles.container}>
         <TouchableOpacity style={styles.box} onPress={() => navigation.navigate('ChatWithUser',{CurrentMail:mail})}>
 
-            <Text >{mail}</Text>
+            <Text style={styles.mailText} >{mail}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => RemoveChat(mail)}>
+
+        <Ionicons style={styles.icon} name="close-outline" />
         </TouchableOpacity>
 
     </View>
@@ -24,12 +28,23 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         textAlign: 'center',
         color: 'white',
+        flexDirection:"row"
        
       },
       box:{
         color: "white",
-        borderRadius: 10,
+        backgroundColor: 'red', // Set the background color to red
+        borderRadius: 2,
+        width:75,
+        alignItems:"center",
 
       },
+      mailText:{
+        color:"white",
+      },
+      icon:{
+        color:"white",
+       fontSize: 50
+      }
    
 })

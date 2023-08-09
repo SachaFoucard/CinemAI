@@ -59,5 +59,16 @@ class DB {
             await this.client.close();
         }
     }
+
+    async RemoveOne(collection, query) {
+        try {
+          await this.client.connect();
+          return await this.client.db(this.db_name).collection(collection).deleteOne(query);
+        } catch (error) {
+          throw error;
+        } finally {
+          await this.client.close();
+        }
+      }
 }
 module.exports = DB

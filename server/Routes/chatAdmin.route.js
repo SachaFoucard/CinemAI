@@ -21,7 +21,20 @@ admingChatRoutes.post('/addchat', async (req, res) => {
   admingChatRoutes.post('/allchats', async (req, res) => {
     let text = await chatAdminModel.GetAllChats();
     res.status(201).json(text)
-  }
+  } 
+  )
+
+  admingChatRoutes.post('/removeChat', async (req, res) => {
+
+    let { mail } = req.body;
+    try {
+        const removedChat = await chatAdminModel.RemoveChat(mail);
+        res.status(201).json(removedChat)
+        
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+  } 
   )
 
   module.exports = admingChatRoutes

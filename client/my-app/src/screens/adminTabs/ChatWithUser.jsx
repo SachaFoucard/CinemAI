@@ -4,7 +4,7 @@ import { UserContext } from '../../context/UserContext'
 import ShowChatLog from '../../components/ShowChatLog'
 import Ionicons from '@expo/vector-icons/Ionicons';
 
-export default function ChatWithUser({route}) {
+export default function ChatWithUser({route,navigation}) {
     const {GetChatForUser,mail,chat,SetChat,FromUser,SetFromUser,AddChatForUser,loading, setloading,inputMessage, setInputMessage} = useContext(UserContext);
     const { CurrentMail } = route.params;  
     useEffect(() => {
@@ -46,6 +46,10 @@ export default function ChatWithUser({route}) {
     
       return (
         <View style={styles.container}>
+             <TouchableOpacity style={styles.header} onPress={() => navigation.navigate('AdminTabMenu')}>
+             <Ionicons style={styles.icon} name="chevron-back-outline" />
+             <Text style={styles.title}>Chat With {CurrentMail}</Text>
+             </TouchableOpacity>
             <ShowChatLog chat={chat}  />
             <View style={styles.inputContainer}>
             <TextInput style={styles.input}
@@ -94,4 +98,20 @@ export default function ChatWithUser({route}) {
           flex: 1,
           height: 40,
         },
+        header: {
+            flexDirection: 'row',
+            margin: 15,
+            fontSize: 24,
+            fontWeight: 'bold',
+            color: 'white',
+          },
+          icon: {
+            fontSize: 30,
+            color: 'white',
+          },
+          title: {
+            fontSize: 24,
+            fontWeight: 'bold',
+            color: 'white',
+          },
   })

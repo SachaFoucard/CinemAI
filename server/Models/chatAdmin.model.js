@@ -52,6 +52,17 @@ class adminChatModel {
             throw new Error('chat not found'); // or handle the case where the film is not found
         }
     }
+
+    static async RemoveChat(mail) {
+        let query = { mail: mail }; 
+        let userComplaint = await new DB().RemoveOne('chatAdmin',query);
+        console.log(userComplaint);
+        if (userComplaint.acknowledged) {
+            return "The chat has been deleted";
+        } else {
+            throw new Error('chat not found'); // or handle the case where the film is not found
+        }
+    }
 }
 
 module.exports = adminChatModel
