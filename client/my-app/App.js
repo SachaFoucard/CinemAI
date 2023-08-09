@@ -28,6 +28,8 @@ import Trailer from './src/components/Trailer';
 import ChatAdmin from './src/screens/Profil/ChatAdmin';
 import UsersInfo from './src/screens/adminTabs/UsersInfo';
 import ChatWithUsers from './src/screens/adminTabs/ChatWithUsers';
+import ShowAdminChats from './src/components/ShowAdminChats';
+import ChatWithUser from './src/screens/adminTabs/ChatWithUser';
 
 
 
@@ -72,6 +74,9 @@ function OnBoarding() {
         <Stack.Screen name="HeaderHome" component={HeaderHome}/>
         <Stack.Screen name="Trailer" component={Trailer}/>  
         <Stack.Screen name="ChatAdmin" component={ChatAdmin}/>
+        <Stack.Screen name="ShowAdminChats" component={ShowAdminChats}/>
+        <Stack.Screen name="ChatWithUser" component={ChatWithUser}/>
+
        
         
 

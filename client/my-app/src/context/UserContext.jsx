@@ -11,7 +11,13 @@ const UserContextProvider = ({ children }) => {
     // chat text for reading and showing user
     const [chat,SetChat] = useState()
     const [FromUser,SetFromUser] = useState()
+    //all data chat to show 
     const [allChatsAdmin,SetallChatsAdmin] = useState();
+    // all mails for admin to show 
+    const [allMails,SetallMails] = useState([]);
+    // all messages from input
+    const [inputMessage, setInputMessage] = useState('');
+
     
 
     
@@ -468,8 +474,8 @@ const UserContextProvider = ({ children }) => {
           if (response.ok) {
             let data = await response.json(); // Parse the response data as JSON
             console.log("data",data);
-            SetChat(data.chat)
-            SetFromUser(data.fromUser)
+            SetChat(data?.chat)
+            SetFromUser(data?.fromUser)
             return await data.chat,data.fromUser;
           } else {
             console.log("problem in GetChatForUser ");
@@ -523,8 +529,12 @@ const UserContextProvider = ({ children }) => {
           if (response.ok) {
             let data = await response.json(); // Parse the response data as JSON
             console.log("data",data);
-            SetallChatsAdmin(data);
-            return data;
+            const filteredData = data.map(({ _id, ...rest }) => rest);
+            console.log("filteredData:",filteredData);
+            SetallChatsAdmin(filteredData);
+            const filteredMail = data.map(item => item.mail);
+            SetallMails(filteredMail)
+            return filteredData;
           } else {
             return null; // Return null or throw an error to indicate failure
           }
@@ -543,7 +553,7 @@ const UserContextProvider = ({ children }) => {
 
 
 
-    const value = { SetGenreFav, genreFav, mail, password, setmail, setpassword, Register, SetUpGenre, Delay3s, setFullName, setPhone, setGender, setCountry, setImage, image, country, gender, phone, fullName, SaveInformationSetUp, Login, popularF, Popular, LoadingCircle, setloading, loading, TopRated, topRatedF, UpComing, UpComingF, mail, AllFilmType, setTypePage2, TypePage2, GetGenreofUser, checkFirstTime, highlighted, setHighlighted, handlePress, modalVisible, setModalVisible, handleLogout, handleConfirmLogout, handleCancelLogout, GetActorsAboutFilm, actors, setActors, SaveEditProfile, fullName, handleGenreSelection, pushed, getAllcomments, LastComment, allcomments, setLastComment, explorefilms, getStockage30Films, listFavs, getFavoritesList, AddFilm, userId,removeFilmFromFavorites,GetChatForUser,AddChatForUser,GetAllChatForAdmin,chat,SetChat,FromUser,SetFromUser,allChatsAdmin,SetallChatsAdmin }
+    const value = { SetGenreFav, genreFav, mail, password, setmail, setpassword, Register, SetUpGenre, Delay3s, setFullName, setPhone, setGender, setCountry, setImage, image, country, gender, phone, fullName, SaveInformationSetUp, Login, popularF, Popular, LoadingCircle, setloading, loading, TopRated, topRatedF, UpComing, UpComingF, mail, AllFilmType, setTypePage2, TypePage2, GetGenreofUser, checkFirstTime, highlighted, setHighlighted, handlePress, modalVisible, setModalVisible, handleLogout, handleConfirmLogout, handleCancelLogout, GetActorsAboutFilm, actors, setActors, SaveEditProfile, fullName, handleGenreSelection, pushed, getAllcomments, LastComment, allcomments, setLastComment, explorefilms, getStockage30Films, listFavs, getFavoritesList, AddFilm, userId,removeFilmFromFavorites,GetChatForUser,AddChatForUser,GetAllChatForAdmin,chat,SetChat,FromUser,SetFromUser,allChatsAdmin,SetallChatsAdmin,allMails,SetallMails ,inputMessage, setInputMessage }
     return (
         <>
             <UserContext.Provider value={value}>

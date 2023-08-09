@@ -5,8 +5,8 @@ import ShowChatLog from '../../components/ShowChatLog'
 import Ionicons from '@expo/vector-icons/Ionicons';
 
 export default function ChatAdmin() {
-    const {GetChatForUser,mail,chat,SetChat,FromUser,SetFromUser,AddChatForUser,loading, setloading} = useContext(UserContext)  
-    const [inputMessage, setInputMessage] = useState('');
+    const {GetChatForUser,mail,chat,SetChat,FromUser,SetFromUser,AddChatForUser,loading, setloading,inputMessage, setInputMessage} = useContext(UserContext)  
+
    
   useEffect(() => {
     const fetchChat = async () => {
@@ -46,11 +46,6 @@ export default function ChatAdmin() {
 
   return (
     <View style={styles.container}>
-       {/* { <FlatList
-          data={chat}
-          renderItem={({ item }) => <ShowChatLog chat={item}  />}
-          keyExtractor={(item, index) => index.toString()}
-        />} */}
         <ShowChatLog chat={chat}  />
         <View style={styles.inputContainer}>
         <TextInput style={styles.input}
