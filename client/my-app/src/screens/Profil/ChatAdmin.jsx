@@ -18,7 +18,7 @@ export default function ChatAdmin() {
     };
 
     fetchChat();
-  }, []);
+  }, [mail]);
 
   if (loading) {
     return (

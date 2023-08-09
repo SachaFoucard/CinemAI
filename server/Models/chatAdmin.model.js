@@ -36,6 +36,9 @@ class adminChatModel {
         if (userComplaint) {
             let info = {chat:userComplaint.chat,mail:userComplaint.mail,fromUser: userComplaint.fromUser}
             return info;
+        }
+        else if(!userComplaint){
+            return "new chat"
         } else {
             throw new Error('chat not found'); // or handle the case where the film is not found
         }

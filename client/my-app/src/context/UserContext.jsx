@@ -472,6 +472,7 @@ const UserContextProvider = ({ children }) => {
             SetFromUser(data.fromUser)
             return await data.chat,data.fromUser;
           } else {
+            console.log("problem in GetChatForUser ");
             return null; // Return null or throw an error to indicate failure
           }
         } catch (error) {
