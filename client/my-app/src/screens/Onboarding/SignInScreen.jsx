@@ -1,18 +1,24 @@
 import { View, StyleSheet, Image, TextInput, TouchableOpacity } from 'react-native';
 import { Text } from '@react-native-material/core';
 import { Stack } from "@react-native-material/core";
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { UserContext } from '../../context/UserContext';
+import { ActivityIndicator } from "@react-native-material/core";
 
 const SignInScreen = ({ navigation }) => {
 
-  const { Login, setmail, setpassword, mail, password,pushed} = useContext(UserContext);
+  const { Login, setmail, setpassword, mail, password, pushed, loadingResponse } = useContext(UserContext);
+
 
   return (
     <>
+
       <View style={styles.container} >
         <Image style={styles.img} source={require('../../../assets/SignUp/logo.png')} />
         <Text variant='h4' style={styles.text}>Login To Your Account</Text>
+        {loadingResponse ? (
+          <ActivityIndicator size="large" color="white" style={styles.load} />
+        ) : null}
         <Stack spacing={2} style={{ margin: 16 }}>
           <TextInput
             style={styles.input}
@@ -28,7 +34,7 @@ const SignInScreen = ({ navigation }) => {
             onChangeText={setpassword}
           />
         </Stack>
-        <TouchableOpacity style={[styles.button , pushed , mail && password && {backgroundColor : '#E21121' }]}
+        <TouchableOpacity style={[styles.button, pushed, mail && password && { backgroundColor: '#E21121' }]}
           onPress={() => Login(navigation, mail, password)}>
           <Text style={styles.buttonText}>Sign In</Text>
         </TouchableOpacity>
@@ -93,5 +99,13 @@ const styles = StyleSheet.create({
     color: '#E21121',
     fontSize: 19,
     marginLeft: 5
-  }
+  },
+ 
+  load: {
+    position: 'absolute',
+    top: '50%',   // Center vertically
+    left: '50%',  // Center horizontally
+    transform: [{ translateX: -25 }, { translateY: -25 }], // Adjust for indicator size
+    zIndex:1
+  },
 });

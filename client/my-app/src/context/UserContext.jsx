@@ -9,25 +9,24 @@ const UserContextProvider = ({ children }) => {
     const [genreFav, SetGenreFav] = useState([]);
 
     // chat text for reading and showing user
-    const [chat,SetChat] = useState()
-    const [FromUser,SetFromUser] = useState()
+    const [chat, SetChat] = useState()
+    const [FromUser, SetFromUser] = useState()
     //all data chat to show 
-    const [allChatsAdmin,SetallChatsAdmin] = useState();
+    const [allChatsAdmin, SetallChatsAdmin] = useState();
     // all mails for admin to show 
-    const [allMails,SetallMails] = useState([]);
+    const [allMails, SetallMails] = useState([]);
     // all messages from input
     const [inputMessage, setInputMessage] = useState('');
 
-    
 
-    
 
-    // states All Screens details of the user 
+
+    // states for All Screens (details of the user)
     const [mail, setmail] = useState();
     const [password, setpassword] = useState("");
     const [userId, setId] = useState('');
 
-    // states setUp Screens details of the user 
+    // states for SetUp Screens (details of the user)
     const [fullName, setFullName] = useState();
     const [phone, setPhone] = useState();
     const [gender, setGender] = useState('M');
@@ -44,7 +43,7 @@ const UserContextProvider = ({ children }) => {
     const [TypePage2, setTypePage2] = useState([]);
 
 
-    // Dinamic State Actors array is changing every time that ItemFilm is changing 
+    // dinamic state of Actors array is changing every time that ItemFilm is changing 
     const [actors, setActors] = useState([]);
 
     //set the highlite on the Help Center FAQ and CONTACT and show relevent text
@@ -52,8 +51,11 @@ const UserContextProvider = ({ children }) => {
     // make visible the relevent text in help center
     const [modalVisible, setModalVisible] = useState(false);
 
+
+    // stockage for a lot of films 
     const [explorefilms, setexploreFilms] = useState([]);
 
+    // function to get a lot of random films 
     const getStockage30Films = async () => {
         const options = {
             method: 'GET',
@@ -114,8 +116,12 @@ const UserContextProvider = ({ children }) => {
 
     // state to custome the login button 
     const [pushed, setPushed] = useState(false);
+
+    const [loadingResponse, setloadingResponse] = useState(null);
+
     // function to connect user
     const Login = async (navigation, mail, password) => {
+        setloadingResponse(true)
         setPushed(true);
         let response = await fetch('https://cinemai.onrender.com/api/login', {
             method: 'POST',
@@ -125,28 +131,21 @@ const UserContextProvider = ({ children }) => {
             body: JSON.stringify({ password: password, mail: mail })
         });
         if (response.status === 401) {
+            setloadingResponse(false)
             alert('Check your fields, user not found');
 
         } else if (response.status === 201) {
+            setloadingResponse(false)
             const jsonResponse = await response.json();
             alert(`Happy to see you Back ${jsonResponse?.user?.mail} !`);
             setId(jsonResponse?.user?._id)
-            console.log(mail);
-
-            console.log(mail.trim() =='Admin');
-            
-            if (mail == 'Admin') {
-                console.log("yes");
-                navigation.navigate('AdminTabMenu');
-            }else{
-                navigation.navigate('TabMenu');
-            }
-            console.log();
+            navigation.navigate('TabMenu');
         } else if (response.status === 402) {
+            setloadingResponse(false)
             alert('fields empty');
         }
-
     };
+
 
     //screen after Registration //function to save in database the genre films that the users like 
     const SetUpGenre = async (navigation) => {
@@ -382,7 +381,7 @@ const UserContextProvider = ({ children }) => {
             });
             let response = await data.json();
             setAllcomments(response);
-    
+
             // Check if the response is not empty before using .slice()
             if (response.length > 0) {
                 // Slice the first two elements of the response array
@@ -395,8 +394,8 @@ const UserContextProvider = ({ children }) => {
             console.error('Error fetching comments:', error);
         }
     };
-    
-    
+
+
 
 
     //state favorites list films
@@ -405,25 +404,25 @@ const UserContextProvider = ({ children }) => {
     //fetch films from database
     const getFavoritesList = async (mail) => {
         try {
-          const response = await fetch(`https://cinemai.onrender.com/api/playlist/${mail}`, {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-          });
-      
-          if (!response.ok) {
-            throw new Error('Failed to fetch favorites');
-          }
-      
-          const data = await response.json();
-          setListFavs(data);
+            const response = await fetch(`https://cinemai.onrender.com/api/playlist/${mail}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to fetch favorites');
+            }
+
+            const data = await response.json();
+            setListFavs(data);
         } catch (error) {
-          console.error('Error fetching favorites:', error.message);
-          // You can add appropriate error handling here, like showing an error message to the user.
+            console.error('Error fetching favorites:', error.message);
+            // You can add appropriate error handling here, like showing an error message to the user.
         }
-      };
-      
+    };
+
 
     //add films intodatabase
     const AddFilm = async (userId, film) => {
@@ -442,7 +441,7 @@ const UserContextProvider = ({ children }) => {
         }
     }
 
-    const removeFilmFromFavorites = async (_id,filmid) => {
+    const removeFilmFromFavorites = async (_id, filmid) => {
         let data = await fetch('https://cinemai.onrender.com/api/deleteFilm', {
             method: 'POST',
             headers: {
@@ -460,118 +459,118 @@ const UserContextProvider = ({ children }) => {
 
 
     const GetChatForUser = async (mail) => {
-        
+
         console.log(mail);
         try {
             console.log("Before fetch...");
-          let response = await fetch('https://cinemai.onrender.com/api/chat/chatByMail', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ mail: mail })
-          });
-          console.log("After fetch...");
-          if (response.ok) {
-            let data = await response.json(); // Parse the response data as JSON
-            console.log("data",data);
-            SetChat(data?.chat)
-            SetFromUser(data?.fromUser)
-            return await data.chat,data.fromUser;
-          } else {
-            console.log("problem in GetChatForUser ");
-            return null; // Return null or throw an error to indicate failure
-          }
+            let response = await fetch('https://cinemai.onrender.com/api/chat/chatByMail', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ mail: mail })
+            });
+            console.log("After fetch...");
+            if (response.ok) {
+                let data = await response.json(); // Parse the response data as JSON
+                console.log("data", data);
+                SetChat(data?.chat)
+                SetFromUser(data?.fromUser)
+                return await data.chat, data.fromUser;
+            } else {
+                console.log("problem in GetChatForUser ");
+                return null; // Return null or throw an error to indicate failure
+            }
         } catch (error) {
-          console.error('Error fetching chat:', error);
-          alert('An error occurred while fetching chat');
-          return null; // Return null or throw an error to indicate failure
+            console.error('Error fetching chat:', error);
+            alert('An error occurred while fetching chat');
+            return null; // Return null or throw an error to indicate failure
         }
-      };
+    };
 
-      const AddChatForUser = async (mail,chat,fromUser) => {
-        console.log("mail:",mail);
-        console.log("chat:",chat);
-        console.log("fromUser:",fromUser);
+    const AddChatForUser = async (mail, chat, fromUser) => {
+        console.log("mail:", mail);
+        console.log("chat:", chat);
+        console.log("fromUser:", fromUser);
         try {
             console.log("Before fetch...");
-          let response = await fetch('https://cinemai.onrender.com/api/chat/addchat', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ mail: mail,chat: chat,fromUser: fromUser })
-          });
-          console.log("After fetch...");
-          if (response.ok) {
-            let data = await response.json(); // Parse the response data as JSON
-            console.log("dataaaaaaaaaaaaaaaaaaaaaa",data);
-            return await data.chat,data.fromUser;
-          } else {
-            return null; // Return null or throw an error to indicate failure
-          }
+            let response = await fetch('https://cinemai.onrender.com/api/chat/addchat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ mail: mail, chat: chat, fromUser: fromUser })
+            });
+            console.log("After fetch...");
+            if (response.ok) {
+                let data = await response.json(); // Parse the response data as JSON
+                console.log("dataaaaaaaaaaaaaaaaaaaaaa", data);
+                return await data.chat, data.fromUser;
+            } else {
+                return null; // Return null or throw an error to indicate failure
+            }
         } catch (error) {
-          console.error('Error fetching chat:', error);
-          alert('An error occurred while fetching chat');
-          return null; // Return null or throw an error to indicate failure
+            console.error('Error fetching chat:', error);
+            alert('An error occurred while fetching chat');
+            return null; // Return null or throw an error to indicate failure
         }
-      };
+    };
 
-      const GetAllChatForAdmin = async () => {
+    const GetAllChatForAdmin = async () => {
         try {
             console.log("Before fetch...");
-          let response = await fetch('https://cinemai.onrender.com/api/chat/allchats', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-          });
-          console.log("After fetch...");
-          if (response.ok) {
-            let data = await response.json(); // Parse the response data as JSON
-            console.log("data",data);
-            const filteredData = data.map(({ _id, ...rest }) => rest);
-            console.log("filteredData:",filteredData);
-            SetallChatsAdmin(filteredData);
-            const filteredMail = data.map(item => item.mail);
-            SetallMails(filteredMail)
-            return filteredData;
-          } else {
-            return null; // Return null or throw an error to indicate failure
-          }
+            let response = await fetch('https://cinemai.onrender.com/api/chat/allchats', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            });
+            console.log("After fetch...");
+            if (response.ok) {
+                let data = await response.json(); // Parse the response data as JSON
+                console.log("data", data);
+                const filteredData = data.map(({ _id, ...rest }) => rest);
+                console.log("filteredData:", filteredData);
+                SetallChatsAdmin(filteredData);
+                const filteredMail = data.map(item => item.mail);
+                SetallMails(filteredMail)
+                return filteredData;
+            } else {
+                return null; // Return null or throw an error to indicate failure
+            }
         } catch (error) {
-          console.error('Error fetching chat:', error);
-          alert('An error occurred while fetching chat');
-          return null; // Return null or throw an error to indicate failure
+            console.error('Error fetching chat:', error);
+            alert('An error occurred while fetching chat');
+            return null; // Return null or throw an error to indicate failure
         }
-      };
+    };
 
-      const RemoveChat = async (mail) => {
+    const RemoveChat = async (mail) => {
         console.log(mail);
         try {
             console.log("Before fetch...");
-          let response = await fetch('https://cinemai.onrender.com/api/chat/removeChat', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ mail: mail })
-          });
-          console.log("After fetch...");
-          if (response.ok) {
-            let data = await response.json(); // Parse the response data as JSON
-            console.log("data",data);
-            GetAllChatForAdmin()
-            return data;
-          } else {
-            return null; // Return null or throw an error to indicate failure
-          }
+            let response = await fetch('https://cinemai.onrender.com/api/chat/removeChat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ mail: mail })
+            });
+            console.log("After fetch...");
+            if (response.ok) {
+                let data = await response.json(); // Parse the response data as JSON
+                console.log("data", data);
+                GetAllChatForAdmin()
+                return data;
+            } else {
+                return null; // Return null or throw an error to indicate failure
+            }
         } catch (error) {
-          console.error('Error removing chat:', error);
-          alert('An error occurred while fetching chat');
-          return null; // Return null or throw an error to indicate failure
+            console.error('Error removing chat:', error);
+            alert('An error occurred while fetching chat');
+            return null; // Return null or throw an error to indicate failure
         }
-      };
+    };
 
 
     useEffect(() => {
@@ -581,7 +580,7 @@ const UserContextProvider = ({ children }) => {
 
 
 
-    const value = { SetGenreFav, genreFav, mail, password, setmail, setpassword, Register, SetUpGenre, Delay3s, setFullName, setPhone, setGender, setCountry, setImage, image, country, gender, phone, fullName, SaveInformationSetUp, Login, popularF, Popular, LoadingCircle, setloading, loading, TopRated, topRatedF, UpComing, UpComingF, mail, AllFilmType, setTypePage2, TypePage2, GetGenreofUser, checkFirstTime, highlighted, setHighlighted, handlePress, modalVisible, setModalVisible, handleLogout, handleConfirmLogout, handleCancelLogout, GetActorsAboutFilm, actors, setActors, SaveEditProfile, fullName, handleGenreSelection, pushed, getAllcomments, LastComment, allcomments, setLastComment, explorefilms, getStockage30Films, listFavs, getFavoritesList, AddFilm, userId,removeFilmFromFavorites,GetChatForUser,AddChatForUser,GetAllChatForAdmin,RemoveChat,chat,SetChat,FromUser,SetFromUser,allChatsAdmin,SetallChatsAdmin,allMails,SetallMails ,inputMessage, setInputMessage }
+    const value = { SetGenreFav, genreFav, mail, password, setmail, setpassword, Register, SetUpGenre, Delay3s, setFullName, setPhone, setGender, setCountry, setImage, image, country, gender, phone, fullName, SaveInformationSetUp, Login, popularF, Popular, LoadingCircle, setloading, loading, TopRated, topRatedF, UpComing, UpComingF, mail, AllFilmType, setTypePage2, TypePage2, GetGenreofUser, checkFirstTime, highlighted, setHighlighted, handlePress, modalVisible, setModalVisible, handleLogout, handleConfirmLogout, handleCancelLogout, GetActorsAboutFilm, actors, setActors, SaveEditProfile, fullName, handleGenreSelection, pushed, getAllcomments, LastComment, allcomments, setLastComment, explorefilms, getStockage30Films, listFavs, getFavoritesList, AddFilm, userId, removeFilmFromFavorites, GetChatForUser, AddChatForUser, GetAllChatForAdmin, RemoveChat, chat, SetChat, FromUser, SetFromUser, allChatsAdmin, SetallChatsAdmin, allMails, SetallMails, inputMessage, setInputMessage,loadingResponse }
     return (
         <>
             <UserContext.Provider value={value}>
