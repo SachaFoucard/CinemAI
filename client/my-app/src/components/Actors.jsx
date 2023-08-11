@@ -46,7 +46,8 @@ const styles = StyleSheet.create({
         borderRadius: 50,
     },
     text: {
-        color: 'white'
+        color: 'white',
+        textAlign:'center'
     }
 });
 

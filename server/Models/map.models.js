@@ -58,7 +58,6 @@ function calculateDistance(lat1, lon1, lat2, lon2,) {
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
   const distance = earthRadius * c;
-  console.log("distance",distance);
   return distance; // Distance in kilometers
 }
 

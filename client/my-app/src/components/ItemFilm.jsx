@@ -9,7 +9,7 @@ import Comment from '../components/Comments'
 
 const Film = ({ route, navigation }) => {
   const { item } = route.params;
-  const { actors, GetActorsAboutFilm, getAllcomments, LastComment, setLastComment,AddFilm,userId } = useContext(UserContext);
+  const { actors, GetActorsAboutFilm, getAllcomments, LastComment, setLastComment, AddFilm, userId } = useContext(UserContext);
   const [selectedMenu, setSelectedMenu] = useState('');
 
 
@@ -30,7 +30,7 @@ const Film = ({ route, navigation }) => {
       getAllcomments(item.id);
     }
   };
- 
+
   const AlertAdd = () => {
     Alert.alert('Are you sure ?', 'To add the film to your playlist ', [
       {
@@ -38,12 +38,10 @@ const Film = ({ route, navigation }) => {
         onPress: () => console.log('No Pressed'),
         style: 'cancel',
       },
-      {text: 'YES', onPress: () => AddFilm(userId,item)},
+      { text: 'YES', onPress: () => AddFilm(userId, item) },
     ]);
   }
-  {
-    console.log("LastComment",LastComment);
-  }
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.headerImage}>
@@ -60,7 +58,7 @@ const Film = ({ route, navigation }) => {
         />
 
       </View>
-      <TouchableOpacity onPress={()=>AlertAdd()} style={styles.btnAdd}>
+      <TouchableOpacity onPress={() => AlertAdd()} style={styles.btnAdd}>
         <Ionicons name="add-circle" color={'white'} size={40} />
       </TouchableOpacity>
       <View style={styles.body}>
@@ -103,18 +101,17 @@ const Film = ({ route, navigation }) => {
       </View>
 
       {selectedMenu === 'trailers' && (
-        <View>
-          <Text style={styles.menuContent}>Trailers content goes here</Text>
+        <View style={styles.Menu}>
           <Trailer name={item} />
         </View>
       )}
       {selectedMenu === 'more' && (
-        <View>
+        <View style={styles.Menu}>
           <Text style={styles.menuContent}>More Like This content goes here</Text>
         </View>
       )}
-       {selectedMenu === 'comments' && (
-        <View>
+      {selectedMenu === 'comments' && (
+        <View style={styles.MenuC}>
           <TouchableOpacity>
             <Text style={styles.all} onPress={() => navigation.navigate('allcomments', { itemId: item.id })}>See all</Text>
           </TouchableOpacity>
@@ -148,6 +145,10 @@ const styles = StyleSheet.create({
   img: {
     width: '100%',
     height: 400,
+  },
+  Menu: {
+    paddingBottom: 50,
+    paddingTop: 50,
   },
   title: {
     color: 'white',
@@ -230,7 +231,7 @@ const styles = StyleSheet.create({
   },
   btnAdd: {
     position: 'absolute',
-    top: '40%',
+    top: '30%',
     right: '2%',
 
   },

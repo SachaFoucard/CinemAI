@@ -61,20 +61,31 @@ export default function App() {
           km: selectedRange
         }),
       });
-      const response = await data.json();
-      console.log("response cine", response);
+      if (data.status === 201) {
+        const response = await data.json();
 
-      // Update the state with the closest cinema's location
-      setCinemaclosest({
-        latitude: response.lat,
-        longitude: response.long,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421,
-      });
-      setPositionClosest(response);
-
+        // Update the state with the closest cinema's location
+        setCinemaclosest({
+          latitude: response.lat,
+          longitude: response.long,
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421,
+        });
+        setPositionClosest(response); 
+        console.log(response);
+      }
+      else { // Update the state without the cinema's location
+        // Set up place cinema 
+        setCinemaclosest({
+          latitude: null,
+          longitude: null,
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421,
+        });
+        alert('cinema not in your radius location');
+      }
     } catch (error) {
-      console.error('Error fetching closest cinema:', error);
+      alert('cinema not in your radius location')
     }
   };
   const handleLocalizeMe = () => {
@@ -130,7 +141,7 @@ export default function App() {
                 fillColor="rgba(0, 0, 255, 0.1)" // Blue with opacity
               />
             )}
-            {cinemaclosest.latitude && ( // Show cinema marker only if cinema location is available
+            {cinemaclosest.latitude !== null && cinemaclosest.longitude !== null &&  ( // Show cinema marker only if cinema location is available
               <Marker
                 coordinate={cinemaclosest}
                 title={positionClosest?.name}
