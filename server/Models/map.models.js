@@ -19,11 +19,11 @@ class MapModel {
       throw error;
     }
   }
-  static async MoreClosestPlaces(lat1, lon1) {
+  
+  static async MoreClosestPlaces(lat1, lon1, closestDistance) {
     try {
       const places = await this.AllPlaces();
       let closestPlace;
-      let closestDistance = 50;
 
       for (const place of places) {
         const distance = calculateDistance(lat1, lon1, place.lat, place.long);
@@ -32,8 +32,8 @@ class MapModel {
           closestPlace = place;
         }
       }
-
       return closestPlace;
+      
     } catch (error) {
       console.error('Error finding closest place:', error);
       throw error;
@@ -41,7 +41,8 @@ class MapModel {
   }
 }
 
-function calculateDistance(lat1, lon1, lat2, lon2) {
+//return km from to there
+function calculateDistance(lat1, lon1, lat2, lon2,) {
   const earthRadius = 6371; // Radius of the Earth in kilometers
 
   const dLat = ((lat2 - lat1) * Math.PI) / 180;
@@ -57,6 +58,7 @@ function calculateDistance(lat1, lon1, lat2, lon2) {
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
   const distance = earthRadius * c;
+  console.log("distance",distance);
   return distance; // Distance in kilometers
 }
 

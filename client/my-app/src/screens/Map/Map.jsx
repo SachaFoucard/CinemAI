@@ -1,12 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Platform, View, StyleSheet, TouchableOpacity,Text } from 'react-native';
+import { Platform, View, StyleSheet, TouchableOpacity, Text } from 'react-native';
+import Slider from '@react-native-community/slider';
+import { Circle } from 'react-native-maps';
+
 import * as Location from 'expo-location';
 import MapView, { Marker } from 'react-native-maps';
 import Ionicons from '@expo/vector-icons/Ionicons';
-
 export default function App() {
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
+
 
   //state closest position cinema (state empty) // before searching
   const [cinemaclosest, setCinemaclosest] = useState({
@@ -55,14 +58,15 @@ export default function App() {
         body: JSON.stringify({
           long: location?.coords?.longitude, //  sending my longitude position
           lat: location?.coords?.latitude, //  sending my latitude position 
+          km: selectedRange
         }),
       });
       const response = await data.json();
-      console.log("response cine",response);
+      console.log("response cine", response);
 
       // Update the state with the closest cinema's location
       setCinemaclosest({
-        latitude: response.lat, 
+        latitude: response.lat,
         longitude: response.long,
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421,
@@ -91,44 +95,65 @@ export default function App() {
     text = JSON.stringify(location);
   }
 
+  const [selectedRange, setSelectedRange] = useState(1); // Initial range of 5 kilometers
+
   return (
     <View style={styles.container}>
       {!location ? ( // Use parentheses to wrap the condition
         <Text>Waiting to localize you...</Text> // if localize you not yet 
       ) : (
         location && (
-        <MapView
-          ref={mapRef}
-          style={{ alignSelf: 'stretch', height: '100%' }}
-          region={cinemaclosest.latitude ? cinemaclosest : { // Use cinemaclosest if available, otherwise use user's location
-            latitude: location.coords.latitude,
-            longitude: location.coords.longitude,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
-          }}
-        >
-          {location.coords.latitude && ( // Show user's marker only if location is available
-            <Marker
-              coordinate={location.coords}
-              title='Your Position'
-              style={{ width: 30, height: 30 }}
-              pinColor='blue'
-            />
-          )}
-
-          {cinemaclosest.latitude && ( // Show cinema marker only if cinema location is available
-            <Marker
-              coordinate={cinemaclosest}
-              title={positionClosest?.name}
-              description={positionClosest?.adress+'phone'+positionClosest?.tel}
-              pinColor='red' // You can customize the pin color
-            />
-          )}
-        </MapView>
-      ))}
+          <MapView
+            ref={mapRef}
+            style={{ alignSelf: 'stretch', height: '100%' }}
+            region={cinemaclosest.latitude ? cinemaclosest : { // Use cinemaclosest if available, otherwise use user's location
+              latitude: location.coords.latitude,
+              longitude: location.coords.longitude,
+              latitudeDelta: 0.0922,
+              longitudeDelta: 0.0421,
+            }}
+          >
+            {location.coords.latitude && ( // Show user's marker only if location is available
+              <Marker
+                coordinate={location.coords}
+                title='Your Position'
+                style={{ width: 30, height: 30 }}
+                pinColor='blue'
+              />
+            )}
+            {/* Draw a blue circle around the user's position */}
+            {location.coords.latitude && (
+              <Circle
+                center={location.coords}
+                radius={selectedRange * 1000} // Convert selectedRange to meters
+                strokeColor="blue"
+                fillColor="rgba(0, 0, 255, 0.1)" // Blue with opacity
+              />
+            )}
+            {cinemaclosest.latitude && ( // Show cinema marker only if cinema location is available
+              <Marker
+                coordinate={cinemaclosest}
+                title={positionClosest?.name}
+                description={positionClosest?.adress + 'phone' + positionClosest?.tel}
+                pinColor='red' // You can customize the pin color
+              />
+            )}
+          </MapView>
+        ))}
       <TouchableOpacity style={styles.positionme} onPress={handleLocalizeMe}>
         <Ionicons name="navigate-circle" color='blue' size={30} />
       </TouchableOpacity>
+      <View style={styles.rangeContainer}>
+        <Text style={styles.rangeLabel}>Select Range (km): {selectedRange}</Text>
+        <Slider
+          style={styles.slider}
+          minimumValue={1}
+          maximumValue={50}
+          step={1}
+          value={selectedRange}
+          onValueChange={value => setSelectedRange(value)}
+        />
+      </View>
       <TouchableOpacity style={styles.findbtn} onPress={findCinemaClosest}>
         <Ionicons name="car-sport-outline" color='red' size={30} />
       </TouchableOpacity>
@@ -165,5 +190,20 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 8,
     elevation: 5,
-  }
+  },
+  rangeContainer: {
+
+    marginBottom: 10,
+    position: 'absolute',
+    bottom: '5%',
+    left: '30%'
+  },
+  rangeLabel: {
+    marginRight: 10,
+    fontSize: 16,
+    color: 'black',
+  },
+  slider: {
+    flex: 1,
+  },
 });

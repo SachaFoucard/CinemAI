@@ -2,8 +2,8 @@ const mapRoutes = require('express').Router()
 const MapModel = require('../Models/map.models.js')
 
 mapRoutes.post('/findCinema', async (req, res) => {
-    let { lat, long } = req.body
-    let places = await MapModel.MoreClosestPlaces(lat, long);
+    let { lat, long,km} = req.body
+    let places = await MapModel.MoreClosestPlaces(lat, long, km);
     return res.status(201).json(places)
 })
 
