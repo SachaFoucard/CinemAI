@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
   },
   chatContainer: {
     flex: 1,
-    paddingBottom: 10,
+    paddingTop: 60,
   },
   input: {
     color: 'white',

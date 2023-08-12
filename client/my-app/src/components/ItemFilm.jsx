@@ -56,7 +56,6 @@ const Film = ({ route, navigation }) => {
           style={styles.iconArrow}
           onPress={() => navigation.navigate('TabMenu')} // Use goBack.goBack() instead of goBack()
         />
-
       </View>
       <TouchableOpacity onPress={() => AlertAdd()} style={styles.btnAdd}>
         <Ionicons name="add-circle" color={'white'} size={40} />
@@ -69,7 +68,7 @@ const Film = ({ route, navigation }) => {
         <View style={styles.details}>
           <Ionicons name="star" size={22} color="red" />
           <Text style={styles.textRed}>{item?.vote_average}</Text>
-          <Text style={styles.textWhite}>{item?.release_date.slice(0, 4)}</Text>
+          <Text style={styles.textWhite}>{item?.release_date}</Text>
           <Text style={styles.textRedBorder}>{item?.adult ? <Text>18+</Text> : <Text>13+</Text>}</Text>
           <Text style={styles.textRedBorder}>{item?.original_language}</Text>
           <Text style={styles.textRedBorder}>subsistle</Text>
@@ -187,7 +186,7 @@ const styles = StyleSheet.create({
   },
   textWhite: {
     color: 'white',
-    fontSize: 18,
+    fontSize: 17,
     marginLeft: 20,
   },
   genreOverview: {

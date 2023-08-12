@@ -1,12 +1,15 @@
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, TextInput } from 'react-native';
 import React, { useContext, useEffect, useState } from 'react';
 import { UserContext } from '../../context/UserContext';
 import Category from '../../components/Category';
 import HeaderHome from '../../components/HeaderHome';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
-const Home = ({navigation}) => {
+
+const Home = ({ navigation }) => {
   const { popularF, TopRated, topRatedF, UpComing, UpComingF, mail } = useContext(UserContext);
   const [slider, setSlider] = useState([]); // Carousselle state
+
 
   const fetchData = async () => {
     setSlider(popularF.splice(0, 5)); // Set the Carousselle state to the first 5 films from popularF
@@ -17,7 +20,7 @@ const Home = ({navigation}) => {
     TopRated();
     UpComing();
   }, []);
-
+ 
   return (
     <ScrollView style={styles.container}>
       <HeaderHome film={slider} navigation={navigation} />
@@ -39,6 +42,13 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: '40%',
     left: '47%',
+  },
+  search: {
+    position: 'absolute',
+    right: '5%',
+    top: '15%',
+    zIndex: 1,
+    flexDirection: 'row'
   },
 });
 

@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
   },
   grade: {
     color: 'white',
-    fontSize: 10
+    fontSize: 10,
   },
   fontGrade: {
     position: 'absolute',

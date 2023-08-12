@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, FlatList, TouchableOpacity, Image, Alert } from 'react-native';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, Image, Alert, TouchableHighlight, Swipeable } from 'react-native';
 import React, { useContext, useEffect } from 'react';
 import { UserContext } from '../../context/UserContext';
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -29,14 +29,15 @@ const List = ({ navigation }) => {
         listFavs.length > 0 ?
           <View>
             <View style={styles.ttleHEADR}>
-              <Ionicons name='film-outline' size={50} color='white'/>
+              <Ionicons name='film-outline' size={50} color='white' />
             </View>
             <FlatList
               style={styles.flatlist}
               keyExtractor={(item) => item.original_title}
               data={listFavs}
               renderItem={({ item }) => (
-                <TouchableOpacity style={styles.itemContainer}>
+
+                <TouchableOpacity style={styles.itemContainer} onPress={()=>navigation.navigate('ItemFilm',{item:item})}>
                   <Image source={{ uri: `https://image.tmdb.org/t/p/original/${item?.backdrop_path}` }} style={styles.img} />
                   <View style={styles.fontGrade}>
                     <Text style={styles.grade}>{item.vote_average}</Text>
@@ -45,6 +46,7 @@ const List = ({ navigation }) => {
                     <Ionicons name="trash-outline" size={30} color="red" />
                   </TouchableOpacity>
                 </TouchableOpacity>
+
               )}
               numColumns={1}
             />
@@ -64,13 +66,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#181A21',
-    paddingBottom:150
+    paddingBottom: 150
   },
-  ttleHEADR:{
-    flexDirection:'row',
-    paddingTop:30,
-    justifyContent:'center',
-    margin:30
+  ttleHEADR: {
+    flexDirection: 'row',
+    paddingTop: 30,
+    justifyContent: 'center',
+    margin: 30
   },
   flatlist: {
   },
@@ -95,7 +97,7 @@ const styles = StyleSheet.create({
   fontGrade: {
     position: 'absolute',
     left: '42%',
-    top:'0%',
+    top: '0%',
     padding: 7,
     paddingLeft: 10,
     paddingRight: 10,
