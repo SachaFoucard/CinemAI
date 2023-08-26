@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState, useRef } from 'react';
 import { View, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { UserContext } from '../context/UserContext';
+import { ActivityIndicator } from "@react-native-material/core";
 
 const AddComment = ({ idFilm }) => {
   const { mail, allcomments } = useContext(UserContext);
@@ -10,12 +11,14 @@ const AddComment = ({ idFilm }) => {
   const [text, setText] = useState("");
 
   const inputRef = useRef(null); // Create a ref for the input
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
 
   }, [allcomments.length, allcomments])
 
   const PostComment = async () => {
+    setLoading(true);
     const idFilmString = String(idFilm);
 
     const newComment = {
@@ -36,6 +39,7 @@ const AddComment = ({ idFilm }) => {
       alert('Comment posted');
       setText(""); // Reset the input field value
       inputRef.current.clear(); // Clear the input field using the ref
+      setLoading(false);
     } else {
       console.log('wrong');
     }
@@ -43,6 +47,9 @@ const AddComment = ({ idFilm }) => {
 
   return (
     <View style={styles.container}>
+       {loading ? (
+          <ActivityIndicator size="large" color="white" style={styles.load} />
+        ) : null}
       <TextInput
         ref={inputRef} // Attach the ref to the input
         style={styles.input}
@@ -75,6 +82,13 @@ const styles = StyleSheet.create({
   },
   postButton: {
     marginLeft: 10,
+  },
+  load: {
+    position: 'absolute',
+    top: '50%',   // Center vertically
+    left: '60%',  // Center horizontally
+    transform: [{ translateX: -25 }, { translateY: -25 }], // Adjust for indicator size
+    zIndex:1
   },
 });
 

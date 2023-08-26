@@ -3,6 +3,7 @@ import { createContext } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage'; // Assuming you've installed the "serpapi" package
 
 export const UserContext = createContext()
+
 const UserContextProvider = ({ children }) => {
     // states Genres ["Horror","Commedy"] of the User Who is connected / (Explore screen)
     //print only movies or series on the explore screen who correspond to the array genres 
@@ -73,6 +74,8 @@ const UserContextProvider = ({ children }) => {
             }
             let response = await data.json();
             setexploreFilms(response.results);
+            setexploreFilms([...response.results]);
+
         } catch (error) {
             console.error('Error fetching films:', error);
             // Handle the error or show an error message to the user.
@@ -133,7 +136,6 @@ const UserContextProvider = ({ children }) => {
         if (response.status === 401) {
             setloadingResponse(false)
             alert('Check your fields, user not found');
-
         } else if (response.status === 201) {
             setloadingResponse(false)
             const jsonResponse = await response.json();
@@ -396,8 +398,6 @@ const UserContextProvider = ({ children }) => {
     };
 
 
-
-
     //state favorites list films
     const [listFavs, setListFavs] = useState([]);
 
@@ -489,9 +489,6 @@ const UserContextProvider = ({ children }) => {
     };
 
     const AddChatForUser = async (mail, chat, fromUser) => {
-        console.log("mail:", mail);
-        console.log("chat:", chat);
-        console.log("fromUser:", fromUser);
         try {
             console.log("Before fetch...");
             let response = await fetch('https://cinemai.onrender.com/api/chat/addchat', {

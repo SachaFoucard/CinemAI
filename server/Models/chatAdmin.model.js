@@ -56,7 +56,6 @@ class adminChatModel {
     static async RemoveChat(mail) {
         let query = { mail: mail }; 
         let userComplaint = await new DB().RemoveOne('chatAdmin',query);
-        console.log(userComplaint);
         if (userComplaint.acknowledged) {
             return "The chat has been deleted";
         } else {

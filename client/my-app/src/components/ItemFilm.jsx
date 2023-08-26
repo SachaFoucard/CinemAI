@@ -57,13 +57,13 @@ const Film = ({ route, navigation }) => {
           onPress={() => navigation.navigate('TabMenu')} // Use goBack.goBack() instead of goBack()
         />
       </View>
-      <TouchableOpacity onPress={() => AlertAdd()} style={styles.btnAdd}>
-        <Ionicons name="add-circle" color={'white'} size={40} />
-      </TouchableOpacity>
+ 
       <View style={styles.body}>
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
           <Text style={styles.title}>{item?.original_title}</Text>
-          <Ionicons name="camera" size={32} color="white" style={styles.iconScreen} />
+          <TouchableOpacity onPress={() => AlertAdd()} style={styles.btnAdd}>
+        <Ionicons name="add-circle" color={'white'} size={40} />
+      </TouchableOpacity>
         </View>
         <View style={styles.details}>
           <Ionicons name="star" size={22} color="red" />
@@ -118,7 +118,7 @@ const Film = ({ route, navigation }) => {
             !LastComment || !Array.isArray(LastComment) ? <Text style={styles.txt}> 0 comments</Text> :
               <View style={styles.comments}>
                 <View style={styles.headerBar}>
-                  <Text style={styles.nbrscomm}>{LastComment.length} Comments</Text>
+                  <Text style={styles.nbrscomm}>{LastComment.length} comments</Text>
                 </View>
                 <FlatList
                   style={styles.flatlist}

@@ -145,7 +145,7 @@ export default function App() {
               <Marker
                 coordinate={cinemaclosest}
                 title={positionClosest?.name}
-                description={positionClosest?.adress + 'phone' + positionClosest?.tel}
+                description={positionClosest?.adress + positionClosest?.tel}
                 pinColor='red' // You can customize the pin color
               />
             )}

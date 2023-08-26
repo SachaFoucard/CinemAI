@@ -31,14 +31,11 @@ import ChatWithUsers from './src/screens/adminTabs/ChatWithUsers';
 import ShowAdminChats from './src/components/ShowAdminChats';
 import ChatWithUser from './src/screens/adminTabs/ChatWithUser';
 
-
-
-
-
-
 const Stack = createNativeStackNavigator();
 
+
 export default function App() {
+
   return (
     <>
       <UserContextProvider>
@@ -76,10 +73,6 @@ function OnBoarding() {
         <Stack.Screen name="ChatAdmin" component={ChatAdmin}/>
         <Stack.Screen name="ShowAdminChats" component={ShowAdminChats}/>
         <Stack.Screen name="ChatWithUser" component={ChatWithUser}/>
-
-        
-        
-
       </Stack.Navigator>
     </>
   );

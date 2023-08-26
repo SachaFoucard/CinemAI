@@ -29,7 +29,8 @@ const List = ({ navigation }) => {
         listFavs.length > 0 ?
           <View>
             <View style={styles.ttleHEADR}>
-              <Ionicons name='film-outline' size={50} color='white' />
+              <Text style={styles.wht}>My Watchlist</Text>
+              <Ionicons name='list' size={30} color='white' style={styles.icnhedr} />
             </View>
             <FlatList
               style={styles.flatlist}
@@ -125,6 +126,10 @@ const styles = StyleSheet.create({
     borderWidth: 5,
     borderRadius: 20,
     alignItems: 'center'
+  },
+  icnhedr:{
+    marginLeft:20,
+    marginTop:5
   }
 });
 

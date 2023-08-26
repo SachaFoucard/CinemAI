@@ -9,56 +9,54 @@ const AllComments = ({ route, navigation }) => {
   const { itemId } = route.params;
   const { allcomments, getAllcomments } = useContext(UserContext);
 
+
   useEffect(() => {
     getAllcomments(itemId);
   }, [allcomments]);
 
   return (
     <KeyboardAvoidingView
-    style={styles.container}
-    behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-    keyboardVerticalOffset={Platform.OS === 'ios' ? 64 : 0}
-  >
-    <View style={styles.container}>
-      {!allcomments || !Array.isArray(allcomments) ? (
-        <View style={{flexDirection:'row',marginTop:20,alignItems:'center'}}>
-             <Ionicons
-            name='arrow-back-outline'
-            color='white'
-            size={40}
-            style={styles.icon}
-            onPress={() => navigation.goBack()}
-          />
-          <Text style={styles.txt}>0 comments</Text>
-        </View>
-      ) : (
-        <View style={styles.comments}>
-          <View style={styles.headerBar}>
-            <Ionicons
-              name='arrow-back-outline'
-              color='white'
-              size={40}
-              style={styles.icon}
-              onPress={() => navigation.goBack()}
-            />
-            <Text style={styles.nbrscomm}>{allcomments.length} Comments</Text>
+      style={styles.container}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 64 : 0}
+    >
+
+      <View style={styles.container}>
+        {!allcomments || !Array.isArray(allcomments) ? (
+          <View style={{ flexDirection: 'row', marginTop: 20, alignItems: 'center', alignSelf: 'center' }}>
+
+            <Text style={styles.txt}>0 comments</Text>
           </View>
-          <FlatList
-            style={styles.flatlist}
-            data={allcomments.reverse()}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={({ item }) => (
-              <Comment username={item.username} text={item.text} date={item.date} style={styles.txt} />
-            )}
-          />
+        ) : (
+          <View style={styles.comments}>
+            <View style={styles.headerBar}>
+              <Ionicons
+                name='arrow-back-outline'
+                color='white'
+                size={40}
+                style={styles.icon}
+                onPress={() => navigation.goBack()}
+              />
+              <Text style={styles.nbrscomm}>{allcomments.length} comments</Text>
+
+            </View>
+            <FlatList
+              style={styles.flatlist}
+              data={allcomments.reverse()}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={({ item }) => (
+                <Comment username={item.username} text={item.text} date={item.date} style={styles.txt} />
+              )}
+            />
+          </View>
+        )}
+
+        <View style={styles.addCommentContainer}>
+          <AddComment idFilm={itemId}  />
         </View>
-      )}
-      <View style={styles.addCommentContainer}>
-        <AddComment idFilm={itemId} />
       </View>
-    </View>
-  </KeyboardAvoidingView>
-);
+    </KeyboardAvoidingView>
+  );
 };
 
 
@@ -77,7 +75,8 @@ const styles = StyleSheet.create({
     flexDirection: 'column'
   },
   comments: {
-    marginTop: 50,
+    marginTop: 100,
+    marginLeft: 10,
     flex: 1, // Make the comments section take the available space
   },
   headerBar: {
@@ -90,8 +89,7 @@ const styles = StyleSheet.create({
     marginLeft: 15,
   },
   icon: {
-    marginLeft: 10,
-    fontWeight: '100',
+    margin: 10
   },
   addCommentContainer: {
     backgroundColor: '#181A21',

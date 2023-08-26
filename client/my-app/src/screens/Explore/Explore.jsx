@@ -1,8 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, Image } from 'react-native';
 import { UserContext } from '../../context/UserContext';
-import { ActivityIndicator } from "@react-native-material/core";
+import { ActivityIndicator, TextInput } from "@react-native-material/core";
 import dataId from '../../data/genres.json';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 const Explore = ({ navigation }) => {
   const { mail, GetGenreofUser, genreFav, explorefilms, getStockage30Films } = useContext(UserContext);
@@ -12,9 +13,26 @@ const Explore = ({ navigation }) => {
 
   const [isLoading, setIsLoading] = useState(true);
 
+  const [search, setSearch] = useState(false)
+
+  const [text, setText] = useState('');
+
+  const [filmInput, setFilmInput] = useState([]);
+
   useEffect(() => {
     fetchData();
   }, [mail]);
+
+  useEffect(() => {
+    let data = explorefilms.filter((films) => {
+      // Check if the object has the 'original_title' property
+      if (films.title && typeof films.title === 'string') {
+        return films.original_title.toLowerCase().includes(text.toLowerCase());
+      }
+      return false;
+    });
+    setFilmInput(data);
+  }, [text, explorefilms]);
 
   const fetchData = async () => {
     await getStockage30Films()
@@ -41,27 +59,39 @@ const Explore = ({ navigation }) => {
     );
   }
 
+  const renderFilmItem = (item) => (
+    <TouchableOpacity onPress={() => navigation.navigate('ItemFilm', { item })}>
+      <Image source={{ uri: `https://image.tmdb.org/t/p/original/${item?.backdrop_path}` }} style={styles.img} />
+      <View style={styles.fontGrade}>
+        <Text style={styles.grade}>{item.vote_average}</Text>
+      </View>
+    </TouchableOpacity>
+  );
+
 
   return (
     <View style={styles.container}>
-      {filmsAboutGenre ? <View><Text style={styles.title}>Explore More...</Text>
-        <FlatList
-          style={styles.flatlist}
-          keyExtractor={(item) => item.id}
-          horizontal={false}
-          data={filmsAboutGenre} // Use the filtered films here
-          renderItem={({ item }) => (
-            <TouchableOpacity onPress={() => navigation.navigate('ItemFilm', { item: item })}>
-              <Image source={{ uri: `https://image.tmdb.org/t/p/original/${item?.backdrop_path}` }} style={styles.img} />
-              <View style={styles.fontGrade}>
-                <Text style={styles.grade}>{item.vote_average}</Text>
-              </View>
-            </TouchableOpacity>
-          )}
-          numColumns={2}
-        /></View> :
-        <Text>Search about your genre</Text>}
+      <View style={styles.header}>
+        <TextInput
+          variant="standart"
+          style={[styles.searchInput, { color: 'white' }]} // Set text color directly in style prop
+          placeholder="Search films..."
+          placeholderTextColor="white"
+          onChangeText={setText}
+        />
+        <TouchableOpacity style={styles.icnSearch} onPress={() => setSearch(!search)}>
+          <Ionicons name="search" size={35} color="white" />
+        </TouchableOpacity>
+      </View>
 
+      <FlatList
+        style={styles.flatlist}
+        keyExtractor={(item) => item.id}
+        horizontal={false}
+        data={filmInput.length ? filmInput : filmsAboutGenre}
+        renderItem={({ item }) => renderFilmItem(item)}
+        numColumns={2}
+      />
     </View>
   );
 };
@@ -77,10 +107,21 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#181A21'
   },
+  icnSearch: {
+    position: 'absolute',
+    right: '7%',
+    top: '45%'
+  },
   title: {
     color: 'white',
     fontSize: 30,
     textAlign: 'center',
+    marginTop: 50
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
     marginTop: 50
   },
   img: {
@@ -107,7 +148,17 @@ const styles = StyleSheet.create({
   },
   flatlist: {
     marginTop: 30
-  }
+  },
+  searchInput: {
+    marginTop: 30,
+    marginRight: 30,
+    borderWidth: 1,
+    width: 300,
+    height: 60,
+    color: 'white',
+    textAlign: 'center',
+    fontSize: 20
+  },
 });
 
 export default Explore;
