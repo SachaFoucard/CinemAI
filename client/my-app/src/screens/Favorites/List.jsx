@@ -6,11 +6,9 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 const List = ({ navigation }) => {
   const { listFavs, getFavoritesList, removeFilmFromFavorites, mail, userId } = useContext(UserContext);
 
-
-
   useEffect(() => {
     getFavoritesList(mail);
-  }, [mail, listFavs.length, listFavs]);
+  }, [mail, listFavs, listFavs.length]);
 
   const AlertRemoveFilm = (item) => {
     Alert.alert('Are you sure ?', 'To remove the film from your playlist ', [
@@ -22,11 +20,13 @@ const List = ({ navigation }) => {
       { text: 'YES', onPress: () => removeFilmFromFavorites(userId, item.id) },
     ]);
   }
-
+  {
+    console.log(listFavs);
+  }
   return (
     <View style={styles.container}>
       {
-        listFavs.length > 0 ?
+        listFavs.some(item => Object.keys(item).length > 0) ?
           <View>
             <View style={styles.ttleHEADR}>
               <Text style={styles.wht}>My Watchlist</Text>
@@ -38,7 +38,7 @@ const List = ({ navigation }) => {
               data={listFavs}
               renderItem={({ item }) => (
 
-                <TouchableOpacity style={styles.itemContainer} onPress={()=>navigation.navigate('ItemFilm',{item:item})}>
+                <TouchableOpacity style={styles.itemContainer} onPress={() => navigation.navigate('ItemFilm', { item: item })}>
                   <Image source={{ uri: `https://image.tmdb.org/t/p/original/${item?.backdrop_path}` }} style={styles.img} />
                   <View style={styles.fontGrade}>
                     <Text style={styles.grade}>{item.vote_average}</Text>
@@ -58,7 +58,6 @@ const List = ({ navigation }) => {
               <Ionicons name="add-outline" size={30} color="red" />
             </TouchableOpacity>
           </View>}
-
     </View>
   );
 };
@@ -127,9 +126,9 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     alignItems: 'center'
   },
-  icnhedr:{
-    marginLeft:20,
-    marginTop:5
+  icnhedr: {
+    marginLeft: 20,
+    marginTop: 5
   }
 });
 

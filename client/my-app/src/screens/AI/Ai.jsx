@@ -1,15 +1,21 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
 import aiData from '../../data/ai.json';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { useContext } from 'react';
+import { UserContext } from '../../context/UserContext';
 
 const Ai = () => {
   const [allMessages, setAllMessages] = useState([]);
   const [textToType, setTextToType] = useState([]);
-  const typingSpeed = 50; // Adjust typing speed as needed
+  const typingSpeed = 150; // Adjust typing speed as needed
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [input, setInput] = useState('');
+  const [input, setInput] = useState('Feel free to write anything');
   const inputRef = useRef(null);
+
+  const { mail } = useContext(UserContext);
+
+  const chatScrollViewRef = useRef();
 
   const simulateTyping = (messages) => {
     if (currentIndex < messages[currentIndex]?.text.length) {
@@ -18,8 +24,8 @@ const Ai = () => {
     }
   };
 
-  const addMessage = (message) => {
-    setAllMessages(prevMessages => [...prevMessages, message]);
+  const addMessage = (message, isAI = false) => {
+    setAllMessages(prevMessages => [...prevMessages, { text: message, isAI }]);
   };
 
   useEffect(() => {
@@ -37,8 +43,26 @@ const Ai = () => {
 
     // Simulate AI response (for demonstration purposes)
     setTimeout(() => {
-      const aiResponse = `AI: I understand you're interested in "${userMessage}" genre films. Here are some recommendations.`;
-      addMessage(aiResponse);
+      let aiResponse;
+
+      switch (userMessage.toLowerCase()) {
+        case 'hi':
+          aiResponse = `AI: Hi ${mail}`;
+          break;
+        case 'hello':
+          aiResponse = `AI: Hi ${mail}`;
+          break;
+          case 'comic':
+          aiResponse = `AI: Hi ${mail}`;
+          break;
+        default:
+          aiResponse = `AI: I understand you're interested in "${userMessage}" genre films. Here are some recommendations.`;
+      }
+
+      addMessage(aiResponse, true);
+
+      // Scroll to the bottom of the chat
+      chatScrollViewRef.current.scrollToEnd({ animated: true });
     }, 1000);
 
     setInput('');
@@ -52,20 +76,39 @@ const Ai = () => {
       keyboardVerticalOffset={Platform.OS === 'ios' ? 64 : 0} // Adjust as needed
     >
       <View style={styles.chatContainer}>
-        {allMessages.map((message, index) => (
-          <Text key={index} style={[styles.message, message.startsWith('AI:') && styles.aiMessage]}>
-            {message}
-          </Text>
-        ))}
+        <ScrollView
+          ref={chatScrollViewRef}
+          contentContainerStyle={styles.messageContainer}
+        >
+          {allMessages.map((message, index) => (
+            <View
+              key={index}
+              style={[
+                styles.messageItem,
+                message.isAI ? styles.aiMessageItem : styles.userMessageItem,
+              ]}
+            >
+              <Text
+                style={[
+                  styles.message,
+                  message.isAI ? styles.aiMessage : styles.userMessage,
+                ]}
+              >
+                {message.text}
+              </Text>
+            </View>
+          ))}
+        </ScrollView>
       </View>
       <View style={styles.barSendMess}>
         <TextInput
           ref={inputRef}
           style={styles.input}
-          placeholder="Which type of film"
+          placeholder="Talk with me"
           placeholderTextColor="grey"
           value={input}
           onChangeText={setInput}
+          autoFocus={true} // Set the autoFocus prop to true
         />
         <TouchableOpacity style={styles.postButton} onPress={() => sendMess()}>
           <Ionicons name="send" size={24} color="white" />
@@ -73,7 +116,7 @@ const Ai = () => {
       </View>
     </KeyboardAvoidingView>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -86,7 +129,21 @@ const styles = StyleSheet.create({
   },
   chatContainer: {
     flex: 1,
-    paddingTop: 60,
+  },
+  messageContainer: {
+    flexGrow: 1,
+    justifyContent: 'flex-end', // Start from the bottom
+  },
+  messageItem: {
+    marginBottom: 10,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+  },
+  userMessageItem: {
+    justifyContent: 'flex-end',
+  },
+  aiMessageItem: {
+    justifyContent: 'flex-start',
   },
   input: {
     color: 'white',
@@ -98,7 +155,16 @@ const styles = StyleSheet.create({
   message: {
     fontSize: 18,
     color: 'white',
-    marginBottom: 5,
+    padding: 10,
+    borderRadius: 10,
+  },
+  userMessage: {
+    backgroundColor: '#007AFF', // Blue color for user messages
+    alignSelf: 'flex-end',
+  },
+  aiMessage: {
+    backgroundColor: '#34C759', // Green color for AI messages
+    alignSelf: 'flex-start',
   },
   barSendMess: {
     flexDirection: 'row',
@@ -108,9 +174,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#333',
     paddingVertical: 10,
     paddingHorizontal: 20,
-  },
-  aiMessage: {
-    alignSelf: 'flex-start',
   },
 });
 

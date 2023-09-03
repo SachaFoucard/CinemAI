@@ -99,7 +99,15 @@ const UserContextProvider = ({ children }) => {
         }, 2000);
     }
 
+    function validateEmail(email) {
+        const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+        return emailRegex.test(email);
+    }
+
+
     const Register = async (navigation, mail, password) => {
+        setloadingResponse(true) // logo loading 
+        setPushed(true);
         let response = await fetch('https://cinemai.onrender.com/api/register', {
             method: 'POST',
             headers: {
@@ -107,12 +115,19 @@ const UserContextProvider = ({ children }) => {
             },
             body: JSON.stringify({ password: password, mail: mail })
         });
-        if (response.status === 400) {
+        if (!validateEmail(mail)) {
+            setloadingResponse(false)
+            alert('Email not valid')
+        }
+        else if (response.status === 400) {
+            setloadingResponse(false)
             alert('Check your fields, one or more are empty');
         } else if (response.status === 201) {
-            alert('You Registered successfully ');
+            setloadingResponse(false)
+            alert('You Registered successfully');
             navigation.navigate('InterestScreen');
         } else if (response.status === 500) {
+            setloadingResponse(false)
             alert('User already exists with this email address');
         }
     };
@@ -124,7 +139,7 @@ const UserContextProvider = ({ children }) => {
 
     // function to connect user
     const Login = async (navigation, mail, password) => {
-        setloadingResponse(true)
+        setloadingResponse(true) // logo loading 
         setPushed(true);
         let response = await fetch('https://cinemai.onrender.com/api/login', {
             method: 'POST',
@@ -577,7 +592,7 @@ const UserContextProvider = ({ children }) => {
 
 
 
-    const value = { SetGenreFav, genreFav, mail, password, setmail, setpassword, Register, SetUpGenre, Delay3s, setFullName, setPhone, setGender, setCountry, setImage, image, country, gender, phone, fullName, SaveInformationSetUp, Login, popularF, Popular, LoadingCircle, setloading, loading, TopRated, topRatedF, UpComing, UpComingF, mail, AllFilmType, setTypePage2, TypePage2, GetGenreofUser, checkFirstTime, highlighted, setHighlighted, handlePress, modalVisible, setModalVisible, handleLogout, handleConfirmLogout, handleCancelLogout, GetActorsAboutFilm, actors, setActors, SaveEditProfile, fullName, handleGenreSelection, pushed, getAllcomments, LastComment, allcomments, setLastComment, explorefilms, getStockage30Films, listFavs, getFavoritesList, AddFilm, userId, removeFilmFromFavorites, GetChatForUser, AddChatForUser, GetAllChatForAdmin, RemoveChat, chat, SetChat, FromUser, SetFromUser, allChatsAdmin, SetallChatsAdmin, allMails, SetallMails, inputMessage, setInputMessage,loadingResponse }
+    const value = { SetGenreFav, genreFav, mail, password, setmail, setpassword, Register, SetUpGenre, Delay3s, setFullName, setPhone, setGender, setCountry, setImage, image, country, gender, phone, fullName, SaveInformationSetUp, Login, popularF, Popular, LoadingCircle, setloading, loading, TopRated, topRatedF, UpComing, UpComingF, mail, AllFilmType, setTypePage2, TypePage2, GetGenreofUser, checkFirstTime, highlighted, setHighlighted, handlePress, modalVisible, setModalVisible, handleLogout, handleConfirmLogout, handleCancelLogout, GetActorsAboutFilm, actors, setActors, SaveEditProfile, fullName, handleGenreSelection, pushed, getAllcomments, LastComment, allcomments, setLastComment, explorefilms, getStockage30Films, listFavs, getFavoritesList, AddFilm, userId, removeFilmFromFavorites, GetChatForUser, AddChatForUser, GetAllChatForAdmin, RemoveChat, chat, SetChat, FromUser, SetFromUser, allChatsAdmin, SetallChatsAdmin, allMails, SetallMails, inputMessage, setInputMessage, loadingResponse }
     return (
         <>
             <UserContext.Provider value={value}>
