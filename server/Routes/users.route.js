@@ -99,5 +99,17 @@ userRoutes.post('/deleteFilm', async (req, res) => {
   }
 });
 
+userRoutes.post('/getAllUsers', async (req, res) => {
+  try {
+    // Call the deleteFilmById function to delete the film
+    const user = await UserModel.GetAllUsers();
+
+    res.status(200).json({user});
+  } catch (error) {
+    console.error('Error deleting film:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 
 module.exports = userRoutes

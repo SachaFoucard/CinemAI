@@ -1,9 +1,13 @@
 import { View, Text,StyleSheet } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 export default function UsersInfo() {
 
-  {}
+  const{users,GetUsers} = useState({})
+
+  useEffect(()=> {
+
+  },[])
   return (
     <View style={styles.container}>
       <Text>UsersInfo</Text>

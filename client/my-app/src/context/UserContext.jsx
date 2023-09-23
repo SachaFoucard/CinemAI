@@ -105,6 +105,25 @@ const UserContextProvider = ({ children }) => {
     }
 
 
+    const GetAllUsers = async () => {
+        let response = await fetch('https://cinemai.onrender.com/api/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ password: password, mail: mail })
+        });
+
+        if (response.status === 200) {
+            console.log(yey);
+            console.log(response);
+            return response
+        }
+        else if (response.status === 500){
+
+        }
+    }
+
     const Register = async (navigation, mail, password) => {
         setloadingResponse(true) // logo loading 
         setPushed(true);
@@ -156,7 +175,13 @@ const UserContextProvider = ({ children }) => {
             const jsonResponse = await response.json();
             alert(`Happy to see you Back ${jsonResponse?.user?.mail} !`);
             setId(jsonResponse?.user?._id)
-            navigation.navigate('TabMenu');
+            if (mail == 'Admin') {
+                navigation.navigate('AdminTabMenu');
+            }
+            else{
+
+                navigation.navigate('TabMenu');
+            }
         } else if (response.status === 402) {
             setloadingResponse(false)
             alert('fields empty');

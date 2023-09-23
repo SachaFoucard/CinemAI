@@ -51,10 +51,22 @@ class UserModel {
       throw error;
     }
   }
+
   static async Login(mail, password) {
     let query = { mail: mail }
     let user = await new DB().FindOne("users", query);
     if (!user || !(await bcrypt.compare(password, user.password)))
+      return null;
+    else {
+      return {
+        user
+      };
+    }
+  }
+
+  static async GetAllUsers() {
+    let user = await new DB().FindAll("users");
+    if (!user )
       return null;
     else {
       return {
