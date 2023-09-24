@@ -144,7 +144,6 @@ const UserContextProvider = ({ children }) => {
     }
 
     const SaveEditProfileAdmin = async (user) => {
-        console.log(user,"users");
         let response = await fetch('https://cinemai.onrender.com/api/editProfilAdmin', {
             method: 'POST',
             headers: {
@@ -156,10 +155,8 @@ const UserContextProvider = ({ children }) => {
             alert('Check your fields, user not found');
         } else if (response.status === 201) {
             const jsonResponse = await response.json();
-            alert('You Connected successfully');
-            navigation.navigate('TabMenu')
-        } else if (response.status === 402) {
-            alert('fields empty');
+            GetAllUsers()
+            alert("update user success");
         }
     };
 
@@ -538,10 +535,7 @@ const UserContextProvider = ({ children }) => {
 
 
     const GetChatForUser = async (mail) => {
-
-        console.log(mail);
         try {
-            console.log("Before fetch...");
             let response = await fetch('https://cinemai.onrender.com/api/chat/chatByMail', {
                 method: 'POST',
                 headers: {
@@ -549,15 +543,12 @@ const UserContextProvider = ({ children }) => {
                 },
                 body: JSON.stringify({ mail: mail })
             });
-            console.log("After fetch...");
             if (response.ok) {
                 let data = await response.json(); // Parse the response data as JSON
-                console.log("data", data);
                 SetChat(data?.chat)
                 SetFromUser(data?.fromUser)
                 return await data.chat, data.fromUser;
             } else {
-                console.log("problem in GetChatForUser ");
                 return null; // Return null or throw an error to indicate failure
             }
         } catch (error) {
@@ -569,7 +560,6 @@ const UserContextProvider = ({ children }) => {
 
     const AddChatForUser = async (mail, chat, fromUser) => {
         try {
-            console.log("Before fetch...");
             let response = await fetch('https://cinemai.onrender.com/api/chat/addchat', {
                 method: 'POST',
                 headers: {
@@ -577,10 +567,8 @@ const UserContextProvider = ({ children }) => {
                 },
                 body: JSON.stringify({ mail: mail, chat: chat, fromUser: fromUser })
             });
-            console.log("After fetch...");
             if (response.ok) {
                 let data = await response.json(); // Parse the response data as JSON
-                console.log("dataaaaaaaaaaaaaaaaaaaaaa", data);
                 return await data.chat, data.fromUser;
             } else {
                 return null; // Return null or throw an error to indicate failure
@@ -594,19 +582,15 @@ const UserContextProvider = ({ children }) => {
 
     const GetAllChatForAdmin = async () => {
         try {
-            console.log("Before fetch...");
             let response = await fetch('https://cinemai.onrender.com/api/chat/allchats', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
             });
-            console.log("After fetch...");
             if (response.ok) {
                 let data = await response.json(); // Parse the response data as JSON
-                console.log("data", data);
                 const filteredData = data.map(({ _id, ...rest }) => rest);
-                console.log("filteredData:", filteredData);
                 SetallChatsAdmin(filteredData);
                 const filteredMail = data.map(item => item.mail);
                 SetallMails(filteredMail)
@@ -622,9 +606,7 @@ const UserContextProvider = ({ children }) => {
     };
 
     const RemoveChat = async (mail) => {
-        console.log(mail);
         try {
-            console.log("Before fetch...");
             let response = await fetch('https://cinemai.onrender.com/api/chat/removeChat', {
                 method: 'POST',
                 headers: {
@@ -632,10 +614,8 @@ const UserContextProvider = ({ children }) => {
                 },
                 body: JSON.stringify({ mail: mail })
             });
-            console.log("After fetch...");
             if (response.ok) {
                 let data = await response.json(); // Parse the response data as JSON
-                console.log("data", data);
                 GetAllChatForAdmin()
                 return data;
             } else {
