@@ -180,6 +180,23 @@ class UserModel {
     }
   }
 
+  static async EditProfilAdmin(name, mail, gender, phone, country) {
+    try {
+      let query = { mail: mail }
+      let user = await new DB().FindOne('users', query);
+      const _id = new ObjectId(user._id);
+      user.name = name
+      user.gender = gender;
+      user.phone = phone;
+      user.country = country;
+      let newUser = await new DB().UpdateById('users', _id, user)
+      return newUser;
+
+    } catch (error) {
+      throw error;
+    }
+  }
+
   static async deleteFilmById(_id, filmid) {
     try {
 

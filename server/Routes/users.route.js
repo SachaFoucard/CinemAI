@@ -86,6 +86,22 @@ userRoutes.post('/editProfil', async (req, res) => {
 
 })
 
+userRoutes.post('/editProfilAdmin', async (req, res) => {
+
+  // { name: fullName, mail: mail, phone: phone, gender: gender, country: country }
+  let { name, mail, gender, phone, country, genres } = req.body;
+  let user = await UserModel.EditProfil(name, mail, gender, phone, country, genres);
+  res.status(201).json({ message: 'user updated' });
+
+  if (!user) {
+
+    res.status(404).json({ error: error.message });
+  }
+
+
+
+})
+
 userRoutes.post('/deleteUser', async (req, res) => {
   try {
     const { mail } = req.body;

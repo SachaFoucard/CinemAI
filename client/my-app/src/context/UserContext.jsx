@@ -113,13 +113,9 @@ const UserContextProvider = ({ children }) => {
                 'Content-Type': 'application/json'
             },
         });
-       console.log("2");
         if (response.status === 200) {
-            console.log("3");
             const data = await response.json();
             const users = data.user ;
-            console.log('yeyaaaaa');
-            console.log(data.user);
             setAllUser(users)
             return users
         }
@@ -129,7 +125,6 @@ const UserContextProvider = ({ children }) => {
     }
 
     const userDelete = async (mail) => {
-        console.log(mail,"mail");
         let response = await fetch('https://cinemai.onrender.com/api/deleteUser', {
             method: 'POST',
             headers: {
@@ -140,13 +135,33 @@ const UserContextProvider = ({ children }) => {
         GetAllUsers()
        
         if (response.status === 200) {
-            console.log("works");
+            const data = await response.json();
             return "user deleted"
         }
         else if (response.status === 500){
             alert('problem deleting user');
         }
     }
+
+    const SaveEditProfileAdmin = async (user) => {
+        console.log(user,"users");
+        let response = await fetch('https://cinemai.onrender.com/api/editProfilAdmin', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ name: user.name, mail: user.mail, phone: user.phone, gender: user.gender, country: user.country })
+        });
+        if (response.status === 401) {
+            alert('Check your fields, user not found');
+        } else if (response.status === 201) {
+            const jsonResponse = await response.json();
+            alert('You Connected successfully');
+            navigation.navigate('TabMenu')
+        } else if (response.status === 402) {
+            alert('fields empty');
+        }
+    };
 
     const Register = async (navigation, mail, password) => {
         setloadingResponse(true) // logo loading 
@@ -641,7 +656,7 @@ const UserContextProvider = ({ children }) => {
 
 
 
-    const value = {userDelete, SetGenreFav, genreFav, mail, password, setmail, setpassword, Register, SetUpGenre, Delay3s, setFullName, setPhone, setGender, setCountry, setImage, image, country, gender, phone, fullName, SaveInformationSetUp, Login, popularF, Popular, LoadingCircle, setloading, loading, TopRated, topRatedF, UpComing, UpComingF, mail, AllFilmType, setTypePage2, TypePage2, GetGenreofUser, checkFirstTime, highlighted, setHighlighted, handlePress, modalVisible, setModalVisible, handleLogout, handleConfirmLogout, handleCancelLogout, GetActorsAboutFilm, actors, setActors, SaveEditProfile, fullName, handleGenreSelection, pushed, getAllcomments, LastComment, allcomments, setLastComment, explorefilms, getStockage30Films, listFavs, getFavoritesList, AddFilm, userId, removeFilmFromFavorites, GetChatForUser, AddChatForUser, GetAllChatForAdmin, RemoveChat, chat, SetChat, FromUser, SetFromUser, allChatsAdmin, SetallChatsAdmin, allMails, SetallMails, inputMessage, setInputMessage, loadingResponse,GetAllUsers,allUser, setAllUser }
+    const value = {SaveEditProfileAdmin,userDelete, SetGenreFav, genreFav, mail, password, setmail, setpassword, Register, SetUpGenre, Delay3s, setFullName, setPhone, setGender, setCountry, setImage, image, country, gender, phone, fullName, SaveInformationSetUp, Login, popularF, Popular, LoadingCircle, setloading, loading, TopRated, topRatedF, UpComing, UpComingF, mail, AllFilmType, setTypePage2, TypePage2, GetGenreofUser, checkFirstTime, highlighted, setHighlighted, handlePress, modalVisible, setModalVisible, handleLogout, handleConfirmLogout, handleCancelLogout, GetActorsAboutFilm, actors, setActors, SaveEditProfile, fullName, handleGenreSelection, pushed, getAllcomments, LastComment, allcomments, setLastComment, explorefilms, getStockage30Films, listFavs, getFavoritesList, AddFilm, userId, removeFilmFromFavorites, GetChatForUser, AddChatForUser, GetAllChatForAdmin, RemoveChat, chat, SetChat, FromUser, SetFromUser, allChatsAdmin, SetallChatsAdmin, allMails, SetallMails, inputMessage, setInputMessage, loadingResponse,GetAllUsers,allUser, setAllUser }
     return (
         <>
             <UserContext.Provider value={value}>
