@@ -113,12 +113,13 @@ const UserContextProvider = ({ children }) => {
                 'Content-Type': 'application/json'
             },
         });
-       
+       console.log("2");
         if (response.status === 200) {
+            console.log("3");
             const data = await response.json();
-            const users = data.user.user ;
+            const users = data.user ;
             console.log('yeyaaaaa');
-            console.log(data.user.user);
+            console.log(data.user);
             setAllUser(users)
             return users
         }
@@ -128,15 +129,18 @@ const UserContextProvider = ({ children }) => {
     }
 
     const userDelete = async (mail) => {
-        let response = await fetch('https://cinemai.onrender.com/api/getAllUsers', {
+        console.log(mail,"mail");
+        let response = await fetch('https://cinemai.onrender.com/api/deleteUser', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({ mail: mail})
         });
+        GetAllUsers()
        
         if (response.status === 200) {
+            console.log("works");
             return "user deleted"
         }
         else if (response.status === 500){

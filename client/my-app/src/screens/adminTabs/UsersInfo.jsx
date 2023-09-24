@@ -11,6 +11,7 @@ export default function UsersInfo() {
     // const fetchedUsers = GetAllUsers();
     // setUsers(fetchedUsers);
     GetAllUsers(); // Assuming GetAllUsers updates the 'allUser' state
+    console.log(allUser,"yup");
 
     // console.log(GetAllUsers(),'whyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy');
   }, []);
@@ -20,6 +21,7 @@ export default function UsersInfo() {
     // For example, if you have a function called 'deleteAllUsers' in your context:
     // deleteAllUsers();
     userDelete(mail)
+    console.log("yes");
   };
 
   return (
@@ -31,7 +33,7 @@ export default function UsersInfo() {
         renderItem={({ item }) => (
           <View style={styles.column}>
             <Text style={styles.userName}>{item.mail}</Text>
-      <TouchableOpacity style={styles.deleteButton} onPress={handleDeleteAllUsers(item.mail)}>
+      <TouchableOpacity style={styles.deleteButton} onPress={() =>handleDeleteAllUsers(item.mail)}>
         <Text style={styles.buttonText}>Delete</Text>
       </TouchableOpacity>
           </View>

@@ -77,9 +77,12 @@ class UserModel {
 
   static async deleteUserByMail(mail) {
     try { 
-
-      const user = await new DB().RemoveOne("users", { mail: mail })
-      return "deleted";
+      console.log("1");
+      console.log(mail);
+      let query = { mail: mail }
+      const user = await new DB().RemoveOne("users", query)
+      console.log(user)
+      return user;
     } catch (error) {
       console.log(error);
     }

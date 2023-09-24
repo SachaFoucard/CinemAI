@@ -90,7 +90,7 @@ userRoutes.post('/deleteUser', async (req, res) => {
   try {
     const { mail } = req.body;
     // Call the deleteFilmById function to delete the film
-    const updatedUsers= await UserModel.deleteFilmById(mail);
+    const updatedUsers= await UserModel.deleteUserByMail(mail);
 
     res.status(200).json({ message: 'user deleted successfully', updatedUsers });
   } catch (error) {
