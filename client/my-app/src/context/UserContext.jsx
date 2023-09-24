@@ -23,6 +23,7 @@ const UserContextProvider = ({ children }) => {
 
 
     // states for All Screens (details of the user)
+    const [allUser, setAllUser] = useState();
     const [mail, setmail] = useState();
     const [password, setpassword] = useState("");
     const [userId, setId] = useState('');
@@ -106,21 +107,40 @@ const UserContextProvider = ({ children }) => {
 
 
     const GetAllUsers = async () => {
-        let response = await fetch('https://cinemai.onrender.com/api/register', {
+        let response = await fetch('https://cinemai.onrender.com/api/getAllUsers', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ password: password, mail: mail })
         });
-
+       
         if (response.status === 200) {
-            console.log(yey);
-            console.log(response);
-            return response
+            const data = await response.json();
+            const users = data.user.user ;
+            console.log('yeyaaaaa');
+            console.log(data.user.user);
+            setAllUser(users)
+            return users
         }
         else if (response.status === 500){
 
+        }
+    }
+
+    const userDelete = async (mail) => {
+        let response = await fetch('https://cinemai.onrender.com/api/getAllUsers', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ mail: mail})
+        });
+       
+        if (response.status === 200) {
+            return "user deleted"
+        }
+        else if (response.status === 500){
+            alert('problem deleting user');
         }
     }
 
@@ -617,7 +637,7 @@ const UserContextProvider = ({ children }) => {
 
 
 
-    const value = { SetGenreFav, genreFav, mail, password, setmail, setpassword, Register, SetUpGenre, Delay3s, setFullName, setPhone, setGender, setCountry, setImage, image, country, gender, phone, fullName, SaveInformationSetUp, Login, popularF, Popular, LoadingCircle, setloading, loading, TopRated, topRatedF, UpComing, UpComingF, mail, AllFilmType, setTypePage2, TypePage2, GetGenreofUser, checkFirstTime, highlighted, setHighlighted, handlePress, modalVisible, setModalVisible, handleLogout, handleConfirmLogout, handleCancelLogout, GetActorsAboutFilm, actors, setActors, SaveEditProfile, fullName, handleGenreSelection, pushed, getAllcomments, LastComment, allcomments, setLastComment, explorefilms, getStockage30Films, listFavs, getFavoritesList, AddFilm, userId, removeFilmFromFavorites, GetChatForUser, AddChatForUser, GetAllChatForAdmin, RemoveChat, chat, SetChat, FromUser, SetFromUser, allChatsAdmin, SetallChatsAdmin, allMails, SetallMails, inputMessage, setInputMessage, loadingResponse }
+    const value = {userDelete, SetGenreFav, genreFav, mail, password, setmail, setpassword, Register, SetUpGenre, Delay3s, setFullName, setPhone, setGender, setCountry, setImage, image, country, gender, phone, fullName, SaveInformationSetUp, Login, popularF, Popular, LoadingCircle, setloading, loading, TopRated, topRatedF, UpComing, UpComingF, mail, AllFilmType, setTypePage2, TypePage2, GetGenreofUser, checkFirstTime, highlighted, setHighlighted, handlePress, modalVisible, setModalVisible, handleLogout, handleConfirmLogout, handleCancelLogout, GetActorsAboutFilm, actors, setActors, SaveEditProfile, fullName, handleGenreSelection, pushed, getAllcomments, LastComment, allcomments, setLastComment, explorefilms, getStockage30Films, listFavs, getFavoritesList, AddFilm, userId, removeFilmFromFavorites, GetChatForUser, AddChatForUser, GetAllChatForAdmin, RemoveChat, chat, SetChat, FromUser, SetFromUser, allChatsAdmin, SetallChatsAdmin, allMails, SetallMails, inputMessage, setInputMessage, loadingResponse,GetAllUsers,allUser, setAllUser }
     return (
         <>
             <UserContext.Provider value={value}>

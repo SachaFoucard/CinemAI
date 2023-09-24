@@ -86,6 +86,19 @@ userRoutes.post('/editProfil', async (req, res) => {
 
 })
 
+userRoutes.post('/deleteUser', async (req, res) => {
+  try {
+    const { mail } = req.body;
+    // Call the deleteFilmById function to delete the film
+    const updatedUsers= await UserModel.deleteFilmById(mail);
+
+    res.status(200).json({ message: 'user deleted successfully', updatedUsers });
+  } catch (error) {
+    console.error('Error deleting user:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 userRoutes.post('/deleteFilm', async (req, res) => {
   try {
     const { _id, filmid } = req.body;
@@ -104,7 +117,7 @@ userRoutes.post('/getAllUsers', async (req, res) => {
     // Call the deleteFilmById function to delete the film
     const user = await UserModel.GetAllUsers();
 
-    res.status(200).json({user});
+    res.status(200).json(user);
   } catch (error) {
     console.error('Error deleting film:', error);
     res.status(500).json({ error: 'Internal server error' });

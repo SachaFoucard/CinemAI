@@ -75,6 +75,17 @@ class UserModel {
     }
   }
 
+  static async deleteUserByMail(mail) {
+    try { 
+
+      const user = await new DB().RemoveOne("users", { mail: mail })
+      return "deleted";
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+
   //add film into playlist
   static async AddFilmtoPlaylist(_id, doc) {
     try {
