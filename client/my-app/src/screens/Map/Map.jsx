@@ -22,7 +22,14 @@ export default function App() {
   const mapRef = useRef(null); // Ref for the MapView component
 
   //infos about the closest cinema (adress,phone..)
-  const [positionClosest, setPositionClosest] = useState([]);
+  const [positionClosest, setPositionClosest] = useState({
+    latitude: null,
+    longitude: null,
+    name: '',  // Initialize with appropriate properties
+    adress: '',
+    tel: '',
+  });
+
 
   const localizeMySelf = async () => {
     if (Platform.OS === 'android' && !Device.isDevice) {
@@ -49,6 +56,7 @@ export default function App() {
 
   //return the closest cinema from database cinema about my position
   const findCinemaClosest = async () => {
+
     try {
       let data = await fetch('https://cinemai.onrender.com/api/map/findCinema', {
         method: 'POST', // Use POST method to send the body data
@@ -61,31 +69,35 @@ export default function App() {
           km: selectedRange
         }),
       });
+
       if (data.status === 201) {
         const response = await data.json();
-
-        // Update the state with the closest cinema's location
+        console.log("data.status", data.status);
+        console.log("response", response);
+  
         setCinemaclosest({
-          latitude: response.lat,
-          longitude: response.long,
+          latitude: Number(response.lat),
+          longitude: Number(response.long),
           latitudeDelta: 0.0922,
           longitudeDelta: 0.0421,
         });
-        setPositionClosest(response); 
-        console.log(response);
-      }
-      else { // Update the state without the cinema's location
-        // Set up place cinema 
+  
+        // Use the imported cinema data
+        setPositionClosest(cinemaclosest);
+      } else {
+        // Update the state without the cinema's location
+        // Set up place cinema
         setCinemaclosest({
           latitude: null,
           longitude: null,
           latitudeDelta: 0.0922,
           longitudeDelta: 0.0421,
         });
-        alert('cinema not in your radius location');
+        alert('Cinema not in your radius location');
       }
     } catch (error) {
-      alert('cinema not in your radius location')
+      console.error("Error in findCinemaClosest:", error);
+      alert('Cinema not in your radius location');
     }
   };
   const handleLocalizeMe = () => {
@@ -118,15 +130,15 @@ export default function App() {
             ref={mapRef}
             style={{ alignSelf: 'stretch', height: '100%' }}
             region={cinemaclosest.latitude ? cinemaclosest : { // Use cinemaclosest if available, otherwise use user's location
-              latitude: location.coords.latitude,
-              longitude: location.coords.longitude,
+              latitude: location?.coords?.latitude,
+              longitude: location?.coords?.longitude,
               latitudeDelta: 0.0922,
               longitudeDelta: 0.0421,
             }}
           >
             {location.coords.latitude && ( // Show user's marker only if location is available
               <Marker
-                coordinate={location.coords}
+                coordinate={location?.coords}
                 title='Your Position'
                 style={{ width: 30, height: 30 }}
                 pinColor='blue'
@@ -135,20 +147,21 @@ export default function App() {
             {/* Draw a blue circle around the user's position */}
             {location.coords.latitude && (
               <Circle
-                center={location.coords}
+                center={location?.coords}
                 radius={selectedRange * 1000} // Convert selectedRange to meters
                 strokeColor="blue"
                 fillColor="rgba(0, 0, 255, 0.1)" // Blue with opacity
               />
             )}
-            {cinemaclosest.latitude !== null && cinemaclosest.longitude !== null &&  ( // Show cinema marker only if cinema location is available
+            {cinemaclosest && cinemaclosest.longitude && (
               <Marker
-                coordinate={cinemaclosest}
-                title={positionClosest?.name}
-                description={positionClosest?.adress + positionClosest?.tel}
-                pinColor='red' // You can customize the pin color
+                coordinate={{longitude: cinemaclosest.longitude,latitude: cinemaclosest.latitude,}}
+                //  title={positionClosest.name}
+                //  description={positionClosest?.adress + positionClosest?.tel}
+                pinColor='red'
               />
             )}
+
           </MapView>
         ))}
       <TouchableOpacity style={styles.positionme} onPress={handleLocalizeMe}>

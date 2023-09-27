@@ -20,9 +20,7 @@ const List = ({ navigation }) => {
       { text: 'YES', onPress: () => removeFilmFromFavorites(userId, item.id) },
     ]);
   }
-  {
-    console.log(listFavs);
-  }
+ 
   return (
     <View style={styles.container}>
       {

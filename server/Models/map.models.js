@@ -19,7 +19,7 @@ class MapModel {
       throw error;
     }
   }
-  
+
   static async MoreClosestPlaces(lat1, lon1, closestDistance) {
     try {
       const places = await this.AllPlaces();
@@ -33,7 +33,7 @@ class MapModel {
         }
       }
       return closestPlace;
-      
+
     } catch (error) {
       console.error('Error finding closest place:', error);
       throw error;
