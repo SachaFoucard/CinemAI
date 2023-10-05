@@ -19,7 +19,6 @@ export default function UsersInfo() {
     // Show the edit form and pass the user data
     setShowEditForm(true);
     setEditUser(user);
-    console.log(user);
   };
 
   const handleSaveEdit = () => {

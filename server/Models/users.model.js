@@ -45,7 +45,6 @@ class UserModel {
         favorites: [{}],
         genres: [],
       };
-
       return await new DB().Insert('users', userData);
     } catch (error) {
       throw error;
@@ -58,9 +57,7 @@ class UserModel {
     if (!user || !(await bcrypt.compare(password, user.password)))
       return null;
     else {
-      return {
-        user
-      };
+      return user
     }
   }
 
@@ -77,11 +74,8 @@ class UserModel {
 
   static async deleteUserByMail(mail) {
     try { 
-      console.log("1");
-      console.log(mail);
       let query = { mail: mail }
       const user = await new DB().RemoveOne("users", query)
-      console.log(user)
       return user;
     } catch (error) {
       console.log(error);
@@ -95,7 +89,6 @@ class UserModel {
       const id = new ObjectId(_id); // Convert string _id to ObjectId
 
       const user = await new DB().FindOne('users', { _id: id });
-      console.log("user", user);
 
       if (user) {
         const favorites = user.favorites || []; // Ensure favorites array exists
@@ -134,10 +127,8 @@ class UserModel {
     let query = { mail: mail }
     let user = await new DB().FindOne('users', query);
     const _id = new ObjectId(user._id);
-    console.log(_id);
     if (user.genres) {
       user.genres = array
-      console.log(user.genres);
     }
     let userUpdated = await new DB().UpdateById('users', _id, user); // Fixed method name from 'UpdateOne' to 'UpdateById'
     return userUpdated;
@@ -152,7 +143,6 @@ class UserModel {
   static async SetUpProfil(name, mail, gender, phone, country) {
     let query = { mail: mail }
     let user = await new DB().FindOne('users', query);
-    console.log("user", user);
     const _id = new ObjectId(user._id);
     user.name = name
     user.gender = gender;
@@ -204,11 +194,9 @@ class UserModel {
 
       const user = await new DB().FindOne("users", { _id: id })
       if (!user || !user.favorites) {
-        console.log('User or favorites array not found.');
         return;
       }
       const favorites = user.favorites
-      console.log("favorites", favorites);
       const favoritesArray = favorites.filter((obj) => obj.id != filmid) // create new array without the film that got as parameter
       user.favorites = favoritesArray; // push the new new array updated
       const newUser = await new DB().UpdateById("users", _id, user)

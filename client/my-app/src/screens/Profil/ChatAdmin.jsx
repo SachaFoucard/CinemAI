@@ -12,9 +12,6 @@ export default function ChatAdmin() {
     const fetchChat = async () => {
       await GetChatForUser(mail);
       setloading(false); // Set loading to false after fetching the chat
-      console.log("FromUser in ChatAdmin",FromUser);
-      console.log("chat in ChatAdmin",chat);
-  
     };
 
     fetchChat();
@@ -30,7 +27,6 @@ export default function ChatAdmin() {
     //useEffect(() => {GetChatForUser(mail) }, [])
 
     const handleSendMessage = async () => {
-        console.log("handleSendMessage");
           // Assuming you have a function to send the message to the backend
           // Here, you can implement the logic to send the message and update the chat
           // For example:

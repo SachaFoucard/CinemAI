@@ -8,7 +8,6 @@ userRoutes.post('/register', async (req, res) => {
     if (!mail || !password) {
       return res.status(400).json({ error: 'Check your fields, one or more are empty' });
     }
-
     const user = await UserModel.Register(mail, password);
     res.status(201).json(user);
   } catch (error) {

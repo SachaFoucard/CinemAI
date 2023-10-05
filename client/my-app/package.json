@@ -45,6 +45,7 @@
     "react-native-splash-screen": "^3.3.0",
     "react-native-web": "~0.19.6",
     "react-native-webview": "13.2.2",
+    "react-uuid": "^2.0.0",
     "styled-components": "^5.3.11"
   },
   "devDependencies": {

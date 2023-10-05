@@ -25,9 +25,9 @@ export default function App() {
   const [positionClosest, setPositionClosest] = useState({
     latitude: null,
     longitude: null,
-    name: '',  // Initialize with appropriate properties
-    adress: '',
-    tel: '',
+    name: "",  // Initialize with appropriate properties
+    adress: "",
+    tel: "",
   });
 
 
@@ -72,16 +72,18 @@ export default function App() {
 
       if (data.status === 201) {
         const response = await data.json();
-        console.log("data.status", data.status);
-        console.log("response", response);
-  
+
         setCinemaclosest({
           latitude: Number(response.lat),
           longitude: Number(response.long),
           latitudeDelta: 0.0922,
           longitudeDelta: 0.0421,
+          name: response.name,  // Initialize with appropriate properties
+          adress: response.adress,
+          tel: response.tel,
+
         });
-  
+
         // Use the imported cinema data
         setPositionClosest(cinemaclosest);
       } else {
@@ -119,7 +121,7 @@ export default function App() {
   }
 
   const [selectedRange, setSelectedRange] = useState(1); // Initial range of 5 kilometers
-
+ 
   return (
     <View style={styles.container}>
       {!location ? ( // Use parentheses to wrap the condition
@@ -155,9 +157,9 @@ export default function App() {
             )}
             {cinemaclosest && cinemaclosest.longitude && (
               <Marker
-                coordinate={{longitude: cinemaclosest.longitude,latitude: cinemaclosest.latitude,}}
-                //  title={positionClosest.name}
-                //  description={positionClosest?.adress + positionClosest?.tel}
+                coordinate={{ longitude: cinemaclosest.longitude, latitude: cinemaclosest.latitude, }}
+                title={positionClosest.name}
+                description={positionClosest.adress}
                 pinColor='red'
               />
             )}

@@ -23,7 +23,6 @@ export default function ChatWithUser({route,navigation}) {
         );
       }
         const handleSendMessage = async () => {
-            console.log("handleSendMessage");
               // Assuming you have a function to send the message to the backend
               // Here, you can implement the logic to send the message and update the chat
               const chat = [inputMessage];

@@ -1,7 +1,6 @@
 import { View, Text,StyleSheet,ActivityIndicator,FlatList } from 'react-native'
 import React, { useContext,useEffect } from 'react'
 import { UserContext } from '../../context/UserContext'
-import ShowChatLog from '../../components/ShowChatLog';
 import ShowAdminChats from '../../components/ShowAdminChats';
 
 export default function ChatWithUsers({navigation}) {
@@ -11,7 +10,6 @@ export default function ChatWithUsers({navigation}) {
    useEffect(() => {
      const fetchChat = async () => {
        await GetAllChatForAdmin();
-       console.log("im here");
        setloading(false); // Set loading to false after fetching the chat
       };  
       fetchChat();
@@ -19,7 +17,6 @@ export default function ChatWithUsers({navigation}) {
     },[SetallChatsAdmin])
     
     
-    console.log("not here",typeof(allMails),allMails);
     if (loading) {
      return (
        <View style={styles.loadingContainer}>

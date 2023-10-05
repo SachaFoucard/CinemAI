@@ -101,7 +101,7 @@ const UserContextProvider = ({ children }) => {
     }
 
     function validateEmail(email) {
-        const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+        const emailRegex = /^[A-Za-z0-9_%+-]+@[A-Za-z-]+\.[A-Za-z]{2,}$/;
         return emailRegex.test(email);
     }
 
@@ -115,11 +115,11 @@ const UserContextProvider = ({ children }) => {
         });
         if (response.status === 200) {
             const data = await response.json();
-            const users = data.user ;
+            const users = data.user;
             setAllUser(users)
             return users
         }
-        else if (response.status === 500){
+        else if (response.status === 500) {
 
         }
     }
@@ -130,15 +130,15 @@ const UserContextProvider = ({ children }) => {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ mail: mail})
+            body: JSON.stringify({ mail: mail })
         });
         GetAllUsers()
-       
+
         if (response.status === 200) {
             const data = await response.json();
             return "user deleted"
         }
-        else if (response.status === 500){
+        else if (response.status === 500) {
             alert('problem deleting user');
         }
     }
@@ -172,7 +172,7 @@ const UserContextProvider = ({ children }) => {
         });
         if (!validateEmail(mail)) {
             setloadingResponse(false)
-            alert('Email not valid')
+            alert('Email not ')
         }
         else if (response.status === 400) {
             setloadingResponse(false)
@@ -214,7 +214,7 @@ const UserContextProvider = ({ children }) => {
             if (mail == 'Admin') {
                 navigation.navigate('AdminTabMenu');
             }
-            else{
+            else {
 
                 navigation.navigate('TabMenu');
             }
@@ -341,10 +341,8 @@ const UserContextProvider = ({ children }) => {
                 SetGenreFav(data); // Update the state using the SetGenreFav function
             } else {
                 throw new Error('Request failed');
-                console.log('not enter into the good status ');
             }
         } catch (error) {
-            console.log('error', error);
             console.error(error);
             throw error;
         }
@@ -382,7 +380,6 @@ const UserContextProvider = ({ children }) => {
             console.log(error);
         }
     };
-
 
     // check if its the first time login in or not if it is show the intro if not go to the sign up 
     async function checkFirstTime(navigation) {
@@ -628,15 +625,36 @@ const UserContextProvider = ({ children }) => {
         }
     };
 
+    const [result, setResult] = useState({});
+
+    const SearchAiFilm = async (word, Setdata) => {
+        const options = {
+            method: 'GET',
+            headers: {
+                accept: 'application/json',
+                Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4ZWM2NzRlZWU2NTc5ZWI3ZWMxZTEyZGY2NmJlNDAwMyIsInN1YiI6IjY0NjIyNjlmOGM0NGI5MDE1M2RjMWQ4YSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.UeA6Vc9H6D7Bl34qAgv5dLIPBGwtQlu_v74yXGbbUbA'
+            }
+        };
+        try {
+            const response = await fetch(`https://api.themoviedb.org/3/search/multi?query=${word}&include_adult=false&language=en-US&page=1`, options);
+            const data = await response.json();
+            Setdata(data?.results[0])
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+
+
 
     useEffect(() => {
-        Popular()
+        Popular();
         getStockage30Films();
     }, [])
 
 
 
-    const value = {SaveEditProfileAdmin,userDelete, SetGenreFav, genreFav, mail, password, setmail, setpassword, Register, SetUpGenre, Delay3s, setFullName, setPhone, setGender, setCountry, setImage, image, country, gender, phone, fullName, SaveInformationSetUp, Login, popularF, Popular, LoadingCircle, setloading, loading, TopRated, topRatedF, UpComing, UpComingF, mail, AllFilmType, setTypePage2, TypePage2, GetGenreofUser, checkFirstTime, highlighted, setHighlighted, handlePress, modalVisible, setModalVisible, handleLogout, handleConfirmLogout, handleCancelLogout, GetActorsAboutFilm, actors, setActors, SaveEditProfile, fullName, handleGenreSelection, pushed, getAllcomments, LastComment, allcomments, setLastComment, explorefilms, getStockage30Films, listFavs, getFavoritesList, AddFilm, userId, removeFilmFromFavorites, GetChatForUser, AddChatForUser, GetAllChatForAdmin, RemoveChat, chat, SetChat, FromUser, SetFromUser, allChatsAdmin, SetallChatsAdmin, allMails, SetallMails, inputMessage, setInputMessage, loadingResponse,GetAllUsers,allUser, setAllUser }
+    const value = { SaveEditProfileAdmin, userDelete, SetGenreFav, genreFav, mail, password, setmail, setpassword, Register, SetUpGenre, Delay3s, setFullName, setPhone, setGender, setCountry, setImage, image, country, gender, phone, fullName, SaveInformationSetUp, Login, popularF, Popular, LoadingCircle, setloading, loading, TopRated, topRatedF, UpComing, UpComingF, mail, AllFilmType, setTypePage2, TypePage2, GetGenreofUser, checkFirstTime, highlighted, setHighlighted, handlePress, modalVisible, setModalVisible, handleLogout, handleConfirmLogout, handleCancelLogout, GetActorsAboutFilm, actors, setActors, SaveEditProfile, fullName, handleGenreSelection, pushed, getAllcomments, LastComment, allcomments, setLastComment, explorefilms, getStockage30Films, listFavs, getFavoritesList, AddFilm, userId, removeFilmFromFavorites, GetChatForUser, AddChatForUser, GetAllChatForAdmin, RemoveChat, chat, SetChat, FromUser, SetFromUser, allChatsAdmin, SetallChatsAdmin, allMails, SetallMails, inputMessage, setInputMessage, loadingResponse, GetAllUsers, allUser, setAllUser, SearchAiFilm, setResult, result }
     return (
         <>
             <UserContext.Provider value={value}>

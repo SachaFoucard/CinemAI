@@ -1,111 +1,139 @@
-import React, { useState, useEffect, useRef } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TextInput,
-  TouchableOpacity,
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
-} from 'react-native';
-import Ionicons from '@expo/vector-icons/Ionicons';
+import React, { useState, useEffect, useContext } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, Button, FlatList } from 'react-native';
+import { UserContext } from '../../context/UserContext';
+import { useNavigation } from '@react-navigation/native';
+import uuid from 'react-uuid';
 
 const Ai = () => {
-  const [allMessages, setAllMessages] = useState([]);
-  const [input, setInput] = useState('');
 
-  const inputRef = useRef(null);
-  const chatScrollViewRef = useRef(null);
+  const navigation = useNavigation();
+  const [firstFilm, setFirstFilm] = useState(false); // turn over the picture 
+  const [secondFilm, setSecondFilm] = useState(false); // turn over the picture 
+
+  const [wordTitle1, setWordTitle1] = useState(''); // State to store the entered film name for the first film
+  const [wordTitle2, setWordTitle2] = useState(''); // State to store the entered film name for the second film
+
+  const [dataFilm1, setDatafilm1] = useState(null); // State to store the result for the first film
+  const [dataFilm2, setDataFilm2] = useState(null); // State to store the result for the second film
+
+  const [recommandationFilms, setRecommandationFilms] = useState([]);
+
+  const { SearchAiFilm } = useContext(UserContext);
 
   useEffect(() => {
-    // Scroll to the bottom of the chat whenever allMessages changes
-    chatScrollViewRef.current.scrollToEnd({ animated: true });
-  }, [allMessages]);
+    setRecommandationFilms([])
+  }, [dataFilm1]);
 
-  const addMessage = (message, isAI = false) => {
-    setAllMessages((prevMessages) => [...prevMessages, { text: message, isAI }]);
-  };
+  const Recommandation = async (id1, id2) => {
+    try {
+      const options = {
+        method: 'GET',
+        headers: {
+          accept: 'application/json',
+          Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4ZWM2NzRlZWU2NTc5ZWI3ZWMxZTEyZGY2NmJlNDAwMyIsInN1YiI6IjY0NjIyNjlmOGM0NGI5MDE1M2RjMWQ4YSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.UeA6Vc9H6D7Bl34qAgv5dLIPBGwtQlu_v74yXGbbUbA'
+        }
+      };
 
-  const handleSendMessage = () => {
-    const userMessage = input.trim(); // Remove leading/trailing whitespace
-    if (userMessage === '') return; // Don't send empty messages
+      // Fetch recommendations for the first movie (id1)
+      const response1 = await fetch(`https://api.themoviedb.org/3/movie/${id1}/recommendations?language=en-US&page=1`, options);
+      const data1 = await response1.json();
 
-    addMessage(userMessage);
+      // Fetch recommendations for the first movie (id1)
+      const response2 = await fetch(`https://api.themoviedb.org/3/movie/${id2}/recommendations?language=en-US&page=1`, options);
+      const data2 = await response2.json();
 
-    // Simulate AI response (for demonstration purposes)
-    setTimeout(() => {
-      let aiResponse = '';
-
-      const lowercaseUserMessage = userMessage.toLowerCase(); // Convert user's message to lowercase
-
-      if (lowercaseUserMessage.includes('hi') || lowercaseUserMessage.includes('hello')) {
-        aiResponse = `AI: Hi there!`;
-      } else if (lowercaseUserMessage.includes('how are you')) {
-        aiResponse = `AI: I'm just a computer program, so I don't have feelings, but I'm here to assist you! How can I help you today?`;
-      } else if (lowercaseUserMessage.includes("what's the weather like today?")) {
-        aiResponse = `AI: I'm sorry, I don't have real-time data. You can check the weather on a weather website or app.`;
-      } else if (lowercaseUserMessage.includes('tell me a joke')) {
-        aiResponse = `AI: Sure, here's one: Why did the scarecrow win an award? Because he was outstanding in his field!`;
-      } else if (['comic', 'mystery', 'romance', 'adventure', 'action', 'horror', 'comedy', 'thriller', 'war', 'fantasy'].some(keyword => lowercaseUserMessage.includes(keyword))) {
-        aiResponse = `AI: I understand that you're interested in ${userMessage} film ?`;
-      } else {
-        // If no keyword matches, provide a default response
-        aiResponse = `AI: I didn't quite catch that. Can you please rephrase or ask another question?`;
+      if (data2) {
+        setRecommandationFilms(data2?.results)
       }
-
-      addMessage(aiResponse, true);
-    }, 1000);
-
-    setInput('');
-    inputRef.current.clear();
+      if (data1) {
+        // Combine the recommendations from both movies and limit to the first 2 recommendations from each
+        setRecommandationFilms((prev)=>[...prev,data1?.results]);
+      } else {
+        console.error('Failed to fetch recommendations');
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
+
 
   return (
-    <KeyboardAvoidingView
-      style={styles.container}
-      behavior={Platform.OS === 'ios' ? 'padding' : null}
-      keyboardVerticalOffset={Platform.OS === 'ios' ? 64 : 0} // Adjust as needed
-    >
-      <ScrollView
-        ref={chatScrollViewRef}
-        contentContainerStyle={styles.messageContainer}
-      >
-        {allMessages.map((message, index) => (
-          <View
-            key={index}
-            style={[
-              styles.messageItem,
-              message.isAI ? styles.aiMessageItem : styles.userMessageItem,
-            ]}
-          >
-            <Text
-              style={[
-                styles.message,
-                message.isAI ? styles.aiMessage : styles.userMessage,
-              ]}
-            >
-              {message.text}
-            </Text>
-          </View>
-        ))}
-      </ScrollView>
+    <>
+      <View style={styles.container}>
+        <Text style={styles.title}>What would you watch Tonight ? </Text>
+        <View style={styles.body}>
+          <TouchableOpacity onPress={() => SearchAiFilm(wordTitle1, setDatafilm1)}>
+            {firstFilm && dataFilm1 ? (
+              <Image
+                style={styles.img}
+                source={{ uri: `https://image.tmdb.org/t/p/original/${dataFilm1?.backdrop_path}` }}
+              />
+            ) : (
+              <Image
+                style={styles.img}
+                source={{ uri: 'https://i.pinimg.com/550x/40/90/0b/40900b2708df9c2bcb6af5defb29cfc9.jpg' }}
+              />
+            )}
+            <TextInput
+              onChangeText={(text) => {
+                setFirstFilm(!firstFilm);
+                setWordTitle1(text);
+              }}
+              placeholder='Enter film name'
+              style={styles.input}
+              value={wordTitle1}
+            />
+          </TouchableOpacity>
 
-      <View style={styles.inputContainer}>
-        <TextInput
-          ref={inputRef}
-          style={styles.input}
-          placeholder="Talk with me"
-          placeholderTextColor="grey"
-          value={input}
-          onChangeText={setInput}
-          autoFocus={true} // Set the autoFocus prop to true
-        />
-        <TouchableOpacity style={styles.sendButton} onPress={handleSendMessage}>
-          <Ionicons name="send" size={24} color="white" />
+          <TouchableOpacity onPress={() => SearchAiFilm(wordTitle2, setDataFilm2)}>
+            {secondFilm && dataFilm2 ? (
+              <Image
+                style={styles.img}
+                source={{ uri: `https://image.tmdb.org/t/p/original/${dataFilm2?.backdrop_path}` }}
+              />
+            ) : (
+              <Image
+                style={styles.img}
+                source={{ uri: 'https://i.pinimg.com/550x/40/90/0b/40900b2708df9c2bcb6af5defb29cfc9.jpg' }}
+              />
+            )}
+            <TextInput
+              onChangeText={(text) => {
+                setSecondFilm(!secondFilm);
+                setWordTitle2(text);
+              }}
+              placeholder='Enter film name'
+              style={styles.input}
+              value={wordTitle2}
+            />
+          </TouchableOpacity>
+        </View>
+        {
+          recommandationFilms ? <View style={styles.results}>
+            <FlatList
+              data={recommandationFilms}
+              keyExtractor={(item) => uuid()}
+              horizontal
+              renderItem={({ item }) => (
+                <TouchableOpacity onPress={(() => navigation.navigate('ItemFilm', { item: item }))}>
+                  <Image source={{ uri: `https://image.tmdb.org/t/p/original/${item?.backdrop_path}` }}
+                    style={styles.resultsImg} />
+                  <View style={styles.fontGrade}>
+                    <Text style={styles.grade}>{item.vote_average}</Text>
+                  </View>
+                </TouchableOpacity>
+              )}
+            />
+          </View> : (
+            <Text style={styles.txt}>No recommendations available</Text>
+          )}
+
+
+        <TouchableOpacity style={styles.btnSearch} onPress={() => Recommandation(dataFilm1.id, dataFilm2.id)}>
+          <Text style={styles.txt}>Search</Text>
         </TouchableOpacity>
       </View>
-    </KeyboardAvoidingView>
+    </>
   );
 };
 
@@ -116,50 +144,68 @@ const styles = StyleSheet.create({
     padding: 20,
     borderRadius: 14,
   },
-  messageContainer: {
-    flexGrow: 1,
-    justifyContent: 'flex-end', // Start from the bottom
+  title: {
+    color: 'white',
+    fontSize: 40,
+    textAlign: 'center',
+    padding: 20,
   },
-  messageItem: {
-    marginBottom: 10,
+  btnSearch: {
+    position: 'absolute',
+    alignSelf: 'center',
+    bottom: '10%',
+    backgroundColor: 'white',
+    padding: 15,
+    width: 200,
+  },
+  body: {
     flexDirection: 'row',
-    justifyContent: 'flex-end',
+    justifyContent: 'space-around',
   },
-  userMessageItem: {
-    justifyContent: 'flex-end',
+  img: {
+    width: 130,
+    height: 200,
+    borderRadius: 20,
+    marginLeft: 15,
+    position: 'relative'
   },
-  aiMessageItem: {
-    justifyContent: 'flex-start',
+  grade: {
+    color: 'white',
+    fontSize: 15
   },
-  inputContainer: {
-    flexDirection: 'row',
-    backgroundColor: '#333',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    alignItems: 'center',
+  fontGrade: {
+    position: 'absolute',
+    left: '15%',
+    top: '6%',
+    padding: 7,
+    paddingLeft: 10,
+    paddingRight: 10,
+    backgroundColor: 'red',
+    borderRadius: 5
   },
   input: {
-    flex: 1,
-    color: 'white',
-    fontSize: 16,
-  },
-  sendButton: {
-    marginLeft: 10,
-  },
-  message: {
-    fontSize: 18,
-    color: 'white',
+    height: 40,
+    width: 100,
+    margin: 12,
+    borderWidth: 1,
     padding: 10,
-    borderRadius: 10,
+    color: 'white',
+    borderColor: 'white'
   },
-  userMessage: {
-    backgroundColor: '#007AFF', // Blue color for user messages
-    alignSelf: 'flex-end',
+  txt: {
+    alignSelf: 'center',
+    fontSize: 20,
   },
-  aiMessage: {
-    backgroundColor: '#34C759', // Green color for AI messages
-    alignSelf: 'flex-start',
+  results: {
+    marginTop: 50
   },
+  resultsImg: {
+    width: 100,
+    height: 170,
+    borderRadius: 20,
+    marginLeft: 15,
+    position: 'relative'
+  }
 });
 
 export default Ai;

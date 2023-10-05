@@ -3,7 +3,6 @@ import React, { useContext, useEffect, useState } from 'react';
 import { UserContext } from '../../context/UserContext';
 import Category from '../../components/Category';
 import HeaderHome from '../../components/HeaderHome';
-import Ionicons from '@expo/vector-icons/Ionicons';
 
 
 const Home = ({ navigation }) => {

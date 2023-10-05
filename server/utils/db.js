@@ -48,7 +48,6 @@ class DB {
     async UpdateById(collection, id, doc) {
         try {
             await this.client.connect();
-            console.log({ ...doc });
             return await this.client.db(this.db_name).collection(collection).updateOne(
                 { _id: new ObjectId(id) },
                 { $set: { ...doc } });
