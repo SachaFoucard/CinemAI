@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, Image, TextInput,TouchableOpacity,
+import {
+  View, StyleSheet, Image, TextInput, TouchableOpacity,
 } from 'react-native';
 import { Text } from '@react-native-material/core';
 import { Stack } from '@react-native-material/core';
@@ -9,13 +10,17 @@ import { ActivityIndicator } from '@react-native-material/core';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
 const SignUpScreen = ({ navigation }) => {
-  const { setMail, setPassword, Register, mail, password, loadingResponse, pushed } = useContext(UserContext);
+  const { setMail, setPassword, Register, password, loadingResponse, pushed } = useContext(UserContext);
   const [showPassword, setShowPassword] = useState(false);
+
+  const [mailS, setMailS] = useState('')
+  const [passS, setPassS] = useState('')
+
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
-
+ 
   return (
     <>
       <View style={styles.container}>
@@ -31,28 +36,29 @@ const SignUpScreen = ({ navigation }) => {
             style={styles.input}
             placeholder='Mail'
             placeholderTextColor='white'
-            onChangeText={setMail}
+            onChangeText={setMailS}
           />
           <View style={styles.passwordContainer}>
             <TextInput
               style={styles.input}
               placeholder='Password'
               placeholderTextColor='white'
-              onChangeText={setPassword}
+              onChangeText={setPassS}
               secureTextEntry={!showPassword}
+
             />
             <TouchableOpacity
               style={styles.passwordVisibilityButton}
               onPress={togglePasswordVisibility}
             >
               <Text style={styles.passwordVisibilityText}>
-                {showPassword ? <Ionicons color='white' size={30} name='eye-outline'/> : <Ionicons color='grey' size={30} name='eye-off-outline'/>}
+                {showPassword ? <Ionicons color='white' size={30} name='eye-outline' /> : <Ionicons color='grey' size={30} name='eye-off-outline' />}
               </Text>
             </TouchableOpacity>
           </View>
         </Stack>
         <TouchableOpacity
-          style={[styles.button,pushed,mail && password && { backgroundColor: '#E21121' },]}onPress={() => Register(navigation, mail, password)} >
+          style={[styles.button, pushed, mailS && passS && { backgroundColor: '#E21121' },]} onPress={() => Register(navigation, mailS, passS)} >
           <Text style={styles.buttonText}>Sign Up</Text>
         </TouchableOpacity>
         <View style={styles.signInContainer}>
@@ -88,7 +94,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#333333',
     padding: 20,
     borderRadius: 20,
-    width:'95%',
+    width: '95%',
     margin: 15,
     color: 'white',
   },
@@ -101,7 +107,7 @@ const styles = StyleSheet.create({
     right: 10,
   },
   passwordVisibilityText: {
-    marginRight:10
+    marginRight: 10
   },
   button: {
     width: 350,

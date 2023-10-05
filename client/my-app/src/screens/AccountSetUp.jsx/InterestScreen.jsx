@@ -6,6 +6,7 @@ import { UserContext } from '../../context/UserContext';
 
 const InterestScreen = ({navigation}) => {
   const { SetGenreFav, genreFav,SetUpGenre } = useContext(UserContext);
+
   const buttons = [
     'Action',
     'Adventure',
@@ -75,6 +76,9 @@ const InterestScreen = ({navigation}) => {
     return rows;
   };
 
+  {
+    console.log("genreFav",genreFav);
+  }
   return (
     <View style={styles.container}>
       <View>

@@ -24,7 +24,7 @@ const UserContextProvider = ({ children }) => {
 
     // states for All Screens (details of the user)
     const [allUser, setAllUser] = useState();
-    const [mail, setmail] = useState();
+    const [mail, setmail] = useState("");
     const [password, setpassword] = useState("");
     const [userId, setId] = useState('');
 
@@ -100,10 +100,7 @@ const UserContextProvider = ({ children }) => {
         }, 2000);
     }
 
-    function validateEmail(email) {
-        const emailRegex = /^[A-Za-z0-9_%+-]+@[A-Za-z-]+\.[A-Za-z]{2,}$/;
-        return emailRegex.test(email);
-    }
+   
 
 
     const GetAllUsers = async () => {
@@ -160,6 +157,11 @@ const UserContextProvider = ({ children }) => {
         }
     };
 
+    const validateEmail = (email) => {
+        const emailRegex = /^[A-Za-z0-9_%+-]+@[A-Za-z-]+\.[A-Za-z]{2,}$/;
+        return emailRegex.test(email);
+    }
+
     const Register = async (navigation, mail, password) => {
         setloadingResponse(true) // logo loading 
         setPushed(true);
@@ -172,7 +174,9 @@ const UserContextProvider = ({ children }) => {
         });
         if (!validateEmail(mail)) {
             setloadingResponse(false)
-            alert('Email not ')
+            alert('Email not valid ')
+            console.log("mail",mail);
+            console.log("password",password);
         }
         else if (response.status === 400) {
             setloadingResponse(false)
@@ -227,16 +231,36 @@ const UserContextProvider = ({ children }) => {
 
     //screen after Registration //function to save in database the genre films that the users like 
     const SetUpGenre = async (navigation) => {
-        let response = await fetch('https://cinemai.onrender.com/api/updateGenre', {
+        try {
+            console.log("SetUpGenre function called");
+
+          // Make the API request
+          const response = await fetch('https://cinemai.onrender.com/api/updateGenre', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+              'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ genreFav: genreFav, mail: mail })
-        })
-        if (response.status === 201) { navigation.navigate('ProfilSetUp'); }
-        else { alert('genre not added, there is a problem') }
-    }
+            body: JSON.stringify({ genreFav: genreFav, mail: mail }),
+          });
+      
+          // Check if the response status indicates success (e.g., 201)
+          if (response.status === 201) {
+            // Successful API request
+            console.log('Genre updated successfully');
+            navigation.navigate('ProfilSetUp');
+          } else {
+            // Handle unsuccessful API request
+            console.log('Failed to update genre. Status code:', response.status);
+            alert('Genre not updated, there is a problem');
+          }
+        } catch (error) {
+          // Handle any other errors that may occur
+          console.log('An error occurred:', error);
+          alert('An error occurred while updating genre');
+        }
+      };
+      
+
     // function ProfilSetUp screen to save account informations (phone,gender,name,mail,country)
     const SaveInformationSetUp = async (navigation) => {
         let response = await fetch('https://cinemai.onrender.com/api/setUpProfil', {
