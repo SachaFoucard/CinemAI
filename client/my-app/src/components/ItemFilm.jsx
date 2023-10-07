@@ -1,22 +1,23 @@
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Image, FlatList, Alert } from 'react-native';
 import React, { useContext, useEffect, useState } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Image, FlatList, Alert } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import genreId from '../data/genres.json';
 import { UserContext } from '../context/UserContext';
 import Actors from './Actors';
-import Trailer from '../components/Trailer'
-import Comment from '../components/Comments'
+import Trailer from '../components/Trailer';
+import Comment from '../components/Comments';
 
 const Film = ({ route, navigation }) => {
   const { item } = route.params;
   const { actors, GetActorsAboutFilm, getAllcomments, LastComment, setLastComment, AddFilm, userId } = useContext(UserContext);
   const [selectedMenu, setSelectedMenu] = useState('');
 
-
   useEffect(() => {
-    getAllcomments(item.id); // Fetch all comments when the Film component mounts
-    setLastComment([])
-    GetActorsAboutFilm(item.id);
+    if (item) {
+      getAllcomments(item?.id); // Fetch all comments when the Film component mounts
+      setLastComment([]);
+      GetActorsAboutFilm(item?.id);
+    }
   }, [item.id]);
 
   const getGenreName = (id) => {
@@ -27,11 +28,12 @@ const Film = ({ route, navigation }) => {
   const ToggleBarBottom = (menu) => {
     setSelectedMenu(menu);
     if (selectedMenu === 'comments') {
-      getAllcomments(item.id);
+      getAllcomments(item?.id);
     }
   };
 
   const AlertAdd = () => {
+    console.log("dedans",item);
     Alert.alert('Are you sure ?', 'To add the film to your playlist ', [
       {
         text: 'NO',
@@ -40,53 +42,58 @@ const Film = ({ route, navigation }) => {
       },
       { text: 'YES', onPress: () => AddFilm(userId, item) },
     ]);
-  }
+  };
 
   return (
     <ScrollView style={styles.container}>
-      <View style={styles.headerImage}>
-        <Image
-          source={{ uri: `https://image.tmdb.org/t/p/original/${item?.poster_path}` }}
-          style={styles.img}
-        />
-        <Ionicons
-          name="arrow-back-outline"
-          size={32}
-          color="white"
-          style={styles.iconArrow}
-          onPress={() => navigation.navigate('TabMenu')} // Use goBack.goBack() instead of goBack()
-        />
-      </View>
- 
-      <View style={styles.body}>
-        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-          <Text style={styles.title}>{item?.original_title}</Text>
-          <TouchableOpacity onPress={() => AlertAdd()} style={styles.btnAdd}>
-        <Ionicons name="add-circle" color={'white'} size={40} />
-      </TouchableOpacity>
+      {item && (
+        <View style={styles.headerImage}>
+          <Image
+            source={{ uri: `https://image.tmdb.org/t/p/original/${item?.poster_path}` }}
+            style={styles.img}
+          />
+          <Ionicons
+            name="arrow-back-outline"
+            size={32}
+            color="white"
+            style={styles.iconArrow}
+            onPress={() => navigation.navigate('TabMenu')}
+          />
         </View>
-        <View style={styles.details}>
-          <Ionicons name="star" size={22} color="red" />
-          <Text style={styles.textRed}>{item?.vote_average}</Text>
-          <Text style={styles.textWhite}>{item?.release_date}</Text>
-          <Text style={styles.textRedBorder}>{item?.adult ? <Text>18+</Text> : <Text>13+</Text>}</Text>
-          <Text style={styles.textRedBorder}>{item?.original_language}</Text>
-          <Text style={styles.textRedBorder}>subsistle</Text>
+      )}
+
+      {item && (
+        <View style={styles.body}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+            <Text style={styles.title}>{item?.original_title}</Text>
+            <TouchableOpacity onPress={() => AlertAdd()} style={styles.btnAdd}>
+              <Ionicons name="add-circle" color={'white'} size={40} />
+            </TouchableOpacity>
+          </View>
+          <View style={styles.details}>
+            <Ionicons name="star" size={22} color="red" />
+            <Text style={styles.textRed}>{item?.vote_average}</Text>
+            <Text style={styles.textWhite}>{item?.release_date}</Text>
+            <Text style={styles.textRedBorder}>{item?.adult ? <Text>18+</Text> : <Text>13+</Text>}</Text>
+            <Text style={styles.textRedBorder}>{item?.original_language}</Text>
+            <Text style={styles.textRedBorder}>subsistle</Text>
+          </View>
+          <View style={styles.genreOverview}>
+            <Text style={styles.genres}>
+              Genre:
+              {item?.genre_ids?.map((genreId, index, array) => (
+                <Text style={styles.genres} key={genreId}>
+                  {getGenreName(genreId)}
+                  {index !== array.length - 1 ? ', ' : ', ...'}
+                </Text>
+              ))}
+            </Text>
+            <Text style={styles.genres}>{item?.overview}</Text>
+          </View>
+          <Actors actors={actors} />
         </View>
-        <View style={styles.genreOverview}>
-          <Text style={styles.genres}>
-            Genre:
-            {item?.genre_ids?.map((genreId, index, array) => (
-              <Text style={styles.genres} key={genreId}>
-                {getGenreName(genreId)}
-                {index !== array.length - 1 ? ', ' : ', ...'}
-              </Text>
-            ))}
-          </Text>
-          <Text style={styles.genres}>{item?.overview}</Text>
-        </View>
-        <Actors actors={actors} />
-      </View>
+      )}
+
       <View style={styles.barMenu}>
         <TouchableOpacity onPress={() => ToggleBarBottom('trailers')}>
           <Text style={[styles.titleMenuBar, selectedMenu === 'trailers' && styles.highlightedMenu]}>Trailers</Text>
@@ -123,7 +130,7 @@ const Film = ({ route, navigation }) => {
                 <FlatList
                   style={styles.flatlist}
                   data={LastComment.reverse()}
-                  keyExtractor={(item, index) => index.toString()} // Change keyExtractor to use index.toString()
+                  keyExtractor={(item, index) => index.toString()}
                   renderItem={({ item }) => (
                     <Comment username={item.username} text={item.text} date={item.date} style={styles.txt} />
                   )}
@@ -135,6 +142,7 @@ const Film = ({ route, navigation }) => {
     </ScrollView>
   );
 };
+
 
 const styles = StyleSheet.create({
   container: {

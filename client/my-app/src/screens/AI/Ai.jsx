@@ -22,7 +22,7 @@ const Ai = () => {
 
   useEffect(() => {
     setRecommandationFilms([])
-  }, [dataFilm1]);
+  }, [dataFilm1,dataFilm2]);
 
   const Recommandation = async (id1, id2) => {
     try {

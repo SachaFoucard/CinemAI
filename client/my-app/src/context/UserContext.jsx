@@ -26,7 +26,7 @@ const UserContextProvider = ({ children }) => {
     const [allUser, setAllUser] = useState();
     const [mail, setmail] = useState("");
     const [password, setpassword] = useState("");
-    const [userId, setId] = useState('');
+    const [userId, setId] = useState("");
 
     // states for SetUp Screens (details of the user)
     const [fullName, setFullName] = useState();
@@ -213,8 +213,10 @@ const UserContextProvider = ({ children }) => {
         } else if (response.status === 201) {
             setloadingResponse(false)
             const jsonResponse = await response.json();
-            alert(`Happy to see you Back ${jsonResponse?.user?.mail} !`);
-            setId(jsonResponse?.user?._id)
+            alert(`Happy to see you Back ${jsonResponse?.mail} !`);
+            setId(jsonResponse?._id)
+            console.log("SETID",userId);
+         
             if (mail == 'Admin') {
                 navigation.navigate('AdminTabMenu');
             }
@@ -520,9 +522,9 @@ const UserContextProvider = ({ children }) => {
         }
     };
 
-
     //add films intodatabase
     const AddFilm = async (userId, film) => {
+
         let data = await fetch('https://cinemai.onrender.com/api/addFilm', {
             method: 'POST',
             headers: {

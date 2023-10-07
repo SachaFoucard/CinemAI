@@ -1,6 +1,6 @@
 import { View, StyleSheet } from 'react-native';
 import { Text } from '@react-native-material/core';
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { TouchableOpacity } from 'react-native';
 import { UserContext } from '../../context/UserContext';
 
