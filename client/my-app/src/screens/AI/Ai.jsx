@@ -22,10 +22,15 @@ const Ai = () => {
 
   useEffect(() => {
     setRecommandationFilms([])
-  }, [dataFilm1,dataFilm2]);
+  }, [dataFilm1, dataFilm2]);
 
   const Recommandation = async (id1, id2) => {
     try {
+      if (!id1 || !id2) {
+        console.error('Invalid movie IDs');
+        return;
+      }
+
       const options = {
         method: 'GET',
         headers: {
@@ -36,25 +41,36 @@ const Ai = () => {
 
       // Fetch recommendations for the first movie (id1)
       const response1 = await fetch(`https://api.themoviedb.org/3/movie/${id1}/recommendations?language=en-US&page=1`, options);
+      if (!response1) {
+        console.error('Failed to fetch recommendations for the first movie');
+        return;
+      }
       const data1 = await response1.json();
 
-      // Fetch recommendations for the first movie (id1)
+      // Fetch recommendations for the second movie (id2)
       const response2 = await fetch(`https://api.themoviedb.org/3/movie/${id2}/recommendations?language=en-US&page=1`, options);
+      if (!response2) {
+        console.error('Failed to fetch recommendations for the second movie');
+        return;
+      }
       const data2 = await response2.json();
 
-      if (data2) {
-        setRecommandationFilms(data2?.results)
-      }
-      if (data1) {
-        // Combine the recommendations from both movies and limit to the first 2 recommendations from each
-        setRecommandationFilms((prev)=>[...prev,data1?.results]);
+      // Combine the recommendations from both movies and limit to the first 2 recommendations from each
+      const combinedRecommendations = [
+        ...(data1?.results || []).slice(0, 5),
+        ...(data2?.results || []).slice(0, 5)
+      ];
+
+      if (combinedRecommendations) {
+        setRecommandationFilms(combinedRecommendations);
       } else {
-        console.error('Failed to fetch recommendations');
+        console.error('No recommendations available');
       }
     } catch (error) {
       console.error(error);
     }
   };
+
 
 
   return (
@@ -84,7 +100,7 @@ const Ai = () => {
               value={wordTitle1}
             />
           </TouchableOpacity>
-
+          <Text style={styles.plus}>+</Text>
           <TouchableOpacity onPress={() => SearchAiFilm(wordTitle2, setDataFilm2)}>
             {secondFilm && dataFilm2 ? (
               <Image
@@ -108,8 +124,9 @@ const Ai = () => {
             />
           </TouchableOpacity>
         </View>
+        <Text style={styles.equal}>=</Text>
         {
-          recommandationFilms ? <View style={styles.results}>
+          recommandationFilms.length > 0 ? <View style={styles.results}>
             <FlatList
               data={recommandationFilms}
               keyExtractor={(item) => uuid()}
@@ -119,13 +136,13 @@ const Ai = () => {
                   <Image source={{ uri: `https://image.tmdb.org/t/p/original/${item?.backdrop_path}` }}
                     style={styles.resultsImg} />
                   <View style={styles.fontGrade}>
-                    <Text style={styles.grade}>{item.vote_average}</Text>
+                    <Text style={styles.grade}>{item?.vote_average}</Text>
                   </View>
                 </TouchableOpacity>
               )}
             />
           </View> : (
-            <Text style={styles.txt}>No recommendations available</Text>
+            <Text style={styles.answer}>No recommendations available</Text>
           )}
 
 
@@ -169,6 +186,12 @@ const styles = StyleSheet.create({
     marginLeft: 15,
     position: 'relative'
   },
+  answer: {
+    color: 'white',
+    textAlign: 'center',
+    fontSize: 20,
+    marginTop:'50'
+  },
   grade: {
     color: 'white',
     fontSize: 15
@@ -183,6 +206,12 @@ const styles = StyleSheet.create({
     backgroundColor: 'red',
     borderRadius: 5
   },
+  plus: {
+    fontSize: 50,
+    color: 'red',
+    marginTop: 100,
+    marginLeft: 15
+  },
   input: {
     height: 40,
     width: 100,
@@ -191,6 +220,11 @@ const styles = StyleSheet.create({
     padding: 10,
     color: 'white',
     borderColor: 'white'
+  },
+  equal: {
+    color: 'red',
+    textAlign: 'center',
+    fontSize: 50
   },
   txt: {
     alignSelf: 'center',

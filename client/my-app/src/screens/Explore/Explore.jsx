@@ -72,13 +72,12 @@ const Explore = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <TextInput
-          variant="standart"
-          style={[styles.searchInput, { color: 'white' }]} // Set text color directly in style prop
-          placeholder="Search films..."
-          placeholderTextColor="white"
-          onChangeText={setText}
-        />
+      <TextInput
+  style={[styles.searchInput, { color: 'white' }]}
+  placeholder="Search films..."
+  placeholderTextColor="black"
+  onChangeText={setText}
+/>
         <TouchableOpacity style={styles.icnSearch} onPress={() => setSearch(!search)}>
           <Ionicons name="search" size={35} color="white" />
         </TouchableOpacity>
