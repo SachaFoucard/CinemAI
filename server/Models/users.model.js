@@ -87,8 +87,11 @@ class UserModel {
   static async AddFilmtoPlaylist(_id, doc) {
     try {
       const id = new ObjectId(_id); // Convert string _id to ObjectId
+      console.log("id",id);
 
       const user = await new DB().FindOne('users', { _id: id });
+
+      console.log('user',user);
 
       if (user) {
         const favorites = user.favorites || []; // Ensure favorites array exists

@@ -248,9 +248,11 @@ const UserContextProvider = ({ children }) => {
           // Check if the response status indicates success (e.g., 201)
           if (response.status === 201) {
             // Successful API request
+            console.log('2');
             console.log('Genre updated successfully');
             navigation.navigate('ProfilSetUp');
           } else {
+            console.log("3");
             // Handle unsuccessful API request
             console.log('Failed to update genre. Status code:', response.status);
             alert('Genre not updated, there is a problem');
@@ -534,6 +536,7 @@ const UserContextProvider = ({ children }) => {
         })
         if (data.status === 201) {
             alert('film added !')
+            console.log('film added ');
         }
         else {
             alert('film already in your list')
